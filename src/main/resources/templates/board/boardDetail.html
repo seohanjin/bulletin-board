@@ -1,0 +1,127 @@
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body style="position: relative; width: 100%; height: 100%;">
+<div th:replace="fragments/navigation :: bodyNavigation"> </div>
+<main class="container_main">
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
+            <h1 class="font-weight-bold" th:text=*{boardDto.title}>프론트엔드 웹 엔지니어</h1>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
+            <h5 th:text="${memberDto.nickname}">작성자..</h5>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div>
+            <label style="height: 28%" th:text="${boardDto.content}"></label>
+        </div>
+
+        <br>
+        <br>
+        <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
+        <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
+
+        <br>
+        <br>
+        <div>
+            <!--            th:if="${commentForm.id == coCoForm.commentId"-->
+            <div>
+<!--                <ul>-->
+<!--                    <li style="list-style:none;" th:each="comment : ${commentForm}">-->
+<!--                        <div>-->
+<!--                            <span>닉네임</span>-->
+<!--                            <span style="margin-left:50; font-size:14px;"-->
+<!--                                  th:text="${#temporals.format(comment.localDateTime, 'YYYY.MM.dd HH:mm')}">2020.12.31-->
+<!--                        </span>-->
+<!--                            <a th:href="@{/comment/{id} (id=${comment.id})}"-->
+<!--                               onclick="window.open(this.href, '_blank', 'width=500px, height=500px, toolbars=no,scrollbars=no'); return false;">댓글</a>-->
+<!--                        </div>-->
+<!--                        <p th:text="${comment.commentContent}"></p>-->
+
+<!--                    </li>-->
+
+<!--                    <ul>-->
+<!--                        <li style="list-style:none;"  th:each="coComment : ${coCoForm}">-->
+<!--                            <div>-->
+<!--                                <span>닉네임</span>-->
+<!--                                <span style="margin-left:50; font-size:14px;"-->
+<!--                                      th:text="${#temporals.format(coComment.localDateTime, 'YYYY.MM.dd HH:mm')}">2020.12.31</span>-->
+<!--                            </div>-->
+<!--                            <p th:text="${coComment.content}"></p>-->
+
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--&lt;!&ndash;                    commentList&ndash;&gt;-->
+<!--                </ul>-->
+                <ul>
+                    <li style="list-style:none;" th:each="comment : ${commentList}">
+                        <div>
+                            <span>닉네임</span>
+<!--                            <span style="margin-left:50; font-size:14px;"-->
+<!--                                  th:text="${#temporals.format(comment.localDateTime, 'YYYY.MM.dd HH:mm')}">2020.12.31-->
+<!--                        </span>-->
+                            <a th:href="@{/comment/{id} (id=${comment.id})}"
+                               onclick="window.open(this.href, '_blank', 'width=500px, height=500px, toolbars=no,scrollbars=no'); return false;">댓글</a>
+                        </div>
+<!--                        <p th:text="${comment.commentContent}"></p>-->
+
+                    </li>
+
+                    <ul>
+                        <li style="list-style:none;" >
+                            <div>
+                                <span>닉네임</span>
+<!--                                <span style="margin-left:50; font-size:14px;"-->
+<!--                                      th:text="${#temporals.format(comment.localDateTime, 'YYYY.MM.dd HH:mm')}">2020.12.31</span>-->
+                            </div>
+<!--                            <p th:text="${comment.commentContent}"></p>-->
+
+                        </li>
+                    </ul>
+                    <!--                    commentList-->
+                </ul>
+            </div>
+            <div>
+                <ul>
+
+                </ul>
+            </div>
+
+            <form method="POST" action="" th:object="${form}">
+                <!--                th:action="@{/comment/{id}/add} (id=${boardDto.id})}"-->
+                <div>
+                        <textarea name="commentContent" rows="4" style="resize: none; width: 100%;"
+                                  placeholder="댓글을 입력해주세요"></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-light">댓글달기</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function insertPopup(){
+            window.name = "boardDetail.html"
+            window.open("comment.html", "insertComment", 'width=500px, height=500px, toolbars=no,scrollbars=no')
+        }
+
+    </script>
+</main>
+</body>
+
+</html>

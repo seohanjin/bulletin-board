@@ -1,0 +1,30 @@
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body style="position: relative; width: 100%; height: 100%;">
+<div th:replace="fragments/navigation :: bodyNavigation"></div>
+<div style="position: absolute; left: 50%; top: 50%; margin: -150px 0 0 -190px;">
+    <h1 style="font-weight: 900;">무엇이든 들어드립니다</h1>
+    <br>
+
+    <a th:href="@{#}" type="button" class="btn" style="margin-left: 15ch;">물어보러가기 go >></a>
+
+    <form th:action="@{/logout}" method="post">
+        <a type="submit" sec:authorize="isAuthenticated()" class="btn btn-sm " th:action="@{/logout}">로그아웃</a>
+        <button type="submit">로그아웃</button>
+    </form>
+
+</div>
+</body>
+
+</html>
