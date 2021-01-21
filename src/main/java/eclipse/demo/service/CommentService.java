@@ -1,6 +1,7 @@
 package eclipse.demo.service;
 
 
+import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.repository.BoardRepository;
 import eclipse.demo.repository.CommentRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,32 +21,22 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
-//
-//    @Transactional
-//    public Long saveComment(Long boardId, String com){
-//        Board board = boardRepository.findOne(boardId);
-//
-//        Comment comment = Comment.createComment(board, com);
-//        commentRepository.save(comment);
-//
-//        return comment.getId();
-//    }
 
-//    @Transactional
-//    public Long saveCoComment(){
-//        boardRepository.findOne()
-//    }
+    @Transactional
+    public void save(Board board, String content){
+        Board findBoard = boardRepository.findById(board.getId()).orElse(null);
+        Comment comment = new Comment(findBoard, content);
 
-    public Comment findOne(Long id){
-        return commentRepository.findOne(id);
+        commentRepository.save(comment);
     }
 
-//    @Transactional
-//    public Long comment(Long boardId){
-//        Board board = boardRepository.findOne(boardId);
-//
-////        Comment comment = Comment.createComment(board);
-//
-////        return comment.getId();
-//    }
+    public List<Comment> findJoinComment(Long boardId){
+        List<Comment> findComments = commentRepository.findComment(boardId);
+
+        return findComments;
+    }
+
+
+
+
 }

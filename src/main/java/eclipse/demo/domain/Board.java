@@ -38,11 +38,6 @@ public class Board extends BaseTime {
     private List<Comment> comments = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "board")
-    private Set<CoComment> coComments = new HashSet<>();
-
-    
-
     // == 연관관계 메서드 == //
     public void setMember(Member member){
         this.member = member;
@@ -74,13 +69,4 @@ public class Board extends BaseTime {
     }
 
 
-    // == 생성 메서드 == //
-//    public static Board createBoard(String title, String content){
-//        Board board = new Board();
-//        board.setTitle(title);
-//        board.setContent(content);
-//        board.setDateTime(LocalDateTime.now());
-//
-//        return board;
-//    }
 }

@@ -8,7 +8,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head th:replace="fragments/header :: header">
     <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
  .fieldError {
@@ -24,6 +24,7 @@
     background-color: #DD4B39;
     border-color: rgba(0,0,0,0.2);
 }
+
 </style>
 
 
@@ -48,17 +49,19 @@
                 <br>
                 <br>
             </p>
-            <form role="form" style="width: 350;" th:action="@{/members/new}" th:object="${memberForm}" method="post">
+            <form role="form" name="form1" style="width: 350;" th:action="@{/members/new}" th:object="${memberForm}" method="post">
                 <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">아이디</label>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                     </div>
-                    <input name="" style="width: 200px;" placeholder="아이디" type="text"
-                           th:field="*{username}" th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+                    <input name="username" style="width: 200px;" placeholder="아이디" type="text"
+                           th:field="*{username}"
+                           th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
                     <!--                    <input type="button" class="myButton" id="temp" value="중복체크">-->
                 </div> <!-- form-group// -->
-                 <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect date</p>
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('username')}"
+                   th:errors="*{username}">Incorrect date</p>
                 <!-- <span class="id_input_re_1">사용 가능한 아이디 입니다.</span>
                 <span class="id_input_re_2">아이디가 이미 존재합니다.</span> -->
                 <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">비밀번호</label>
@@ -66,10 +69,12 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
-                    <input id="password1" placeholder="비밀번호" type="password"
-                           th:field="*{password}" th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+                    <input id="password1" name="password" placeholder="비밀번호" type="password"
+                           th:field="*{password}"
+                           th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
                 </div> <!-- form-group// -->
-                 <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}">Incorrect date</p>
                 <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">비밀번호 확인</label>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
@@ -83,9 +88,11 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fas fa-user-circle"></i></span>
                     </div>
-                    <input name="" placeholder="닉네임" type="text" th:field="*{nickname}" th:class="${#fields.hasErrors('nickname')}? 'form-control fieldError' : 'form-control'">
+                    <input name="" placeholder="닉네임" type="text" th:field="*{nickname}"
+                           th:class="${#fields.hasErrors('nickname')}? 'form-control fieldError' : 'form-control'">
                 </div> <!-- form-group// -->
-                 <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Incorrect date</p>
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('nickname')}"
+                   th:errors="*{nickname}">Incorrect date</p>
                 <!--                <div class="form-group input-group">-->
                 <!--                    <div class="input-group-prepend">-->
                 <!--                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>-->
@@ -118,7 +125,7 @@
 
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block" onclick="test()"> Create Account
+                    <button type="submit" class="btn btn-primary btn-block" onclick="callByAjax()"> Create Account
                     </button>
                 </div> <!-- form-group// -->
                 <p style="font-size: 14px; line-height: 20px; font-weight: 400;" class="text-center text-secondary">이미
@@ -131,31 +138,38 @@
 </div>
 </div>
 
-<script type="text/javascript">
-            function test() {
-                var p1 = document.getElementById('password1').value;
-                var p2 = document.getElementById('password2').value;
-                if (p1 != p2) {
-                    alert("비밀번호 일치 하지 않습니다.");
-                    return false;
-                } else {
-                    return true;
-                }
+<script>
+    function callByAjax() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var nickname = $("#nickname").val();
+
+        var bindData = {
+            "username" : username,
+            "password" : password,
+            "nickname" : nickname
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/api/v2/members",
+            dataType : "json",
+            data : bindData,
+            success: function(data){
+                search_var = data.dataList;
+                alert(search_var);
+            },
+            error: function(e){
+                alert("값을 가져오지 못했습니다.")
             }
+                
+            });
+
+            return search_var;
+
+    }
+
 </script>
 </body>
 
 </html>
-<!--container end.//-->
-
-<br><br>
-<!--<article class="bg-secondary mb-3">-->
-<!--    <div class="card-body text-center">-->
-<!--        <h3 class="text-white mt-3">Bootstrap 4 UI KIT</h3>-->
-<!--        <p class="h5 text-white">Components and templates <br> for Ecommerce, marketplace, booking websites-->
-<!--            and product landing pages</p>   <br>-->
-<!--        <p><a class="btn btn-warning" target="_blank" href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com-->
-<!--            <i class="fa fa-window-restore "></i></a></p>-->
-<!--    </div>-->
-<!--    <br><br>-->
-<!--</article>-->

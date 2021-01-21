@@ -8,7 +8,7 @@ import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     // 회원가입
     @Transactional
@@ -28,15 +28,15 @@ public class MemberService {
 
         // member : username, password, nickname, enabled 를 포함한 member
 
-        String encodedPassword = passwordEncoder.encode(member.getPassword());
+//        String encodedPassword = passwordEncoder.encode(member.getPassword());
         validateDuplicateMember(member);
 
 
         UserRole userRole = new UserRole(member, new Role());
 
 //        Member member1 = new Member(member.getUserName(), member.getPassword(), member.getNickName(), true, (List<UserRole>) userRole);
-        Member member1 = new Member(member.getUsername(), encodedPassword, member.getNickname(), true, userRole);
-        memberRepository.save(member1);
+//        Member member1 = new Member(member.getUsername(), encodedPassword, member.getNickname(), true, userRole);
+        memberRepository.save(member);
         return member.getId();
     }
 

@@ -1,38 +1,29 @@
 package eclipse.demo.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
-public class Comment {
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+public class Comment extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
-    private String commentContent;
+    private String content;
 
     private int commentCnt;
 
     private LocalDateTime localDateTime;
-
-    // group --> 첫번째 댓글 1, 두번째 댓글 2 ... id 따라감
-    private Long ref;
-
-    // 들여쓰기 수준(level)
-    private int step;
-
-    // 같은 그룹내에서의 순서(asc)
-    private int refOrder;
-
-    // 자식 글의 개수
-    private int answerNum;
-
-    // 부모 글의 기본키
-    private int parentNum;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
@@ -42,20 +33,16 @@ public class Comment {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @ManyToOne
+    @JoinColumn(name = "super_comment_id")
+    private Comment superComment;
+
+    @OneToMany(mappedBy = "superComment")
+    private List<Comment> subComment = new ArrayList<>();
 
 
-
-    public void setBoard(Board board){
+    public Comment(Board board, String content) {
         this.board = board;
-        board.getComments().add(this);
-    }
-
-    public Comment(Comment comment, Board board){
-        this.ref = board.getId();
-        this.step = comment.getStep();
-        this.refOrder = comment.getRefOrder();
-        this.answerNum = comment.getAnswerNum();
-        this.parentNum = comment.getParentNum();
-
+        this.content = content;
     }
 }

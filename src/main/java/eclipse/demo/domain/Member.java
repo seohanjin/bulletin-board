@@ -52,7 +52,7 @@ public class Member extends BaseTime{
 
     }
 
-    public Member(String username, String password, String nickname, boolean enabled) {
+    public Member(String username, String password, String nickname) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
