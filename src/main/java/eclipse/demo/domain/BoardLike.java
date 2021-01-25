@@ -21,12 +21,12 @@ public class BoardLike {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public void changeMember(Member member){
+    public void changeMember(Member member) {
         this.member = member;
         member.getLikes().add(this);
     }
 
-    public void changeBoard(Board board){
+    public void changeBoard(Board board) {
         this.board = board;
         board.getLikes().add(this);
     }

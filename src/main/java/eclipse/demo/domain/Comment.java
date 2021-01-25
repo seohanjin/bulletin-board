@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,8 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,6 @@ public class Comment extends BaseTime{
 
     private int commentCnt;
 
-    private LocalDateTime localDateTime;
-
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
 //    private Member member;
@@ -33,16 +31,13 @@ public class Comment extends BaseTime{
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne
-    @JoinColumn(name = "super_comment_id")
-    private Comment superComment;
-
-    @OneToMany(mappedBy = "superComment")
-    private List<Comment> subComment = new ArrayList<>();
-
+    @OneToMany(mappedBy = "comment")
+    private List<ReComment> reComments = new ArrayList<>();
 
     public Comment(Board board, String content) {
         this.board = board;
         this.content = content;
     }
+
+
 }

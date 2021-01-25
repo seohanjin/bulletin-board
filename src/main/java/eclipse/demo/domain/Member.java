@@ -39,6 +39,9 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment")
+    private List<ReComment> reComments = new ArrayList<>();
+
 
     //    private String birthDay;
 //

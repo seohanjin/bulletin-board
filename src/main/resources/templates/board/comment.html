@@ -1,13 +1,24 @@
-<div class="comments">
-    <!-- 원글에 댓글을 작성할 수 있는 폼 -->
-    <div class="comment_form">
-        <form action="comment_insert.do" method="post"> 
-        <!-- 댓글의 그룹번호는 원글의 글번호가 된다. -->
-            <input type="hidden" name="ref_group" value="${dto.num }"/>
-        <!-- 댓글의 대상자는 원글의 작성자가 된다. -->
-            <input type="hidden" name="target_id" value="${dto.writer }"/>
-            <textarea rows="content"><c:if test="${empty id }">로그인이 필요합니다.</c:if></textarea>
-            <button type="submit">등록</button>
-        </form>
-    </div>
-</div>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>댓글에 댓글</h1>
+    </header>
+    <form method="post" th:object="${reCommentForm}" action="#">
+        <div>
+            <span>작성자..</span>
+        </div>
+        <div>
+            <textarea cols="45" rows="9" placeholder="내용을 입력해주세요" th:field="*{content}"></textarea>
+        </div>
+        <div>
+            <button type="submit">확인</button>
+            <button type="reset">취소</button>
+        </div>
+    </form>
+</body>
+</html>
