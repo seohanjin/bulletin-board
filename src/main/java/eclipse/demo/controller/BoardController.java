@@ -71,7 +71,6 @@ public class BoardController {
         // 댓글
         List<Comment> comments = commentService.findJoinComment(boardId);
         //대댓글
-        List<ReComment> reComment = commentService.findReComment(boardId);
         List<ReComment> reComments = commentService.ReFindAll();
 
 
@@ -81,7 +80,6 @@ public class BoardController {
         BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
 
         model.addAttribute("reAll", reComments);
-        model.addAttribute("reComments", reComment);
         model.addAttribute("comments", comments);
         model.addAttribute("form", new CommentDto());
         model.addAttribute("boardDto", boardDto);

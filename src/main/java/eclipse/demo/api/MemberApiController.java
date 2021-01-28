@@ -28,7 +28,7 @@ public class MemberApiController {
         return memberRepository.findAll();
     }
 
-    @PostMapping("/api/v2/members")
+    @PostMapping("/register")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request){
         Member member = new Member(request.getUsername(), request.getPassword(), request.getNickname());
 

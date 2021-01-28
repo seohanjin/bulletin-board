@@ -8,15 +8,16 @@ import eclipse.demo.dto.CommentDto;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CommentController {
 
     private final CommentService commentService;
@@ -52,6 +53,19 @@ public class CommentController {
 
         return "redirect:/board/" + boardId + "/detail";
     }
+
+    @GetMapping("/index")
+    public String index(Model model){
+        List<Board> boards = boardService.findAll();
+
+        model.addAttribute("board", boards);
+
+        return "index";
+    }
+
+
+
+
 
 
 

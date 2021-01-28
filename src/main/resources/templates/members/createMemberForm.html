@@ -2,7 +2,7 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
       integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
@@ -29,7 +29,7 @@
 
 
 <body>
-<div th:replace="fragments/navigation :: bodyNavigation"></div>
+<div th:replace="fragments/nav :: bodyNavigation"></div>
 
 
 <main>
@@ -139,35 +139,7 @@
 </div>
 
 <script>
-    function callByAjax() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var nickname = $("#nickname").val();
 
-        var bindData = {
-            "username" : username,
-            "password" : password,
-            "nickname" : nickname
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/api/v2/members",
-            dataType : "json",
-            data : bindData,
-            success: function(data){
-                search_var = data.dataList;
-                alert(search_var);
-            },
-            error: function(e){
-                alert("값을 가져오지 못했습니다.")
-            }
-                
-            });
-
-            return search_var;
-
-    }
 
 </script>
 </body>
