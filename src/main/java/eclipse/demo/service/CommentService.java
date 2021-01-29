@@ -44,7 +44,12 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         return comment;
     }
-// <----------------- 대댓글 --------------------------->
+
+    public List<Comment> findAllByIdDesc(){
+        List<Comment> findAll = commentRepository.findAllByOrderByIdDesc();
+        return findAll;
+    }
+//<----------------- 대댓글 --------------------------->
     @Transactional
     public void saveReComment(Board board, Comment comment, String content){
         ReComment reComment = new ReComment(board, comment, content);

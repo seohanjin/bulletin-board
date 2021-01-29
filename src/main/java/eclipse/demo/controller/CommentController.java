@@ -54,14 +54,6 @@ public class CommentController {
         return "redirect:/board/" + boardId + "/detail";
     }
 
-    @GetMapping("/index")
-    public String index(Model model){
-        List<Board> boards = boardService.findAll();
-
-        model.addAttribute("board", boards);
-
-        return "index";
-    }
 
 
 

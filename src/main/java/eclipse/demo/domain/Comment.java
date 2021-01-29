@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,11 +24,11 @@ public class Comment extends BaseTime{
 
     private int commentCnt;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "board_id")
     private Board board;
 
@@ -37,6 +38,15 @@ public class Comment extends BaseTime{
     public Comment(Board board, String content) {
         this.board = board;
         this.content = content;
+        this.setCreatedAt(LocalDateTime.now());
+
+    }
+
+    public Comment(Member member, Board board, String content){
+        this.member = member;
+        this.board = board;
+        this.content = content;
+        this.setCreatedAt(LocalDateTime.now());
     }
 
 

@@ -53,6 +53,11 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    // Id 기준으로 내림차순
+//    public List<Board> findAllByIdDesc(){
+//        return boardRepository.findAllByOrderByIdDesc();
+//    }
+
     // 조회수 up
     @Transactional
     public void upView(Long boardId) {
