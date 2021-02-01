@@ -30,8 +30,8 @@ public class Board extends BaseTime {
 
     private int viewCnt;
 
-//    @OneToMany(mappedBy = "board")
-//    private List<BoardLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "board")
+    private List<BoardLike> likes = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "board")

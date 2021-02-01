@@ -49,13 +49,13 @@ class initDb {
             Board board9 = new Board(member1,"게시글9", "내용9");
             Board board10 = new Board(member5,"게시글10", "내용10");
 
-            Comment comment1 = new Comment(member1, board1, "게시글1 댓글1");
-            Comment comment2 = new Comment(member2, board1, "게시글1 댓글2");
-            Comment comment3 = new Comment(member1, board2, "게시글2 댓글1");
-            Comment comment4 = new Comment(member3, board2, "게시글2 댓글2");
-            Comment comment5 = new Comment(member4, board3, "게시글3 댓글1");
-            Comment comment6 = new Comment(member3, board4, "게시글4 댓글1");
-            Comment comment7 = new Comment(member5, board5, "게시글5 댓글1");
+//            Comment comment1 = new Comment(member1, board1, "게시글1 댓글1");
+//            Comment comment2 = new Comment(member2, board1, "게시글1 댓글2");
+//            Comment comment3 = new Comment(member1, board2, "게시글2 댓글1");
+//            Comment comment4 = new Comment(member3, board2, "게시글2 댓글2");
+//            Comment comment5 = new Comment(member4, board3, "게시글3 댓글1");
+//            Comment comment6 = new Comment(member3, board4, "게시글4 댓글1");
+//            Comment comment7 = new Comment(member5, board5, "게시글5 댓글1");
 
 
 
@@ -70,13 +70,13 @@ class initDb {
             em.persist(board9);
             em.persist(board10);
 
-            em.persist(comment1);
-            em.persist(comment2);
-            em.persist(comment3);
-            em.persist(comment4);
-            em.persist(comment5);
-            em.persist(comment6);
-            em.persist(comment7);
+//            em.persist(comment1);
+//            em.persist(comment2);
+//            em.persist(comment3);
+//            em.persist(comment4);
+//            em.persist(comment5);
+//            em.persist(comment6);
+//            em.persist(comment7);
 
 
 

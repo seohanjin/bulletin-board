@@ -42,10 +42,11 @@ public class MemberApiController {
     }
 
     @PostMapping("/like")
-    public void saveLIke(@RequestBody CommentController requestLike){
-        BoardLike boardLike = new BoardLike(requestLike.status);
-        boardLikeRepository.save(boardLike);
+    public CreateMemberResponse saveLIke(@RequestBody CommentController requestLike){
+        BoardLike boardLike = new BoardLike(requestLike.getStatus(), requestLike.getBoard());
+        BoardLike save = boardLikeRepository.save(boardLike);
 
+        return new CreateMemberResponse(save);
     }
 
     @Data
@@ -58,6 +59,12 @@ public class MemberApiController {
     @Data
     static class CreateMemberResponse{
         private Long id;
+        private BoardLike boardLike;
+        private Board board;
+
+        public CreateMemberResponse(BoardLike boardLike){
+            this.boardLike = boardLike;
+        }
 
         public CreateMemberResponse(Long id) {
             this.id = id;
@@ -67,6 +74,7 @@ public class MemberApiController {
     @Data
     static class CommentController{
         private int status;
+        private Board board;
     }
 
 }
