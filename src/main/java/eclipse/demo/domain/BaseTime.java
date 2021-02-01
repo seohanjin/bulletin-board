@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class BaseTime {
 
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

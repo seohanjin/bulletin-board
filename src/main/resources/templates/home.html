@@ -30,14 +30,26 @@
                 </div>
                 <div class="modal-body">
                     <table class="table table-hover">
-                        <tr th:each="comment : ${comments}">
+<!--                        <tr th:each="comment : ${comments}">-->
+<!--                            <td>-->
+<!--                                <a th:href="@{/board/{id}/detail (id=${comment.board.id})}" style="text-decoration:none; color:black;">-->
+<!--                                    <p>-->
+<!--                                        <strong style="color:orange" th:text="${comment.board.member.nickname}"></strong>님이<strong th:text="${comment.board.title}"></strong>에 댓글을 남겼습니다.-->
+<!--                                    </p>-->
+<!--                                </a>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+
+                        <tr th:each="alarm : ${alarms}">
                             <td>
-                                <a th:href="@{/board/{id}/detail (id=${comment.board.id})}" style="text-decoration:none; color:black;">
-                                    <p>
-                                        <strong th:text="${comment.board.member.nickname}"></strong>님이<strong th:text="${comment.board.title}"></strong>에 댓글을 남겼습니다.
+                                <a th:href="@{/board/{id}/detail (id=${alarm.board.id})}" style="text-decoration:none; color:black;">
+                                    <p th:if="${alarm.comment != null}">
+                                        <strong style="color:orange"></strong>님이<strong th:text="${alarm.board.title}"></strong>에 댓글을 남겼습니다.
+                                    </p>
+                                    <p th:if="${alarm.reComment != null}">
+                                        </strong>님이<strong th:text="${alarm.board.title}"></strong>에 대댓글 남겼습니다.
                                     </p>
                                 </a>
-<!--                                <a style="text-decoration:none; color:black;" th:text="${boards.title}" th:href="@{/board/{id}/detail (id=${boards.id})}"></a>-->
                             </td>
                         </tr>
                     </table>

@@ -1,11 +1,13 @@
 package eclipse.demo.controller;
 
 
+import eclipse.demo.domain.Alarm;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.ReComment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
+import eclipse.demo.repository.AlarmRepository;
 import eclipse.demo.repository.ReCommentRepository;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
@@ -28,6 +30,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+    private final AlarmRepository alarmRepository;
 
     @GetMapping("/board/new")
     public String createForm(Model model) {
@@ -74,11 +77,12 @@ public class BoardController {
         List<ReComment> reComments = commentService.ReFindAll();
 
 
+
+
         // 게시물 클릭시 조회수Up
         boardService.upView(board.getId());
 
         BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
-
         model.addAttribute("reAll", reComments);
         model.addAttribute("comments", comments);
         model.addAttribute("form", new CommentDto());

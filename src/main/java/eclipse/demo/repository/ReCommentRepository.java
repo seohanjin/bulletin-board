@@ -11,4 +11,6 @@ public interface ReCommentRepository extends JpaRepository<ReComment, Long> {
 
     @Query("select r from ReComment r inner join Board b ON r.id = b.id where b.id = :boardId")
     List<ReComment> findReComment(@Param("boardId") Long reCommentId);
+
+//    @Query("select ")
 }

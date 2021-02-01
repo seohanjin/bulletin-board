@@ -35,6 +35,9 @@ public class Comment extends BaseTime{
     @OneToMany(mappedBy = "comment")
     private List<ReComment> reComments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment")
+    private List<Alarm> alarms = new ArrayList<>();
+
     public Comment(Board board, String content) {
         this.board = board;
         this.content = content;

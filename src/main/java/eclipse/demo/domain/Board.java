@@ -33,12 +33,12 @@ public class Board extends BaseTime {
     @OneToMany(mappedBy = "board")
     private List<BoardLike> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board")
+    private List<Alarm> alarms = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "board")
-//    private List<BoardLike> boardLikes = new ArrayList<>();
 
 
     // == 연관관계 메서드 == //

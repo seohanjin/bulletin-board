@@ -1,10 +1,12 @@
 package eclipse.demo.service;
 
 
+import eclipse.demo.domain.Alarm;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.ReComment;
 import eclipse.demo.dto.CommentDto;
+import eclipse.demo.repository.AlarmRepository;
 import eclipse.demo.repository.BoardRepository;
 import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.repository.ReCommentRepository;
@@ -25,6 +27,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final ReCommentRepository reCommentRepository;
+    private final AlarmRepository alarmRepository;
 
     @Transactional
     public void save(Board board, String content){
@@ -32,6 +35,10 @@ public class CommentService {
         Comment comment = new Comment(findBoard, content);
 
         commentRepository.save(comment);
+
+        Alarm alarm = new Alarm(findBoard, comment);
+        alarmRepository.save(alarm);
+
     }
 
     public List<Comment> findJoinComment(Long boardId){
@@ -54,7 +61,12 @@ public class CommentService {
     public void saveReComment(Board board, Comment comment, String content){
         ReComment reComment = new ReComment(board, comment, content);
 
+        Board findBoard = boardRepository.findById(board.getId()).orElse(null);
+
         reCommentRepository.save(reComment);
+
+        Alarm alarm = new Alarm(findBoard, reComment);
+        alarmRepository.save(alarm);
     }
 
     public List<ReComment> findReComment(Long boardId){
