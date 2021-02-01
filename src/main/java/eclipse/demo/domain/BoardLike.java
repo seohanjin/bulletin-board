@@ -1,11 +1,14 @@
 package eclipse.demo.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardLike {
 
     @Id
@@ -13,22 +16,24 @@ public class BoardLike {
     @Column(name = "boardLike_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private int status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
-    public void changeMember(Member member) {
-        this.member = member;
-        member.getLikes().add(this);
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "board_id")
+//    private Board board;
+
+//    public BoardLike(Board board){
+//        this.board = board;
+//        this.stats = 1;
+//    }
+
+    public BoardLike(int status){
+        this.status = status;
     }
 
-    public void changeBoard(Board board) {
-        this.board = board;
-        board.getLikes().add(this);
-    }
-
+    
 }

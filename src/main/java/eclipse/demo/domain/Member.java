@@ -26,9 +26,9 @@ public class Member extends BaseTime{
 
     // 닉네임
     private String nickname;
-
-    @OneToMany(mappedBy = "member")
-    private List<BoardLike> likes = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<BoardLike> likes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private LoginStatus loginStatus;

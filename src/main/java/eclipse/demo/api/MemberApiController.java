@@ -1,7 +1,11 @@
 package eclipse.demo.api;
 
+import eclipse.demo.controller.CommentController;
+import eclipse.demo.domain.Board;
+import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Member;
 import eclipse.demo.dto.MemberDto;
+import eclipse.demo.repository.BoardLikeRepository;
 import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.service.MemberService;
 import lombok.Data;
@@ -21,7 +25,7 @@ public class MemberApiController {
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
-
+    private final BoardLikeRepository boardLikeRepository;
 
     @GetMapping("/api/v1/members")
     public List<Member> members(){
@@ -36,6 +40,14 @@ public class MemberApiController {
 
         return new CreateMemberResponse(id);
     }
+
+    @PostMapping("/like")
+    public void saveLIke(@RequestBody CommentController requestLike){
+        BoardLike boardLike = new BoardLike(requestLike.status);
+        boardLikeRepository.save(boardLike);
+
+    }
+
     @Data
     static class CreateMemberRequest{
         private String username;
@@ -50,6 +62,11 @@ public class MemberApiController {
         public CreateMemberResponse(Long id) {
             this.id = id;
         }
+    }
+
+    @Data
+    static class CommentController{
+        private int status;
     }
 
 }

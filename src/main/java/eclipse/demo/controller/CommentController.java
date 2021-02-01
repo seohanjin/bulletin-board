@@ -2,18 +2,18 @@ package eclipse.demo.controller;
 
 
 import eclipse.demo.domain.Board;
+import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,6 +55,18 @@ public class CommentController {
     }
 
 
+//    @PostMapping("/like")
+//    public String saveLIke(@RequestBody RequestLike requestLike){
+//        BoardLike boardLike = new BoardLike(requestLike.status);
+//
+//        return "ok";
+//    }
+//
+//
+//    @Data
+//    public class RequestLike{
+//        private int status;
+//    }
 
 
 
