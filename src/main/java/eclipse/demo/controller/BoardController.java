@@ -1,14 +1,12 @@
 package eclipse.demo.controller;
 
 
-import eclipse.demo.domain.Alarm;
-import eclipse.demo.domain.Board;
-import eclipse.demo.domain.Comment;
-import eclipse.demo.domain.ReComment;
+import eclipse.demo.domain.*;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.AlarmRepository;
 import eclipse.demo.repository.ReCommentRepository;
+import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +28,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
-    private final AlarmRepository alarmRepository;
+    private final BoardLikeService boardLikeService;
 
     @GetMapping("/board/new")
     public String createForm(Model model) {
@@ -76,8 +74,13 @@ public class BoardController {
         //대댓글
         List<ReComment> reComments = commentService.ReFindAll();
 
-
-
+        BoardLike boardLike = boardLikeService.findAllById(board.getId());
+        if (boardLike == null){
+            System.out.println("boardliek..." + boardLike);
+            model.addAttribute("boardLike", 0);
+        }else{
+            model.addAttribute("boardLike", 1);
+        }
 
         // 게시물 클릭시 조회수Up
         boardService.upView(board.getId());

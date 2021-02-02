@@ -6,6 +6,7 @@ import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
+import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final BoardService boardService;
+    private final BoardLikeService boardLikeService;
 
     @PostMapping("/board/{boardId}/detail")
     public String createComment(@PathVariable Long boardId,
@@ -57,16 +59,20 @@ public class CommentController {
 
 //    @PostMapping("/like")
 //    public String saveLIke(@RequestBody RequestLike requestLike){
-//        BoardLike boardLike = new BoardLike(requestLike.status);
+//        Board board = boardService.findOne(requestLike.getBoard());
+//
+//        BoardLike boardLike = new BoardLike(requestLike.getStatus(), board);
+//        boardLikeService.save(boardLike);
 //
 //        return "ok";
 //    }
-//
-//
-//    @Data
-//    public class RequestLike{
-//        private int status;
-//    }
+
+
+    @Data
+    public class RequestLike{
+        private int status;
+        private Long board;
+    }
 
 
 

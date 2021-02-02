@@ -8,147 +8,166 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Hello, world!</title>
 </head>
 
 <body style="position: relative; width: 100%; height: 100%;">
-<div th:replace="fragments/nav :: bodyNavigation"></div>
-<main class="container_main">
-    <div class="container">
-        <input type="hidden" th:field="*{boardDto.id}" />
-        <br><br><br><br>
-        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
-            <h1 class="font-weight-bold" th:text=*{boardDto.title}></h1>
-        </div>
-        <br><br><br>
-        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
-            <!--            <h5 th:text="${memberDto.nickname}">작성자..</h5>-->
-        </div>
-        <br><br><br>
-        <div>
-            <label style="height: 28%" th:text="${boardDto.content}"></label>
-        </div>
-        <div>
-            <a class="empty-heart" style="width:30px">
-                <img th:src="@{/img/empty-heart.png}" style="width:30px">
-            </a>
-            <a class="full-heart" style="display:none">
-                <img class="full-heart" th:src="@{/img/full-heart.png}" style="width:30px">
-            </a>
-        </div>
-        <br><br>
-        <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
-        <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
-    </div>
-
-    <br><br>
-    <div class="container" style="width: 50%;">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>댓글</h3>
-            </div><!-- /col-sm-12 -->
-        </div><!-- /row -->
-        <br>
-        <ul th:each="comment : ${comments}">
-            <li style="list-style-type:none">
-                <div class="card" style="width: auto;">
-                    <div class="card-body">
-                        <h5 class="card-title">작성자 프로필</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>
-                        <p class="card-text" th:text="*{comment.content}">댓글내용</p>
-                        <a type="button" class="btn btn-light btn-sm">수정하기</a>
-                        <a type="button" class="btn btn-light btn-sm">삭제하기</a>
-                        <a type="button" class="btn btn-light btn-sm"
-                           th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
-                    </div>
-                    <!--                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"-->
-                </div>
-            </li>
-            <ul th:each="reAlls : ${reAll}">
-                <div th:if="${comment.id == reAlls.comment.id && boardDto.id == reAlls.board.id}">
-                    <li style="list-style-type:none">
-                        <div class="card" style="width: auto;">
-                            <div class="card-body">
-                                <h5 class="card-title">작성자 프로필</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>
-                                <p class="card-text" th:text="*{reAlls.content}">댓글내용</p>
-                                <a type="button" class="btn btn-light btn-sm">수정하기</a>
-                                <a type="button" class="btn btn-light btn-sm">삭제하기</a>
-                            </div>
-                            <!--                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"-->
-                        </div>
-                    </li>
-                </div>
-            </ul>
-        </ul>
-        <!--        -->
-        <form method="post" th:object="${form}" action="#">
-            <br><br>
-            <div>
-                <div>
-                    <span><strong>Comments</strong></span>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10" style="inline-size: auto;">
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <textarea th:field="*{content}" class="form-control" rows="3" cols="30"
-                                                  placeholder="댓글을 입력하세요"></textarea><br>
-                                    <div>
-                                        <button type="submit" class="btn btn-success">작성</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+    <div th:replace="fragments/nav :: bodyNavigation"></div>
+    <main class="container_main">
+        <div class="container">
+            <input type="hidden" th:field="*{boardDto.id}" />
+            <br><br><br><br>
+            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
+                <h1 class="font-weight-bold" th:text=*{boardDto.title}></h1>
             </div>
-        </form>
-    </div>
-</main>
+            <br><br><br>
+            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
+                <!--            <h5 th:text="${memberDto.nickname}">작성자..</h5>-->
+            </div>
+            <br><br><br>
+            <div>
+                <label style="height: 28%" th:text="${boardDto.content}"></label>
+            </div>
+            <div>
+                <a class="empty-heart" style="width:30px">
+                    <img th:src="@{/img/empty-heart.png}" style="width:30px">
+                </a>
+                <a class="full-heart" style="display:none">
+                    <img class="full-heart" th:src="@{/img/full-heart.png}" style="width:30px">
+                </a>
+            </div>
+            <br><br>
+            <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
+            <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
+        </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        <br><br>
+        <div class="container" style="width: 50%;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>댓글</h3>
+                </div><!-- /col-sm-12 -->
+            </div><!-- /row -->
+            <br>
+            <ul th:each="comment : ${comments}">
+                <li style="list-style-type:none">
+                    <div class="card" style="width: auto;">
+                        <div class="card-body">
+                            <h5 class="card-title">작성자 프로필</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>
+                            <p class="card-text" th:text="*{comment.content}">댓글내용</p>
+                            <a type="button" class="btn btn-light btn-sm">수정하기</a>
+                            <a type="button" class="btn btn-light btn-sm">삭제하기</a>
+                            <a type="button" class="btn btn-light btn-sm"
+                                th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
+                        </div>
+                        <!--                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"-->
+                    </div>
+                </li>
+                <ul th:each="reAlls : ${reAll}">
+                    <div th:if="${comment.id == reAlls.comment.id && boardDto.id == reAlls.board.id}">
+                        <li style="list-style-type:none">
+                            <div class="card" style="width: auto;">
+                                <div class="card-body">
+                                    <h5 class="card-title">작성자 프로필</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>
+                                    <p class="card-text" th:text="*{reAlls.content}">댓글내용</p>
+                                    <a type="button" class="btn btn-light btn-sm">수정하기</a>
+                                    <a type="button" class="btn btn-light btn-sm">삭제하기</a>
+                                </div>
+                                <!--                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"-->
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </ul>
+            <!--        -->
+            <form method="post" th:object="${form}" action="#">
+                <br><br>
+                <div>
+                    <div>
+                        <span><strong>Comments</strong></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10" style="inline-size: auto;">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <textarea th:field="*{content}" class="form-control" rows="3" cols="30"
+                                            placeholder="댓글을 입력하세요"></textarea><br>
+                                        <div>
+                                            <button type="submit" class="btn btn-success">작성</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
-<script th:ineline="javascript">
-    /*<![CDATA[*/
-        var boardEx = "[[*{boardDto}]]";
+    <script th:ineline="javascript">
+        /*<![CDATA[*/
+        var boardEx = "[[*{boardDto.id}]]";
         /*]]*/
 
-    $('.empty-heart').click(function(){
-        alert(board);
-        $.ajax({
-            url: '/like',
-            method: 'POST',
-            dataType : 'json',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                status : 1
-                
-            }),
-            success : function(a){
-                alert(a);
-                $('.full-heart').css("display", "block", "background-color", "red");
-                $('.empty-heart').css("display","none");
-            },
+        $('.empty-heart').click(function () {
+            $.ajax({
+                url: '/like',
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    status: 1,
+                    board: boardEx
+
+                }),
+                success: function (a) {
+                    alert(a);
+                    $('.full-heart').css("display", "block", "background-color", "red");
+                    $('.empty-heart').css("display", "none");
+                },
+            });
+
         });
 
-    });
-</script>
+
+        $.ajax({
+            url: '/board/' + boardEx + '/detail',
+            method: 'GET',
+            success: function () {
+                /*<![CDATA[*/
+                var boardLike = "[[*{boardLike}]]";
+                /*]]*/
+                if (boardLike == 0) {
+                    $('.empty-heart').css("display", "block");
+                    $('.full-heart').css("display", "none", "background-color", "red");
+                } else {
+                    $('.empty-heart').css("display", "none");
+                    $('.full-heart').css("display", "block", "background-color", "red");
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
