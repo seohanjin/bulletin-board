@@ -1,11 +1,12 @@
 package eclipse.demo.controller;
 
 
-import eclipse.demo.domain.*;
+import eclipse.demo.domain.Board;
+import eclipse.demo.domain.BoardLike;
+import eclipse.demo.domain.Comment;
+import eclipse.demo.domain.ReComment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
-import eclipse.demo.repository.AlarmRepository;
-import eclipse.demo.repository.ReCommentRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
@@ -37,20 +38,6 @@ public class BoardController {
         return "board/boardForm";
     }
 
-//    @PostMapping("/board/new")
-//    public String createBoard(BoardDto boardDto, Authentication authentication){
-//
-//        String username = authentication.getName();
-//        List<Member> byName = memberService.findByName(username);
-//
-//        Board board = new Board(byName.get(0), boardDto.getTitle(), boardDto.getContent());
-//
-//
-//        boardService.saveBoard(board);
-//
-//        return "redirect:/";
-//    }
-
     @PostMapping("/board/new")
     public String createBoard(BoardDto boardDto) {
         Board board = new Board(boardDto.getTitle(), boardDto.getContent());
@@ -75,10 +62,10 @@ public class BoardController {
         List<ReComment> reComments = commentService.ReFindAll();
 
         BoardLike boardLike = boardLikeService.findAllById(board.getId());
-        if (boardLike == null){
+        if (boardLike == null || boardLike.getStatus() == 0) {
             System.out.println("boardliek..." + boardLike);
             model.addAttribute("boardLike", 0);
-        }else{
+        } else {
             model.addAttribute("boardLike", 1);
         }
 

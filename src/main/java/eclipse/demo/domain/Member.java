@@ -15,8 +15,8 @@ public class Member extends BaseTime{
     @Column(name="member_id")
     private Long id;
 
-    @OneToMany(mappedBy = "member")
-    private List<Board> boards = new ArrayList<>();
+//    @OneToMany(mappedBy = "member")
+//    private List<Board> boards = new ArrayList<>();
 
     // 실제이름
     private String username;

@@ -2,19 +2,20 @@ package eclipse.demo.controller;
 
 
 import eclipse.demo.domain.Board;
-import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,18 +37,18 @@ public class CommentController {
     }
 
     @GetMapping("/board/{boardId}/{commentId}")
-    public String reComment(@PathVariable("boardId")Long boardId,
-                            @PathVariable("commentId")Long commentId,
-                            Model model){
+    public String reComment(@PathVariable("boardId") Long boardId,
+                            @PathVariable("commentId") Long commentId,
+                            Model model) {
 
         model.addAttribute("reCommentForm", new CommentDto());
         return "board/comment";
     }
 
     @PostMapping("/board/{boardId}/{commentId}")
-    public String saveReComment(@PathVariable("boardId")Long boardId,
-                                @PathVariable("commentId")Long commentId,
-                                BoardDto boardDto){
+    public String saveReComment(@PathVariable("boardId") Long boardId,
+                                @PathVariable("commentId") Long commentId,
+                                BoardDto boardDto) {
 
         Board board = boardService.findOne(boardId);
         Comment comment = commentService.findOne(commentId);
@@ -55,28 +56,6 @@ public class CommentController {
 
         return "redirect:/board/" + boardId + "/detail";
     }
-
-
-//    @PostMapping("/like")
-//    public String saveLIke(@RequestBody RequestLike requestLike){
-//        Board board = boardService.findOne(requestLike.getBoard());
-//
-//        BoardLike boardLike = new BoardLike(requestLike.getStatus(), board);
-//        boardLikeService.save(boardLike);
-//
-//        return "ok";
-//    }
-
-
-    @Data
-    public class RequestLike{
-        private int status;
-        private Long board;
-    }
-
-
-
-
 
 
 }

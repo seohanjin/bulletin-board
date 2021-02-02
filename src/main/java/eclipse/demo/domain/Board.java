@@ -19,9 +19,9 @@ public class Board extends BaseTime {
     @Column(name = "board_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    private Member member;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
     private String title;
 
@@ -42,17 +42,17 @@ public class Board extends BaseTime {
 
 
     // == 연관관계 메서드 == //
-    public void setMember(Member member) {
-        this.member = member;
-        member.getBoards().add(this);
-    }
-
-    public Board(Member member, String title, String content) {
-        this.member = member;
-        this.title = title;
-        this.content = content;
-        this.setCreatedAt(LocalDateTime.now());
-    }
+//    public void setMember(Member member) {
+//        this.member = member;
+//        member.getBoards().add(this);
+//    }
+//
+//    public Board(Member member, String title, String content) {
+//        this.member = member;
+//        this.title = title;
+//        this.content = content;
+//        this.setCreatedAt(LocalDateTime.now());
+//    }
 
     // 생성자 메서드
     public Board(String title, String content) {

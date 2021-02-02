@@ -29,5 +29,10 @@ public class BoardLikeService {
         return boardLike;
     }
 
+    @Transactional
+    public void delete(Long boardLikeId){
+        boardLikeRepository.deleteById(boardLikeId);
+    }
+
 
 }

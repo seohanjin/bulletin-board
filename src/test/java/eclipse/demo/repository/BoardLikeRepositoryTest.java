@@ -4,6 +4,7 @@ import eclipse.demo.domain.Board;
 import eclipse.demo.domain.BoardLike;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +41,30 @@ class BoardLikeRepositoryTest {
 
         BoardLike boardLikeServiceAllById = boardLikeService.findAllById(boardId2);
         System.out.println(">>>>" + boardLikeServiceAllById);
+
+    }
+
+    @Test
+    public void 게시글아이디로행지우기(){
+        Long boardId1 = boardService.saveBoard(new Board("게시글1", "내용1"));
+        Long boardId2 = boardService.saveBoard(new Board("게시글1", "내용1"));
+        Board board1 = boardService.findOne(boardId1);
+
+        boardLikeService.save(new BoardLike(1, board1));
+        boardLikeService.save(new BoardLike(1, board1));
+        boardLikeService.save(new BoardLike(1, board1));
+        boardLikeService.save(new BoardLike(1, board1));
+        boardLikeService.save(new BoardLike(1, board1));
+
+//        boardLikeService.delete(boardId1);
+
+        BoardLike allById = boardLikeService.findAllById(boardId1);
+
+//        System.out.println(">>>" + allById.getStatus());
+
+        Assertions.assertThat(allById).isEqualTo(null);
+
+
 
     }
 
