@@ -18,8 +18,16 @@
     <div th:replace="fragments/nav :: bodyNavigation"></div>
     <h1>Hello, world!</h1>
 
+    <!-- ////////////////////////////////////////////////////////////// -->
+    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+        <input multiple type="file" name="file">
+        <button type="submit">submit</button>
+    </form>
 
-    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <!-- //////////////////////////////////////////////////////////////////////// -->
+
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog" style="height: 80%;" role="document">
             <div class="modal-content" style="height: 80%;">
                 <div class="modal-header">
@@ -32,9 +40,11 @@
                     <table class="table table-hover">
                         <tr th:each="alarm : ${alarms}">
                             <td>
-                                <a th:href="@{/board/{id}/detail (id=${alarm.board.id})}" style="text-decoration:none; color:black;">
+                                <a th:href="@{/board/{id}/detail (id=${alarm.board.id})}"
+                                    style="text-decoration:none; color:black;">
                                     <p th:if="${alarm.comment != null}">
-                                        <strong style="color:orange"></strong>님이<strong th:text="${alarm.board.title}"></strong>에 댓글을 남겼습니다.
+                                        <strong style="color:orange"></strong>님이<strong
+                                            th:text="${alarm.board.title}"></strong>에 댓글을 남겼습니다.
                                         <a th:text="${#temporals.format(alarm.comment.createdAt, 'MM.dd HH:mm')}"></a>
                                         <br>
                                         <a th:text="${alarm.comment.content}"></a>
@@ -66,6 +76,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <script>
+
+    </script>
 </body>
 
 </html>
