@@ -18,9 +18,5 @@ public class Files {
     private String fileOriName;
     private String fileUrl;
 
-    public Files(String filename, String fileOriName, String fileUrl) {
-        this.filename = filename;
-        this.fileOriName = fileOriName;
-        this.fileUrl = fileUrl;
-    }
 }
+

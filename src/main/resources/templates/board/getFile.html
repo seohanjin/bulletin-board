@@ -9,7 +9,9 @@
 <body>
 
 <div>
-    <img th:src="@{${'/images/' + file.filename}}" style="width:300px;height:auto;">
+<!--    <img th:src="@{${'img/' + file.filename}}" style="width:300px;height:auto;">-->
+    <img th:src="@{/img/{filename} (filename=${file.filename})}" style="width:300px;height:auto;">
+    <img th:src="@{D:\{filename} (filename=${file.filename})}" style="width:300px;height:auto;">
 
 
 

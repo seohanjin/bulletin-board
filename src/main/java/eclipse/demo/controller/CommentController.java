@@ -5,9 +5,11 @@ import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
+import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ public class CommentController {
     private final CommentService commentService;
     private final BoardService boardService;
     private final BoardLikeService boardLikeService;
+    private final CommentRepository commentRepository;
 
     @PostMapping("/board/{boardId}/detail")
     public String createComment(@PathVariable Long boardId,
@@ -32,7 +35,7 @@ public class CommentController {
 
         Board board = boardService.findOne(boardId);
 
-        commentService.save(board, form.getContent());
+        commentService.ssave(board, form.getContent());
         return "redirect:/board/" + boardId + "/detail";
     }
 
@@ -52,8 +55,12 @@ public class CommentController {
 
         Board board = boardService.findOne(boardId);
         Comment comment = commentService.findOne(commentId);
-        commentService.saveReComment(board, comment, boardDto.getContent());
+//        commentService.saveReComment(board, comment, boardDto.getContent());
 
+
+        commentRepository.bulkUpdate(comment.getCommentGroup(), comment.getCommentSequence());
+
+        commentService.resave(boardDto.getContent(), comment);
         return "redirect:/board/" + boardId + "/detail";
     }
 

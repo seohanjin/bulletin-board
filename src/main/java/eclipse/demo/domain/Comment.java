@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.tomcat.jni.Local;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Comment extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,14 @@ public class Comment extends BaseTime{
 
     private int commentCnt;
 
+    private int commentGroup;
+
+    @ColumnDefault("0")
+    private int commentSequence;
+
+    @ColumnDefault("0")
+    private int level;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -32,11 +41,20 @@ public class Comment extends BaseTime{
     @JoinColumn(name = "board_id")
     private Board board;
 
+
     @OneToMany(mappedBy = "comment")
     private List<ReComment> reComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "comment")
     private List<Alarm> alarms = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    @ColumnDefault("0")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> child = new ArrayList<>();
 
     public Comment(Board board, String content) {
         this.board = board;
@@ -51,6 +69,8 @@ public class Comment extends BaseTime{
         this.content = content;
         this.setCreatedAt(LocalDateTime.now());
     }
+
+
 
 
 }

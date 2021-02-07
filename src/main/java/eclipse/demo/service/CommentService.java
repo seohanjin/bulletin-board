@@ -5,19 +5,15 @@ import eclipse.demo.domain.Alarm;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.ReComment;
-import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.AlarmRepository;
 import eclipse.demo.repository.BoardRepository;
 import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.repository.ReCommentRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +36,37 @@ public class CommentService {
         alarmRepository.save(alarm);
 
     }
+
+    @Transactional
+    public void ssave(Board board, String content){
+        Board findBoard = boardRepository.findById(board.getId()).orElse(null);
+
+        Integer commentGroup = commentRepository.findCommentGroup().orElse(null);
+
+        Comment comment = new Comment();
+        comment.setBoard(findBoard);
+        comment.setContent(content);
+        if (commentGroup == null){
+            comment.setCommentGroup(0);
+        }
+        else {
+            comment.setCommentGroup(commentGroup+1);
+        }
+        commentRepository.save(comment);
+    }
+
+    @Transactional
+    public void resave(String content, Comment parent){
+         Comment comment = new Comment();
+         comment.setContent(content);
+         comment.setCommentGroup(parent.getCommentGroup());
+         comment.setCommentSequence(parent.getCommentSequence()+1);
+         comment.setLevel(parent.getLevel()+1);
+         comment.setParent(parent);
+
+         commentRepository.save(comment);
+    }
+
 
     public List<Comment> findJoinComment(Long boardId){
         List<Comment> findComments = commentRepository.findComment(boardId);

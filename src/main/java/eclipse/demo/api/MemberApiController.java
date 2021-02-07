@@ -9,7 +9,10 @@ import eclipse.demo.service.BoardService;
 import eclipse.demo.service.MemberService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.fileupload.UploadContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -107,5 +110,12 @@ public class MemberApiController {
         private int status;
         private Long boardId;
     }
+
+//    @PostMapping("/image")
+//    public ResponseEntity<?> handleFileUpload(@RequestParam("file")MultipartFile file){
+//        try{
+//            UploadContext uploadContext = imageService.store(file);
+//        }
+//    }
 
 }

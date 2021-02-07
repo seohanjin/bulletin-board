@@ -7,6 +7,7 @@ import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.ReComment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
+import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
@@ -30,7 +31,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
     private final BoardLikeService boardLikeService;
-
+    private final CommentRepository commentRepository;
     @GetMapping("/board/new")
     public String createForm(Model model) {
 
@@ -61,6 +62,8 @@ public class BoardController {
         //대댓글
         List<ReComment> reComments = commentService.ReFindAll();
 
+        List<Comment> commentAll = commentRepository.findCommentAll();
+
         BoardLike boardLike = boardLikeService.findAllById(board.getId());
         if (boardLike == null || boardLike.getStatus() == 0) {
             System.out.println("boardliek..." + boardLike);
@@ -73,6 +76,8 @@ public class BoardController {
         boardService.upView(board.getId());
 
         BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
+
+        model.addAttribute("sortComment", commentAll);
         model.addAttribute("reAll", reComments);
         model.addAttribute("comments", comments);
         model.addAttribute("form", new CommentDto());
