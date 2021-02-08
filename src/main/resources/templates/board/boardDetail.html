@@ -28,7 +28,7 @@
         </div>
         <br><br><br>
         <div>
-            <label style="height: 28%" th:text="${boardDto.content}"></label>
+            <label style="height: 28%" th:utext="${boardDto.content}"></label>
         </div>
         <div>
             <a class="empty-heart" style="width:30px">
@@ -76,7 +76,7 @@
                         <a>시간</a>
                     </div>
                     <div>
-                        <a class="card-text" th:text="*{comment.content}" style="font:12px">댓글내용</a>
+                        <span class="card-text" th:text="${comment.content}" style="font:12px">댓글내용</span>
                         <a type="button" class="btn btn-light btn-sm"
                            th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
                     </div>
@@ -85,91 +85,7 @@
             </tr>
             </tbody>
         </table>
-        <!--        <ul th:each="comment: ${sortComment}">-->
-        <!--                <div class="card" style="width: auto;">-->
-        <!--                    <div class="card-body">-->
-        <!--                        &lt;!&ndash;                            <h5 class="card-title">작성자 프로필</h5>&ndash;&gt;-->
-        <!--                        &lt;!&ndash;                            <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>&ndash;&gt;-->
-        <!--                        <th:block th:each="commentLevel : ${#numbers.sequence(1,comment.level)}">-->
-        <!--                            <div th:if="${comment.level} != 0">-->
-        <!--                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
-        <!--                                     class="bi bi-arrow-return-right" viewBox="0 0 16 16">-->
-        <!--                                    <path fill-rule="evenodd"-->
-        <!--                                          d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>-->
-        <!--                                </svg>-->
-        <!--                            </div>-->
 
-
-        <!--                        </th:block>-->
-        <!--                        <p class="card-text" th:text="*{comment.content}" style="font:12px">댓글내용</p>-->
-        <!--                        &lt;!&ndash;                            <a type="button" class="btn btn-light btn-sm">수정하기</a>&ndash;&gt;-->
-        <!--                        &lt;!&ndash;                            <a type="button" class="btn btn-light btn-sm">삭제하기</a>&ndash;&gt;-->
-        <!--                        <a type="button" class="btn btn-light btn-sm"-->
-        <!--                           th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </li>-->
-
-        <!--            <li th:if="${comment.level} != 0" style="list-style-type:none">-->
-        <!--                <div style="margin-left:2%">-->
-        <!--                    <th:block th:each="commentLevel : ${#numbers.sequence(1,comment.level)}">-->
-        <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
-        <!--                                 class="bi bi-arrow-return-right" viewBox="0 0 16 16">-->
-        <!--                                <path fill-rule="evenodd"-->
-        <!--                                      d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>-->
-        <!--                            </svg>-->
-
-        <!--                    </th:block>-->
-        <!--                    <div class="card" style="width: auto;">-->
-        <!--                        <div class="card-body">-->
-        <!--                            &lt;!&ndash;                            <h5 class="card-title">작성자 프로필</h5>&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                            <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>&ndash;&gt;-->
-        <!--                            <p class="card-text" th:text="*{comment.content}">댓글내용</p>-->
-        <!--                            &lt;!&ndash;                            <a type="button" class="btn btn-light btn-sm">수정하기</a>&ndash;&gt;-->
-        <!--                            &lt;!&ndash;                            <a type="button" class="btn btn-light btn-sm">삭제하기</a>&ndash;&gt;-->
-        <!--                            <a type="button" class="btn btn-light btn-sm"-->
-        <!--                               th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-
-        <!--            </li>-->
-
-
-        <!--        </ul>-->
-        <!--        <ul th:each="comment : ${comments}">-->
-        <!--            <li style="list-style-type:none">-->
-        <!--                <div class="card" style="width: auto;">-->
-        <!--                    <div class="card-body">-->
-        <!--                        <h5 class="card-title">작성자 프로필</h5>-->
-        <!--                        <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>-->
-        <!--                        <p class="card-text" th:text="*{comment.content}">댓글내용</p>-->
-        <!--                        <a type="button" class="btn btn-light btn-sm">수정하기</a>-->
-        <!--                        <a type="button" class="btn btn-light btn-sm">삭제하기</a>-->
-        <!--                        <a type="button" class="btn btn-light btn-sm"-->
-        <!--                           th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>-->
-        <!--                    </div>-->
-        <!--                    &lt;!&ndash;                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"&ndash;&gt;-->
-        <!--                </div>-->
-        <!--            </li>-->
-        <!--            <ul th:each="reAlls : ${reAll}">-->
-        <!--                <div th:if="${comment.id == reAlls.comment.id && boardDto.id == reAlls.board.id}">-->
-        <!--                    <li style="list-style-type:none">-->
-        <!--                        <div class="card" style="width: auto;">-->
-        <!--                            <div class="card-body">-->
-        <!--                                <h5 class="card-title">작성자 프로필</h5>-->
-        <!--                                <h6 class="card-subtitle mb-2 text-muted">작성일시</h6>-->
-        <!--                                <p class="card-text" th:text="*{reAlls.content}">댓글내용</p>-->
-        <!--                                <a type="button" class="btn btn-light btn-sm">수정하기</a>-->
-        <!--                                <a type="button" class="btn btn-light btn-sm">삭제하기</a>-->
-        <!--                            </div>-->
-        <!--                            &lt;!&ndash;                        th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${commentId})}"&ndash;&gt;-->
-        <!--                        </div>-->
-        <!--                    </li>-->
-        <!--                </div>-->
-        <!--            </ul>-->
-        <!--        </ul>-->
-        <!--        -->
         <form method="post" th:object="${form}" action="#">
             <br><br>
             <div>

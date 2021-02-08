@@ -32,6 +32,7 @@ public class BoardController {
     private final CommentService commentService;
     private final BoardLikeService boardLikeService;
     private final CommentRepository commentRepository;
+
     @GetMapping("/board/new")
     public String createForm(Model model) {
 
