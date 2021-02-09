@@ -32,8 +32,7 @@
 
         <h2>게시글 작성</h2>
         <br>
-        <form id="articleForm" role="form" method="post" th:action="@{/board/new}"
-            th:object="${boardForm}">
+        <form id="articleForm" role="form" method="post" th:action="@{/board/new}" th:object="${boardForm}">
             <br style="clear: both">
             <h3 style="margin-bottom: 25px;">제목</h3>
             <div class="form-group">
@@ -49,14 +48,6 @@
             <button type="submit" id="btn-save" class="btn btn-primary pull-right">게시글 저장</button>
         </form>
 
-
-        <!-- callback:{
-    onImageUpload: function(files, editor, welEditable){
-        for(var i = files.length -1; i >= 0; i--){
-            sendFile(files[i], this);
-        }
-    }
-} -->
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -64,26 +55,39 @@
                     height: 300,
                     minHeight: null,
                     maxHeight: null,
-                    focus: true
+                    focus: true,
+                    callbacks: {
+                        onImageUpload: function (files, editor, welEditable) {
+                            for (var i = 0; i < files.length; i++) {
+                                sendFile(files[i], this);
+                            }
+                        }
+                    }
+
+
                 });
             });
+            function sendFile(file, el) {
+                var form_data = new FormData();
+                form_data.append('file', file);
+                $.ajax({
+                    data: form_data,
+                    type: "POST",
+                    url: '/board/api/new',
+                    cache: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    success: function (url) {
+                        $(el).summernote('insertImage', url, function ($image) {
+                            $image.css('width', "25%");
+                        });
+                    }
+                });
+            }
 
-<!--            $("#btn-save").on("click", () => {-->
-<!--                var board = $('#articleForm').serialize();-->
-<!--                $.ajax({-->
-<!--                    type: "POST",-->
-<!--                    url: "/board/api/new",-->
-<!--                    data: JSON.stringify({-->
-<!--                        board-->
-<!--                    }),-->
-<!--                    contentType: "application/json; charset=utf-8"-->
-<!--                }).done(function(resp){-->
-<!--                    alert("글쓰기가 완료되었습ㄴ디ㅏ.");-->
-<!--                    location.href="/";-->
-<!--                }).fail(function(error){-->
-<!--                    alert(JSON.stringify(error));-->
-<!--                })-->
-<!--            });-->
+
+
 
 
 

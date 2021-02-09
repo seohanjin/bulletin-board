@@ -8,126 +8,128 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Hello, world!</title>
 </head>
 
 <body style="position: relative; width: 100%; height: 100%;">
-<div th:replace="fragments/nav :: bodyNavigation"></div>
-<main class="container_main">
-    <div class="container">
-        <input type="hidden" th:field="*{boardDto.id}"/>
-        <br><br><br><br>
-        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
-            <h1 class="font-weight-bold" th:text=*{boardDto.title}></h1>
-        </div>
-        <br><br><br>
-        <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
-            <!--            <h5 th:text="${memberDto.nickname}">작성자..</h5>-->
-        </div>
-        <br><br><br>
-        <div>
-            <label style="height: 28%" th:utext="${boardDto.content}"></label>
-        </div>
-        <div>
-            <a class="empty-heart" style="width:30px">
-                <img th:src="@{/img/empty-heart.png}" style="width:30px">
-            </a>
-        </div>
-        <div>
-            <a class="full-heart" style="display:none">
-                <img class="full-heart" th:src="@{/img/full-heart.png}" style="width:30px">
-            </a>
-        </div>
-        <br><br>
-        <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
-        <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
-    </div>
-
-    <br><br>
-    <div class="container" style="width: 50%;">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>댓글</h3>
-            </div><!-- /col-sm-12 -->
-        </div><!-- /row -->
-        <br>
-        <table class="table">
-            <tbody>
-            <tr th:each="comment: ${sortComment}">
-                <th scope="row" style="width:15%">
-                    <th:block th:each="commentLevel : ${#numbers.sequence(1,comment.level)}">
-                        <div th:if="${comment.level} != 0">
-                                <span style="float:left;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                          d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-                                </svg>
-                                </span>
-                        </div>
-                    </th:block>
-                </th>
-                <td>
-                    <div style="display:inline">
-                        <a>아이콘</a>
-                        <a>작성자</a>
-                        <a>시간</a>
-                    </div>
-                    <div>
-                        <span class="card-text" th:text="${comment.content}" style="font:12px">댓글내용</span>
-                        <a type="button" class="btn btn-light btn-sm"
-                           th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
-                    </div>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <form method="post" th:object="${form}" action="#">
-            <br><br>
-            <div>
-                <div>
-                    <span><strong>Comments</strong></span>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10" style="inline-size: auto;">
-                        <table class="table">
-                            <tr>
-                                <td>
-                                        <textarea th:field="*{content}" class="form-control" rows="3" cols="30"
-                                                  placeholder="댓글을 입력하세요"></textarea><br>
-                                    <div>
-                                        <button type="submit" class="btn btn-success">작성</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+    <div th:replace="fragments/nav :: bodyNavigation"></div>
+    <main class="container_main">
+        <div class="container">
+            <input type="hidden" th:field="*{boardDto.id}" />
+            <br><br><br><br>
+            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
+                <h1 class="font-weight-bold" th:text=*{boardDto.title}></h1>
             </div>
-        </form>
-    </div>
-</main>
+            <br><br><br>
+            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
+                <!--            <h5 th:text="${memberDto.nickname}">작성자..</h5>-->
+            </div>
+            <br><br><br>
+            <div>
+                <label style="height: 28%" th:utext="${boardDto.content}"></label>
+            </div>
+            <div>
+                <a class="empty-heart" style="width:30px">
+                    <img th:src="@{/img/empty-heart.png}" style="width:30px">
+                </a>
+            </div>
+            <div>
+                <a class="full-heart" style="display:none">
+                    <img class="full-heart" th:src="@{/img/full-heart.png}" style="width:30px">
+                </a>
+            </div>
+            <br><br>
+            <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
+            <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
+        </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        <br><br>
+        <div class="container" style="width: 50%;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>댓글</h3>
+                </div><!-- /col-sm-12 -->
+            </div><!-- /row -->
+            <br>
+            <table class="table">
+                <tbody>
+                    <tr th:each="comment: ${sortComment}">
+                        <th scope="row" style="width:15%">
+                            <th:block th:each="commentLevel : ${#numbers.sequence(1,comment.level)}">
+                                <div th:if="${comment.level} != 0">
+                                    <span style="float:left;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </th:block>
+                        </th>
+                        <td>
+                            <div style="display:inline">
+                                <a>아이콘</a>
+                                <a>작성자</a>
+                                <a>시간</a>
+                            </div>
+                            <div>
+                                <span class="card-text" th:text="${comment.content}" style="font:12px">댓글내용</span>
+                                <a type="button" class="btn btn-light btn-sm"
+                                    th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form method="post" th:object="${form}" action="#">
+                <br><br>
+                <div>
+                    <div>
+                        <span><strong>Comments</strong></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10" style="inline-size: auto;">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <textarea th:field="*{content}" class="form-control" rows="3" cols="30"
+                                            placeholder="댓글을 입력하세요"></textarea><br>
+                                        <div>
+                                            <button type="submit" class="btn btn-success">작성</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
-<script th:ineline="javascript">
+    <script th:ineline="javascript">
+
+
         /*<![CDATA[*/
         var boardEx = "[[*{boardDto.id}]]";
         /*]]*/
@@ -192,7 +194,8 @@
 
 
 
-</script>
+
+    </script>
 </body>
 
 </html>

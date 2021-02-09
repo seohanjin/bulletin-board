@@ -5,11 +5,12 @@ import eclipse.demo.service.FilesService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,11 +22,15 @@ public class FileController {
     @Autowired
     FilesService filesService;
 
+    @Autowired
+    ResourceLoader resourceLoader;
+
     @PostMapping("/upload")
     public String uploadFile(@RequestPart MultipartFile files) throws IOException {
+
+
         Files file = new Files();
 
-        
         String sourceFileName = files.getOriginalFilename();
         System.out.println("sourFileName>>" + sourceFileName);
 
@@ -63,6 +68,31 @@ public class FileController {
         model.addAttribute("file", file);
 
         return "board/getFile";
+    }
+
+    @PostMapping("/board/api/new")
+    public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file){
+        try{
+            Files uploadFile = filesService.store(file);
+
+            return ResponseEntity.ok().body("/image/" + uploadFile.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/image/{fileId}")
+    public ResponseEntity<?> saveFile(@PathVariable Long fileId){
+        try{
+            Files uploadFile = filesService.load(fileId);
+            Resource resource = resourceLoader.getResource("file:" + uploadFile.getFilePath());
+            System.out.println("resource>>" + resource);
+            return ResponseEntity.ok().body(resource);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

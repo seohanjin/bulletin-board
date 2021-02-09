@@ -26,7 +26,9 @@ public class Member extends BaseTime{
 
     // 닉네임
     private String nickname;
-//
+
+    private String userProfile;
+
 //    @OneToMany(mappedBy = "member")
 //    private List<BoardLike> likes = new ArrayList<>();
 

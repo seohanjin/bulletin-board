@@ -12,6 +12,9 @@ import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 @Controller
@@ -41,8 +47,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/new")
-    public String createBoard(BoardDto boardDto) {
+    public String createBoard(BoardDto boardDto) throws IOException {
         Board board = new Board(boardDto.getTitle(), boardDto.getContent());
+
         boardService.saveBoard(board);
         return "redirect:/";
     }
@@ -58,6 +65,7 @@ public class BoardController {
     @GetMapping("/board/{boardId}/detail")
     public String boardDetail(@PathVariable("boardId") Long boardId, Model model) {
         Board board = boardService.findOne(boardId);
+
         // 댓글
         List<Comment> comments = commentService.findJoinComment(boardId);
         //대댓글
@@ -91,6 +99,7 @@ public class BoardController {
         Board board = boardService.findOne(editId);
         BoardDto editForm = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
 
+        model.addAttribute("board", board);
         model.addAttribute("form", editForm);
         return "board/boardUpdateForm";
     }

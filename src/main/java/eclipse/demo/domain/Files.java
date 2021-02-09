@@ -17,6 +17,9 @@ public class Files {
     private String filename;
     private String fileOriName;
     private String fileUrl;
+    private String contentType;
+    private String filePath;
+    private long size;
 
 }
 
