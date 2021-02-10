@@ -15,6 +15,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c inner join c.board b where b.id = :id")
     List<Comment> findComment(@Param("id") Long boardId);
 
+    List<Comment> findAllByBoardId(Long id);
+
     List<Comment> findAllByOrderByIdDesc();
 
     @Query("select max(c.commentGroup) from Comment c")

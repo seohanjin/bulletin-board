@@ -20,7 +20,7 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-    FilesService filesService;
+    FilesService    filesService;
 
     @Autowired
     ResourceLoader resourceLoader;
@@ -74,7 +74,7 @@ public class FileController {
     public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file){
         try{
             Files uploadFile = filesService.store(file);
-
+            System.out.println("PostMapping완료>>");
             return ResponseEntity.ok().body("/image/" + uploadFile.getId());
         }catch (Exception e){
             e.printStackTrace();
@@ -84,6 +84,7 @@ public class FileController {
 
     @GetMapping("/image/{fileId}")
     public ResponseEntity<?> saveFile(@PathVariable Long fileId){
+        System.out.println("GetMapping>>>");
         try{
             Files uploadFile = filesService.load(fileId);
             Resource resource = resourceLoader.getResource("file:" + uploadFile.getFilePath());

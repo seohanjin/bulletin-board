@@ -51,7 +51,11 @@ public class FilesService {
                 throw new Exception("Failed to store empty file" + file.getOriginalFilename());
             }
 
+            // 1. 절대 경로 2. file 을 넘겨준다.(fileName을 바꾸기 위해)
             String saveFileName = fileSave(rootLocation.toString(), file);
+            System.out.println("location.toString>>" + rootLocation.toString());
+            System.out.println("saveFileName>>" + saveFileName);
+
             Files saveFile = new Files();
             saveFile.setFilename(file.getOriginalFilename());
             saveFile.setFileOriName(saveFileName);
@@ -73,14 +77,23 @@ public class FilesService {
     @Transactional
     public String fileSave(String rootLocation, MultipartFile file) throws IOException{
         File uploadDir = new File(rootLocation);
+        System.out.println("uploadDir>>" + uploadDir);
 
         if (!uploadDir.exists()){
             uploadDir.mkdirs();
         }
 
         UUID uuid = UUID.randomUUID();
+        System.out.println("uuid>>"+ uuid);
+        System.out.println("uuid.toStirng()>>" + uuid.toString());
+
         String saveFileName = uuid.toString() + file.getOriginalFilename();
+        System.out.println("file.getOriginalFilename>>" + file.getOriginalFilename());
+        System.out.println("uuid + file.getOriginameName>>" + saveFileName);
+
         File saveFile = new File(rootLocation, saveFileName);
+        System.out.println("saveFile>>" + saveFile);
+
         FileCopyUtils.copy(file.getBytes(), saveFile);
 
         return saveFileName;

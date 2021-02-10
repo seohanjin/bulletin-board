@@ -23,7 +23,6 @@
 </head>
 
 <body>
-    <div th:replace="fragments/nav :: bodyNavigation"></div>
 
     <div class="container">
         <br>
@@ -79,6 +78,7 @@
                     enctype: 'multipart/form-data',
                     processData: false,
                     success: function (url) {
+                    alert(url);
                         $(el).summernote('insertImage', url, function ($image) {
                             $image.css('width', "25%");
                         });

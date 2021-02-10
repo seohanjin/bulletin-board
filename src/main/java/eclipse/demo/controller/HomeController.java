@@ -23,7 +23,7 @@ public class HomeController {
     public String home(Model model){
         log.info("home controller");
 
-        List<Alarm> alarms = alarmRepository.findAllByOrderByIdDesc();
+        List<Alarm> alarms = alarmRepository.findAll();
         model.addAttribute("alarms", alarms);
         return "home";
     }

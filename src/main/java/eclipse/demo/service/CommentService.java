@@ -83,6 +83,11 @@ public class CommentService {
         List<Comment> findAll = commentRepository.findAllByOrderByIdDesc();
         return findAll;
     }
+
+    public List<Comment> findAllComment(){
+        List<Comment> comments = commentRepository.findAll();
+        return comments;
+    }
 //<----------------- 대댓글 --------------------------->
     @Transactional
     public void saveReComment(Board board, Comment comment, String content){
