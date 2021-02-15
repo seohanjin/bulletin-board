@@ -52,7 +52,10 @@ public class CommentService {
         else {
             comment.setCommentGroup(commentGroup+1);
         }
+        Alarm alarm = new Alarm(findBoard, comment);
         commentRepository.save(comment);
+        alarmRepository.save(alarm);
+
     }
 
     @Transactional
@@ -89,17 +92,7 @@ public class CommentService {
         return comments;
     }
 //<----------------- 대댓글 --------------------------->
-    @Transactional
-    public void saveReComment(Board board, Comment comment, String content){
-        ReComment reComment = new ReComment(board, comment, content);
 
-        Board findBoard = boardRepository.findById(board.getId()).orElse(null);
-
-        reCommentRepository.save(reComment);
-
-        Alarm alarm = new Alarm(findBoard, reComment);
-        alarmRepository.save(alarm);
-    }
 
     public List<ReComment> findReComment(Long boardId){
 

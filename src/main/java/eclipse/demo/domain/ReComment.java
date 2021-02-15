@@ -29,8 +29,8 @@ public class ReComment {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    @OneToMany(mappedBy = "reComment")
-    private List<Alarm> alarms = new ArrayList<>();
+//    @OneToMany(mappedBy = "reComment")
+//    private List<Alarm> alarms = new ArrayList<>();
 
     public ReComment(Board board, Comment comment, String content){
         this.board = board;

@@ -30,4 +30,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c order by c.commentGroup desc, commentSequence asc")
     List<Comment> findCommentAll();
+
+    @Query("select c from Comment c join fetch c.board b")
+    List<Comment> findJoinComment();
+
 }

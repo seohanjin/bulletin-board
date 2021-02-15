@@ -1,9 +1,6 @@
 package eclipse.demo.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,30 +15,23 @@ public class Alarm extends BaseTime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    @ManyToOne
-    @JoinColumn(name = "reComment_id")
-    private ReComment reComment;
+
 
     public Alarm(Board board, Comment comment) {
         this.board = board;
         this.comment = comment;
         this.setCreatedAt(LocalDateTime.now());
     }
-
-    public Alarm(Board board,ReComment reComment){
-        this.board = board;
-        this.reComment = reComment;
-        this.setCreatedAt(LocalDateTime.now());
-    }
-
 
 
 
