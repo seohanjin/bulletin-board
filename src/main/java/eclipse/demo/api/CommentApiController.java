@@ -4,6 +4,7 @@ import eclipse.demo.domain.Alarm;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
 import eclipse.demo.repository.AlarmRepository;
+import eclipse.demo.service.AlarmService;
 import eclipse.demo.service.CommentService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,11 +20,9 @@ import java.util.stream.Collectors;
 @RestController
 public class CommentApiController {
 
-    @Autowired
-    CommentService commentService;
 
     @Autowired
-    AlarmRepository alarmRepository;
+    AlarmService alarmService;
 
     @GetMapping("/alarm")
     public List<AlarmDto> getComment(){
@@ -31,7 +30,7 @@ public class CommentApiController {
 //
 //        List<CommentDto> collect = allComment.stream().map(c -> new CommentDto(c)).collect(Collectors.toList());
 
-        List<Alarm> allAlarm = alarmRepository.findAll();
+        List<Alarm> allAlarm = alarmService.findAllDesc();
         List<AlarmDto> collect = allAlarm.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
 
         return collect;
@@ -61,6 +60,7 @@ public class CommentApiController {
 
     @Getter
     static class AlarmDto{
+        private Long AlarmId;
         private Long BoardId;
         private String BoardTitle;
         private String CommentContent;
@@ -69,11 +69,12 @@ public class CommentApiController {
 
 
         public AlarmDto(Alarm alarm) {
+            this.AlarmId = alarm.getId();
             this.BoardId = alarm.getBoard().getId();
             this.BoardTitle = alarm.getBoard().getTitle();
             this.CommentContent = alarm.getComment().getContent();
             this.alarmData = alarm.getCreatedAt();
-            this.href = "/board/"+ BoardId;
+            this.href = "/board/"+ BoardId + "/detail";
         }
     }
 
