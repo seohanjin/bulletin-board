@@ -2,12 +2,15 @@ package eclipse.demo.domain;
 
 import eclipse.demo.domain.Authority.UserRole;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member extends BaseTime{
 
     @Id
@@ -32,8 +35,6 @@ public class Member extends BaseTime{
 //    @OneToMany(mappedBy = "member")
 //    private List<BoardLike> likes = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private LoginStatus loginStatus;
 
     private boolean enabled;
 
@@ -41,21 +42,6 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comment")
-    private List<ReComment> reComments = new ArrayList<>();
-
-
-    //    private String birthDay;
-//
-//    private String email;
-//
-//    private String sex;
-//
-//    private String phoneNumber;
-
-    protected Member(){
-
-    }
 
     public Member(String username, String password, String nickname) {
         this.username = username;
@@ -79,4 +65,11 @@ public class Member extends BaseTime{
             addUserRole(userRole);
         }
     }
+
+    public void changeMember(String username, String password, String nickname){
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+    }
+
 }

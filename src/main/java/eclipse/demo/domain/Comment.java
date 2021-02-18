@@ -1,10 +1,8 @@
 package eclipse.demo.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -37,29 +35,28 @@ public class Comment extends BaseTime{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
-
-
-    @OneToMany(mappedBy = "comment")
-    private List<ReComment> reComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "comment")
     private List<Alarm> alarms = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    @ColumnDefault("0")
-    private Comment parent;
 
-    @OneToMany(mappedBy = "parent")
-    private List<Comment> child = new ArrayList<>();
-
+    // 댓글
     public Comment(Board board, String content) {
         this.board = board;
         this.content = content;
         this.setCreatedAt(LocalDateTime.now());
+
+    }
+
+    public Comment(Board board, Comment parent, String content){
+        this.board = board;
+        this.commentGroup = parent.getCommentGroup();
+        this.commentSequence = parent.getCommentSequence()+1;
+        this.level = parent.getLevel()+1;
+        this.content = content;
 
     }
 
@@ -70,7 +67,8 @@ public class Comment extends BaseTime{
         this.setCreatedAt(LocalDateTime.now());
     }
 
-
-
+    public void changeGroup(int commentGroup){
+        this.commentGroup = commentGroup + 1;
+    }
 
 }

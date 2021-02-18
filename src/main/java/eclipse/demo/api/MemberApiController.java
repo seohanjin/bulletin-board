@@ -8,40 +8,132 @@ import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.MemberService;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.fileupload.UploadContext;
-import org.springframework.http.ResponseEntity;
+import lombok.Getter;
+import org.apache.logging.log4j.message.ReusableMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequiredArgsConstructor
 public class MemberApiController {
 
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
-    private final BoardLikeService boardLikeService;
-    private final BoardService boardService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private BoardLikeService boardLikeService;
+    @Autowired
+    private BoardService boardService;
 
 
-    @GetMapping("/api/v1/members")
-    public List<Member> members() {
-        return memberRepository.findAll();
+    //        List<MemberDto> memberDtos = new ArrayList<>();
+//
+//        for (Member findMember : findMembers) {
+//            memberDtos.add(new MemberDto(findMember));
+//        }
+//        return new Result(memberDtos.size(), memberDtos);
+
+
+    @GetMapping("/api/members")
+    public Result<List<MemberDto>> members() {
+        List<Member> findMembers = memberService.findAll();
+        List<MemberDto> collect = findMembers.stream().map(member -> new MemberDto(member)).collect(Collectors.toList());
+
+        return new Result(collect.size(), collect);
     }
 
-    @PostMapping("/register")
-    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request) {
+    @Data
+    static class Result<T>{
+        private int count;
+        private T data;
+
+
+        public Result(int count, T data) {
+            this.count = count;
+            this.data = data;
+        }
+    }
+
+    @Getter
+    static class MemberDto{
+        private Long id;
+        private String username;
+        private String password;
+        private String nickname;
+
+        public MemberDto(Member member) {
+            this.id = member.getId();
+            this.username = member.getUsername();
+            this.password = member.getPassword();
+            this.nickname = member.getNickname();
+        }
+    }
+
+
+    @PostMapping("/api/members")
+    public CreateMemberResponse saveMember(@RequestBody @Valid CreateMemberRequest request) {
         Member member = new Member(request.getUsername(), request.getPassword(), request.getNickname());
-
         Long id = memberService.join(member);
-
         return new CreateMemberResponse(id);
     }
 
+    @PutMapping("/api/members/{id}")
+    public UpdateMemberResponse updateMember(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateMemberRequest request){
 
+        memberService.update(id, request.getUsername(), request.getPassword(), request.getNickname());
+        Member findMember = memberService.findOne(id);
+
+//        return new UpdateMemberResponse(findMember.getId(), findMember.getUsername(), findMember.getPassword(), findMember.getNickname());
+        return new UpdateMemberResponse(findMember);
+    }
+
+    @Data
+    static class UpdateMemberRequest{
+        private String username;
+        private String password;
+        private String nickname;
+    }
+
+    @Data
+    static class UpdateMemberResponse{
+        private Long id;
+        private String username;
+        private String password;
+        private String nickname;
+
+
+        public UpdateMemberResponse(Member member) {
+            this.id = member.getId();
+            this.username = member.getUsername();
+            this.password = member.getPassword();
+            this.nickname = member.getNickname();
+        }
+    }
+
+    @Data
+    static class CreateMemberRequest {
+        private String username;
+        private String password;
+        private String nickname;
+    }
+
+    @Data
+    static class CreateMemberResponse {
+        private Long id;
+
+        public CreateMemberResponse(Long id) {
+            this.id = id;
+        }
+    }
+
+//-------------------------------------------------------------------------------------
     @PostMapping("/like")
     public CreateMemberResponse saveLIke(@RequestBody RequestLike requestLike) {
         Board board = boardService.findOne(requestLike.getBoardId());
@@ -71,12 +163,6 @@ public class MemberApiController {
         return new UpdateLikeResponse("ok");
     }
 
-    @Data
-    static class CreateMemberRequest {
-        private String username;
-        private String password;
-        private String nickname;
-    }
 
     @Data
     static class UpdateLikeResponse {
@@ -87,14 +173,6 @@ public class MemberApiController {
         }
     }
 
-    @Data
-    static class CreateMemberResponse {
-        private Long id;
-
-        public CreateMemberResponse(Long id) {
-            this.id = id;
-        }
-    }
 
     @Data
     static class CreateLikeResponse {
@@ -111,11 +189,5 @@ public class MemberApiController {
         private Long boardId;
     }
 
-//    @PostMapping("/image")
-//    public ResponseEntity<?> handleFileUpload(@RequestParam("file")MultipartFile file){
-//        try{
-//            UploadContext uploadContext = imageService.store(file);
-//        }
-//    }
 
 }

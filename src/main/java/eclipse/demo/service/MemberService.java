@@ -9,6 +9,7 @@ import eclipse.demo.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,23 +20,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-//    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
     // 회원가입
     @Transactional
     public Long join(Member member){
-
-        // member : username, password, nickname, enabled 를 포함한 member
-
-//        String encodedPassword = passwordEncoder.encode(member.getPassword());
         validateDuplicateMember(member);
-
-
-        UserRole userRole = new UserRole(member, new Role());
-
-//        Member member1 = new Member(member.getUserName(), member.getPassword(), member.getNickName(), true, (List<UserRole>) userRole);
-//        Member member1 = new Member(member.getUsername(), encodedPassword, member.getNickname(), true, userRole);
         memberRepository.save(member);
         return member.getId();
     }
@@ -54,21 +47,21 @@ public class MemberService {
         return byName;
     }
 
-
-    //로그인
-
-
     // 회원 한명 조회
     public Member findOne(Long id){
         return memberRepository.findOne(id);
     }
 
-//    @Transactional
-//    public void update(Long id, String password, String nickName){
-//        Member member = memberRepository.findOne(id);
-//        member.setPassword(password);
-//        member.setNickName(nickName);
-//
-//    }
+    // 회원수정
+    @Transactional
+    public void update(Long id, String username, String password, String nickname) {
+        Member member = memberRepository.findOne(id);
+        member.changeMember(username, password, nickname);
+    }
+
+    public List<Member> findAll(){
+        List<Member> findMembers = memberRepository.findAll();
+        return findMembers;
+    }
 
 }

@@ -4,7 +4,6 @@ package eclipse.demo.controller;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Comment;
-import eclipse.demo.domain.ReComment;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.CommentRepository;
@@ -12,9 +11,6 @@ import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,8 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 @Controller
@@ -66,12 +60,7 @@ public class BoardController {
     public String boardDetail(@PathVariable("boardId") Long boardId, Model model) {
         Board board = boardService.findOne(boardId);
 
-        // 댓글
-        List<Comment> comments = commentService.findJoinComment(boardId);
-        //대댓글
-        List<ReComment> reComments = commentService.ReFindAll();
-
-        List<Comment> commentAll = commentRepository.findCommentAll();
+        List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
 
         BoardLike boardLike = boardLikeService.findAllById(board.getId());
         if (boardLike == null || boardLike.getStatus() == 0) {
@@ -87,8 +76,6 @@ public class BoardController {
         BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
 
         model.addAttribute("sortComment", commentAll);
-        model.addAttribute("reAll", reComments);
-        model.addAttribute("comments", comments);
         model.addAttribute("form", new CommentDto());
         model.addAttribute("boardDto", boardDto);
         return "board/boardDetail";

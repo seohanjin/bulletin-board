@@ -62,34 +62,6 @@ class CommentRepositoryTest {
         System.out.println("commentGroup>>" + findComment.getCommentGroup());
     }
 
-    @Test
-    public void findFetchJoin(){
-        Board board1 = new Board("제목1", "내용1");
-        boardService.saveBoard(board1);
 
-        Board board2 = new Board("제목2", "내용2");
-        boardService.saveBoard(board2);
-
-
-
-//        Comment comment = new Comment(board, "댓글1");
-        commentService.ssave(board1, "댓글1");
-        commentService.ssave(board1, "댓글2");
-        commentService.ssave(board1, "댓글3");
-        commentService.ssave(board2, "댓글4");
-        commentService.ssave(board2, "댓글5");
-        commentService.ssave(board2, "댓글6");
-
-        List<Comment> allComment = commentService.findAllComment();
-        for (Comment comment : allComment) {
-            System.out.println("comment>>" + comment.getBoard());
-        }
-
-
-//        List<Comment> joinComment = commentRepository.findJoinComment();
-//        for (Comment comment1 : joinComment) {
-//            System.out.println(">>board" + comment1.getBoard().getId() + "|comment>>" + comment1.getContent());
-//        }
-    }
 
 }

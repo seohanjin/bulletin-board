@@ -12,13 +12,6 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Query("select c from Comment c inner join c.board b where b.id = :id")
-    List<Comment> findComment(@Param("id") Long boardId);
-
-    List<Comment> findAllByBoardId(Long id);
-
-    List<Comment> findAllByOrderByIdDesc();
-
     @Query("select max(c.commentGroup) from Comment c")
     Optional<Integer> findCommentGroup();
 
@@ -28,10 +21,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "where c.commentGroup = :commentGroup AND c.commentSequence > :commentSequence")
     int bulkUpdate(@Param("commentGroup") int commentGroup, @Param("commentSequence") int commentSequence);
 
-    @Query("select c from Comment c order by c.commentGroup desc, commentSequence asc")
-    List<Comment> findCommentAll();
+    @Query("select c from Comment c join fetch c.board b where b.id = :id order by c.commentGroup desc, c.commentSequence asc ")
+    List<Comment> findCommentAll(@Param("id") Long id);
 
-    @Query("select c from Comment c join fetch c.board b")
-    List<Comment> findJoinComment();
 
 }
