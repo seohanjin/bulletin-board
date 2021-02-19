@@ -6,9 +6,17 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
@@ -27,17 +35,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto">
 
-                <!-- <li class="nav-item">
-            <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/members/new}">회원 가입</a>
-        </li>
-        <li class="nav-item">
-            <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/members}">로그인</a>
-        </li> -->
+                <li class="nav-item">
+                    <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/members/new}">회원 가입</a>
+                </li>
+                <li class="nav-item">
+                    <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/members}">로그인</a>
+                </li>
 
-                <!-- <li class="nav-item">
-            <a type="submit" sec:authorize="isAuthenticated()" class="btn btn-sm "
-                th:action="@{/logout}">로그아웃</a>
-        </li> -->
+
+                <li class="nav-item">
+                    <a type="submit" sec:authorize="isAuthenticated()" class="nav-link" th:action="@{/logout}">로그아웃</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/board/list}">자유게시판</a>
@@ -45,28 +53,30 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/board/new}">게시글 작성</a>
                 </li>
+
+                <li class="nav-item">
+
+
+                </li>
             </ul>
+
 
             <ul class="nav navbar-nav ml-auto">
 
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" type="button" role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" id="notification">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-bell" viewBox="0 0 16 16">
-                            <path
-                                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
-                        style="width: 400px; height: 445px; overflow-y: auto;">
-                        <ul id="alarm_list" style="list-style: none;">
-
-                        </ul>
+                <!-- Button trigger modal -->
+                <a class="nav-link" id="modalButton" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-bell" viewBox="0 0 16 16">
+                        <path
+                            d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                    </svg>
+                </a>
+                <div class="modal" tabindex="-1" role="dialog" id="notificationModal">
+                    <div class="modal-dialog" role="document">
+                        <diV class="modal-content"></diV>
                     </div>
-                </li>
+                </div>
+
 
                 <li class="nav-item dropdown">
                     <a class="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -93,35 +103,17 @@
     </nav>
     </div>
 
-
     <script th:inline="javascript">
+        var $ = jQuery;
 
-        var result = " ";
-        $('.dropdown').on('hidden.bs.dropdown', function () {
-            $('#alarm_list').empty();
-            result = " ";
-            console.log("result>>" + result);
-        });
-
-
-        $('.dropdown').on('shown.bs.dropdown', function () {
-            $.ajax({
-                url: '/notification',
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    $.each(data, function (key, value) {
-                        result += "<li>";
-                        result += "<div class= 'notification' notification-data=\"" + data[key].alarmId + "\">";
-                        result += "<a class='alarm_button' style='color:black' href=\"" + data[key].href + "\">" + 'xxx님이' + data[key].boardTitle + '에 댓글을 남겼습니다.' + "</a>" + "</a>";
-                        result += "</div></li>";
-                    })
-
-                    $('#alarm_list').append(result);
-                }
-            });
-        });
+        $(function () {
+            (function ($) {
+                $('#modalButton').on("click", function () {
+                    $('#notificationModal .modal-content').load("/notification");
+                    $('#notificationModal').modal();
+                })
+            }(jQuery))
+        })
 
 
 
@@ -129,13 +121,3 @@
 </body>
 
 </html>
-<!-- $('[notification-data='+data[key].alarmId+']').click(function () {
-    alert('hi');
-})   -->
-
-
-
-<!--    <form th:action="@{/logout}" method="post">-->
-<!--        <a type="submit" sec:authorize="isAuthenticated()" class="btn btn-sm " th:action="@{/logout}">로그아웃</a>-->
-<!--        <button type="submit">로그아웃</button>-->
-<!--    </form>-->

@@ -18,7 +18,7 @@ public class Notification extends BaseTime{
 
     private String content;
 
-    private String oriLink;
+    private String link;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -41,7 +41,8 @@ public class Notification extends BaseTime{
         this.comment = comment;
         this.setCreatedAt(LocalDateTime.now());
         this.status = NotificationType.COMMENT;
-        this.oriLink = "/board/" + board.getId()+ "/detail";
+        this.confirmation = ReadNotification.YET;
+        this.link = "/board/" + board.getId()+ "/detail";
     }
 
 
@@ -51,5 +52,9 @@ public class Notification extends BaseTime{
         }else {
             this.content = title;
         }
+    }
+
+    public void changeConfirm() {
+        this.confirmation = ReadNotification.READ;
     }
 }
