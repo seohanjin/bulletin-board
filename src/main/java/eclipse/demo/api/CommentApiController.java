@@ -1,11 +1,7 @@
 package eclipse.demo.api;
 
-import eclipse.demo.domain.Alarm;
-import eclipse.demo.domain.Board;
-import eclipse.demo.domain.Comment;
-import eclipse.demo.repository.AlarmRepository;
-import eclipse.demo.service.AlarmService;
-import eclipse.demo.service.CommentService;
+import eclipse.demo.domain.Notification;
+import eclipse.demo.service.NotificationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -22,7 +18,7 @@ public class CommentApiController {
 
 
     @Autowired
-    AlarmService alarmService;
+    NotificationService notificationService;
 
     @GetMapping("/alarm")
     public List<AlarmDto> getComment(){
@@ -30,8 +26,8 @@ public class CommentApiController {
 //
 //        List<CommentDto> collect = allComment.stream().map(c -> new CommentDto(c)).collect(Collectors.toList());
 
-        List<Alarm> allAlarm = alarmService.findAllDesc();
-        List<AlarmDto> collect = allAlarm.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
+        List<Notification> allNotification = notificationService.findNoty();
+        List<AlarmDto> collect = allNotification.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
 
         return collect;
     }
@@ -68,12 +64,12 @@ public class CommentApiController {
         private String href;
 
 
-        public AlarmDto(Alarm alarm) {
-            this.AlarmId = alarm.getId();
-            this.BoardId = alarm.getBoard().getId();
-            this.BoardTitle = alarm.getBoard().getTitle();
-            this.CommentContent = alarm.getComment().getContent();
-            this.alarmData = alarm.getCreatedAt();
+        public AlarmDto(Notification notification) {
+            this.AlarmId = notification.getId();
+            this.BoardId = notification.getBoard().getId();
+            this.BoardTitle = notification.getBoard().getTitle();
+            this.CommentContent = notification.getComment().getContent();
+            this.alarmData = notification.getCreatedAt();
             this.href = "/board/"+ BoardId + "/detail";
         }
     }

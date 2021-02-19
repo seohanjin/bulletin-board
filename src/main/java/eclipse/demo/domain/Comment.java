@@ -2,7 +2,6 @@ package eclipse.demo.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 public class Comment extends BaseTime{
 
@@ -31,24 +30,29 @@ public class Comment extends BaseTime{
     @ColumnDefault("0")
     private int level;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
     @OneToMany(mappedBy = "comment")
-    private List<Alarm> alarms = new ArrayList<>();
+    private List<Notification> notifications = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 
     // 댓글
     public Comment(Board board, String content) {
-        this.board = board;
+         this.board = board;
         this.content = content;
         this.setCreatedAt(LocalDateTime.now());
 
+    }
+
+    // 댓글 commentGroup 증가
+    public void changeGroup(int commentGroup){
+        this.commentGroup = commentGroup + 1;
     }
 
     public Comment(Board board, Comment parent, String content){
@@ -67,8 +71,5 @@ public class Comment extends BaseTime{
         this.setCreatedAt(LocalDateTime.now());
     }
 
-    public void changeGroup(int commentGroup){
-        this.commentGroup = commentGroup + 1;
-    }
 
 }

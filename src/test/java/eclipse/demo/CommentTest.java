@@ -38,7 +38,7 @@ public class CommentTest {
         em.persist(comment1);
 
 
-        List<Comment> comments = commentRepository.findComment(board.getId());
+        List<Comment> comments = commentRepository.findCommentAll(board.getId());
 
         for (Comment comment2 : comments) {
             comment2.getBoard().getTitle();
