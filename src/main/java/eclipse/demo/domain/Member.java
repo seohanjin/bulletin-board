@@ -32,6 +32,8 @@ public class Member extends BaseTime{
 
     private String userProfile;
 
+    private String role;
+
 //    @OneToMany(mappedBy = "member")
 //    private List<BoardLike> likes = new ArrayList<>();
 
@@ -56,14 +58,12 @@ public class Member extends BaseTime{
 
     }
 
-    public Member(String username, String password, String nickname, boolean enabled, UserRole... userRoles) {
+    public Member(String username, String password, String nickname, boolean enabled) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.enabled = enabled;
-        for (UserRole userRole : userRoles) {
-            addUserRole(userRole);
-        }
+        this.role = "USER_ROLE";
     }
 
     public void changeMember(String username, String password, String nickname){

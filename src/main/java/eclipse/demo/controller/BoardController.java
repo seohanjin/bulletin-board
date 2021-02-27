@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/new")
-    public String createBoard(BoardDto boardDto) throws IOException {
+    public String createBoard(BoardDto boardDto, HttpServletRequest request) throws IOException {
         Board board = new Board(boardDto.getTitle(), boardDto.getContent());
 
         boardService.saveBoard(board);

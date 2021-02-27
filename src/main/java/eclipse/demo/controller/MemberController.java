@@ -4,6 +4,8 @@ import eclipse.demo.domain.Member;
 import eclipse.demo.dto.MemberDto;
 import eclipse.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +19,13 @@ import javax.validation.Valid;
 
 
 @Controller
-@RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
@@ -35,7 +40,7 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/createMemberForm";
         }
-        memberService.join(new Member(form.getUsername(), form.getPassword(), form.getNickname(), true));
+            memberService.join(new Member(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getNickname(), true));
 
         return "redirect:/";
     }
@@ -46,22 +51,5 @@ public class MemberController {
         return "members/login";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-
-        return "redirect:/";
-    }
-
-//    @PostMapping("/members/login")
-//    public String loginTry(MemberDto loginForm, BindingResult result){
-//        Member member = new Member();
-//        member.setUserName(loginForm.getUserName());
-//        member.setPassword(loginForm.getPassword());
-//
-//        memberService.login(member);
-//
-//        return "redirect:/";
-//
-//    }
 
 }

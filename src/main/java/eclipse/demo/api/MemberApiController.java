@@ -3,18 +3,16 @@ package eclipse.demo.api;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Member;
-import eclipse.demo.repository.MemberRepository;
+import eclipse.demo.repository.UserRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.MemberService;
 import lombok.Data;
 import lombok.Getter;
-import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +22,7 @@ public class MemberApiController {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private MemberRepository memberRepository;
+    private UserRepository userRepository;
     @Autowired
     private BoardLikeService boardLikeService;
     @Autowired
