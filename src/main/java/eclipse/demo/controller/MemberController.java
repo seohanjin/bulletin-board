@@ -51,5 +51,14 @@ public class MemberController {
         return "members/login";
     }
 
+    @GetMapping("/members/profile")
+    public String proFile(){
+        return "members/profile";
+    }
+
+    @GetMapping("/members/edit_password")
+    public String edit_password(){
+        return "members/edit_password";
+    }
 
 }

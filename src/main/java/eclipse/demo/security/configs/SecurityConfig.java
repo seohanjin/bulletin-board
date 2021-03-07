@@ -29,14 +29,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/members/new").permitAll()
+                .antMatchers("/", "/members/new", "/members/**").permitAll()
                 .anyRequest().authenticated()
+
         .and()
                 .formLogin()
                 .loginPage("/members")
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+        .and()
+                .csrf().disable();
     }
 
     @Bean

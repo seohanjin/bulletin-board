@@ -10,20 +10,25 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 public class FileController {
 
     @Autowired
-    FilesService    filesService;
+    FilesService filesService;
 
     @Autowired
     ResourceLoader resourceLoader;
+
+
 
     @PostMapping("/upload")
     public String uploadFile(@RequestPart MultipartFile files) throws IOException {
@@ -94,6 +99,26 @@ public class FileController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    private final Path rootLocation;
+
+    public FileController(String uploadPath) {
+        this.rootLocation = Paths.get(uploadPath);
+    }
+
+    @PostMapping("/profile_image")
+    public String uploadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
+
+        System.out.println("gooooodododoo");
+
+        String originalFilename = file.getOriginalFilename();
+        System.out.println("originalName>>" + originalFilename);
+        File saveFile = new File(rootLocation.toString(), originalFilename);
+        FileCopyUtils.copy(file.getBytes(), saveFile);
+
+
+        return "redirect:/";
     }
 
 }

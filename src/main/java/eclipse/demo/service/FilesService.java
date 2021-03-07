@@ -3,6 +3,7 @@ package eclipse.demo.service;
 import eclipse.demo.domain.Files;
 import eclipse.demo.repository.FilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -39,13 +41,14 @@ public class FilesService {
     private final Path rootLocation;
 
     public FilesService(String uploadPath){
-        this.rootLocation =  Paths.get(uploadPath);
+        this.rootLocation = Paths.get(uploadPath);
         System.out.println("rootLocation>>" + rootLocation.toString());
     }
 
     @Transactional
     public Files store(MultipartFile file) throws Exception{
 
+        System.out.println("rootLocation>>" + rootLocation);
         try{
             if (file.isEmpty()){
                 throw new Exception("Failed to store empty file" + file.getOriginalFilename());

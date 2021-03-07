@@ -4,9 +4,11 @@ package eclipse.demo.controller;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Comment;
+import eclipse.demo.domain.Member;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.CommentRepository;
+import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class BoardController {
     private final CommentService commentService;
     private final BoardLikeService boardLikeService;
     private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/board/new")
     public String createForm(Model model) {
@@ -43,10 +46,17 @@ public class BoardController {
     }
 
     @PostMapping("/board/new")
-    public String createBoard(BoardDto boardDto, HttpServletRequest request) throws IOException {
+    public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto, HttpServletRequest request) throws IOException {
+        String username = member.getUsername();
+
+        Member findMember = memberRepository.findByUsername(username);
+
         Board board = new Board(boardDto.getTitle(), boardDto.getContent());
 
-        boardService.saveBoard(board);
+        Board board1 = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
+
+
+        boardService.saveBoard(board1);
         return "redirect:/";
     }
 
