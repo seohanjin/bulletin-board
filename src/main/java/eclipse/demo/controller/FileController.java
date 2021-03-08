@@ -107,18 +107,17 @@ public class FileController {
         this.rootLocation = Paths.get(uploadPath);
     }
 
-    @PostMapping("/profile_image")
-    public String uploadProfileImage(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/file/profile")
+    public ResponseEntity<?> profile_image(@RequestParam("file") MultipartFile file){
 
-        System.out.println("gooooodododoo");
-
-        String originalFilename = file.getOriginalFilename();
-        System.out.println("originalName>>" + originalFilename);
-        File saveFile = new File(rootLocation.toString(), originalFilename);
-        FileCopyUtils.copy(file.getBytes(), saveFile);
-
-
-        return "redirect:/";
+        try{
+            Files uploadFile = filesService.store(file);
+            System.out.println("PostMapping완료>>");
+            return ResponseEntity.ok().body("/image/" + uploadFile.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

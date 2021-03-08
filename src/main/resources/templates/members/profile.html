@@ -23,42 +23,59 @@
         <div style="padding:10px 0 0 30px;" class="col">
             <h3 style="font-weight: 900">계정관리</h3>
             <div class="card">
-<!--                <form>-->
-                    <div class="card-body">
-                        <p>프로필 이미지</p>
-                        <form th:action="@{/profile_image}" method="post" enctype="multipart/form-data">
-                            <input type="file" name="file"/>
-                            <input class="btn btn-primary btn-sm"  type="submit" value="업로드"/>
-                        </form>
-                        <br><br><br>
+
+                <div class="card-body">
+                    <p>프로필 이미지</p>
+                    <form id="uploadForm" method="post" enctype="multipart/form-data">
+                        <div>
+                            <a class="basic_profile">
+                                <img class="basic_profile" th:src="@{/img/basic_profile.png}" style="width:80px">
+                            </a>
+                        </div>
+                        <input type="file" name="file"/>
+                        <input id="btnSubmit" class="btn btn-primary btn-sm" type="submit" value="업로드"/>
+                    </form>
+                    <br><br>
+                    <form th:action="@{/members/update_profile}" th:object="${form}" method="post">
                         <div class="form-group">
                             <p>이름</p>
-                            <input class="form-control" value="서한진">
+                            <input class="form-control" th:value="${memberForm.username}" th:name="username">
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <p>비밀번호</p>
-                                    <input class="form-control" placeholder="변경하고자 하는 비밀번호를 입력해주세요">
-                                    <br>
-                                    <p>비밀번호 확인</p>
-                                    <input class="form-control" placeholder="비밀번호를 확인해 주세요">
-                                </div>
-                            </div>
-                        </div>
-                        <br>
                         <div class="form-group">
                             <p>이메일</p>
                             <input class="form-control" value="seohanjin@naver.com">
                         </div>
-                    </div>
-                    <input type="submit" class="btn btn-primary btn-sm" value="변경 사항 저장">
-<!--                </form>-->
-
+                        <div class="form-group">
+                            <p>닉네임</p>
+                            <input class="form-control" th:value="${memberForm.nickname}" th:name="nickname">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm" value="변경 사항 저장">변경사항 저장</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $("#btnSubmit").click(function(){
+        var form = $('#uploadForm')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: '/file/profile',
+            method: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false
+        }).success(function(){
+            alert("hhihi");
+        })
+    })
+
+
+
+</script>
 
 </body>
 </html>

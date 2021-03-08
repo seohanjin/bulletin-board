@@ -2,6 +2,7 @@ package eclipse.demo.service;
 
 
 import eclipse.demo.domain.Member;
+import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.repository.UserRepository;
 import eclipse.demo.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class MemberService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     // 회원가입
     @Transactional
@@ -51,9 +54,9 @@ public class MemberService {
 
     // 회원수정
     @Transactional
-    public void update(Long id, String username, String password, String nickname) {
+    public void update(Long id, String username, String nickname) {
         Member member = userRepository.findOne(id);
-        member.changeMember(username, password, nickname);
+        member.changeMember(username, nickname);
     }
 
     public List<Member> findAll(){
@@ -61,4 +64,8 @@ public class MemberService {
         return findMembers;
     }
 
+    @Transactional
+    public void edit_profile(Member member) {
+        memberRepository.save(member);
+    }
 }

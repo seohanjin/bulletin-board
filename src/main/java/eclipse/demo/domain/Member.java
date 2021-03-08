@@ -58,6 +58,7 @@ public class Member extends BaseTime{
 
     }
 
+
     public Member(String username, String password, String nickname, boolean enabled) {
         this.username = username;
         this.password = password;
@@ -66,9 +67,8 @@ public class Member extends BaseTime{
         this.role = "USER_ROLE";
     }
 
-    public void changeMember(String username, String password, String nickname){
+    public void changeMember(String username, String nickname){
         this.username = username;
-        this.password = password;
         this.nickname = nickname;
     }
 
