@@ -21,5 +21,8 @@ public class Files {
     private String filePath;
     private long size;
 
+    @OneToOne(mappedBy = "files")
+    private Member member;
+
 }
 

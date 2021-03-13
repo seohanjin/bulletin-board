@@ -41,10 +41,10 @@ public class MemberService {
         }
     }
 
-    public List<Member> findByName(String name){
-        List<Member> byName = userRepository.findByName(name);
+    public Member findByName(String name){
+        Member byUsername = memberRepository.findByUsername(name);
 
-        return byName;
+        return byUsername;
     }
 
     // 회원 한명 조회

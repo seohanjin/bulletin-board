@@ -2,7 +2,6 @@ package eclipse.demo.security.service;
 
 import eclipse.demo.domain.Member;
 import eclipse.demo.repository.MemberRepository;
-import eclipse.demo.security.provider.AccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

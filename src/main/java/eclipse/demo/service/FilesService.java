@@ -1,6 +1,7 @@
 package eclipse.demo.service;
 
 import eclipse.demo.domain.Files;
+import eclipse.demo.domain.Member;
 import eclipse.demo.repository.FilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,8 @@ public class FilesService {
 
     @Autowired
     FilesRepository filesRepository;
+    @Autowired
+    private MemberService memberService;
 
     @Transactional
     public void save(Files files){
@@ -103,5 +106,31 @@ public class FilesService {
     }
 
 
+    @Transactional
+    public Files upload_image(MultipartFile file, Member member) throws Exception {
+        System.out.println("rootLocation>>" + rootLocation);
+        try{
+            if (file.isEmpty()){
+                throw new Exception("Failed to store empty file" + file.getOriginalFilename());
+            }
 
+            // 1. 절대 경로 2. file 을 넘겨준다.(fileName을 바꾸기 위해)
+            String saveFileName = fileSave(rootLocation.toString(), file);
+            System.out.println("location.toString>>" + rootLocation.toString());
+            System.out.println("saveFileName>>" + saveFileName);
+
+            Files saveFile = new Files();
+            saveFile.setFilename(file.getOriginalFilename());
+            saveFile.setFileOriName(saveFileName);
+            saveFile.setContentType(file.getContentType());
+            saveFile.setSize(file.getResource().contentLength());
+            saveFile.setFilePath(rootLocation.toString().replace(File.separatorChar, '/') + '/' + saveFileName);
+            filesRepository.save(saveFile);
+            member.setFiles(saveFile);
+            return saveFile;
+
+        }catch (IOException e){
+            throw new Exception("Failed to store file" + file.getOriginalFilename(), e);
+        }
+    }
 }

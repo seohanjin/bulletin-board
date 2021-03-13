@@ -1,4 +1,4 @@
-package eclipse.demo.security.provider;
+package eclipse.demo.security.service;
 
 import eclipse.demo.domain.Member;
 import org.springframework.security.core.GrantedAuthority;

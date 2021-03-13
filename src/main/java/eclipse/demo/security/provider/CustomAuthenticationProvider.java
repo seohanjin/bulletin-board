@@ -1,5 +1,6 @@
 package eclipse.demo.security.provider;
 
+import eclipse.demo.security.service.AccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
