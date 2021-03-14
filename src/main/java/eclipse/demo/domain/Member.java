@@ -33,20 +33,21 @@ public class Member extends BaseTime{
     private String userProfile;
 
     private String role;
-
-
 //    @OneToMany(mappedBy = "member")
 //    private List<BoardLike> likes = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "file_id")
-    private Files files;
+//    @OneToOne
+//    @JoinColumn(name = "file_id")
+//    private Files files;
 
     private boolean enabled;
 
-    public void setFiles(Files files) {
-        this.files = files;
+    public void setUserProfile(String userProfile) {
+        this.userProfile = userProfile;
     }
+//    public void setFiles(Files files) {
+//        this.files = files;
+//    }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();

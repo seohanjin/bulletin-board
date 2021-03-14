@@ -89,6 +89,7 @@ public class FileController {
     public ResponseEntity<?> imageUpload(@RequestParam("file") MultipartFile file){
         try{
             Files uploadFile = filesService.store(file);
+
             System.out.println("PostMapping완료>>");
             return ResponseEntity.ok().body("/image/" + uploadFile.getId());
         }catch (Exception e){
@@ -101,8 +102,6 @@ public class FileController {
     public ResponseEntity<?> saveFile(@AuthenticationPrincipal Member member, @PathVariable Long fileId){
         System.out.println("GetMapping>>>");
         try{
-
-
             Files uploadFile = filesService.load(fileId);
             Resource resource = resourceLoader.getResource("file:" + uploadFile.getFilePath());
             System.out.println("resource>>" + resource);
@@ -113,46 +112,46 @@ public class FileController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/profile/{profileId}")
+    public ResponseEntity<?> findFile(@AuthenticationPrincipal Member member, @PathVariable Long profileId){
+        try{
+            Long memberId = member.getId();
+                Member findMember = memberService.findOne(memberId);
+
+            Resource resource = resourceLoader.getResource("file:" + rootLocation + "\\profile\\" + findMember.getUserProfile());
+            return ResponseEntity.ok().body(resource);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
     @PostMapping("/file/profile")
     public String profile_image(@AuthenticationPrincipal Member member, @RequestParam("file") MultipartFile file, Model model){
 
+        Long memberId = member.getId();
+        Member findMember = memberService.findOne(memberId);
         try{
-            Long memberId = member.getId();
-            Member findMember = memberService.findOne(memberId);
-//            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//            Member findMember = memberService.findByName(username);
-            filesService.upload_image(file, findMember);
-//
-//            System.out.println("PostMapping완료>>");
-//            Files findFile = filesService.load(uploadFile.getId());
-//            Resource resource = resourceLoader.getResource("file:" + findFile.getFilePath());
-//            System.out.println("file:>>" + resource);
-//            System.out.println("filePath:>>:" + member.getFiles().getFilePath());
+            if (findMember.getUserProfile() != null){
+                File delete_file = new File(rootLocation+"\\profile\\"+findMember.getUserProfile());
+                delete_file.delete();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        try{
+
+            filesService.upload_image(file, findMember);
             model.addAttribute("form", new MemberDto());
             model.addAttribute("memberForm", findMember);
 
             return "members/profile";
-//            return "redirect:/image_update";
         }catch (Exception e){
             e.printStackTrace();
             return "members/profile";
         }
-    }
-
-    @GetMapping("/image_update")
-    public String download_file(@AuthenticationPrincipal Member member, Model model){
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        Member findMember = memberService.findByName(username);
-        Long memberId = member.getId();
-        Member findMember = memberService.findOne(memberId);
-        String filePath = findMember.getFiles().getFilePath();
-        System.out.println(findMember.getFiles().getFilePath());
-        model.addAttribute("form", new MemberDto());
-        model.addAttribute("memberForm", findMember);
-        model.addAttribute("imagePath", findMember.getFiles().getFilePath());
-
-        return "members/profile";
     }
 
 

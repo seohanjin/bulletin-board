@@ -36,6 +36,11 @@ public class FilesService {
         filesRepository.save(f);
     }
 
+    @Transactional
+    public void delete_files(Files files){
+        filesRepository.delete(files);
+    }
+
     public Files findFile(Long id){
         Files files = filesRepository.findById(id).orElse(null);
         return files;
@@ -82,6 +87,7 @@ public class FilesService {
 
     @Transactional
     public String fileSave(String rootLocation, MultipartFile file) throws IOException{
+
         File uploadDir = new File(rootLocation);
         System.out.println("uploadDir>>" + uploadDir);
 
@@ -107,27 +113,27 @@ public class FilesService {
 
 
     @Transactional
-    public Files upload_image(MultipartFile file, Member member) throws Exception {
-        System.out.println("rootLocation>>" + rootLocation);
+    public void upload_image(MultipartFile file, Member member) throws Exception {
         try{
             if (file.isEmpty()){
                 throw new Exception("Failed to store empty file" + file.getOriginalFilename());
             }
+            String dir = rootLocation.toString()+"/profile";
 
-            // 1. 절대 경로 2. file 을 넘겨준다.(fileName을 바꾸기 위해)
-            String saveFileName = fileSave(rootLocation.toString(), file);
-            System.out.println("location.toString>>" + rootLocation.toString());
-            System.out.println("saveFileName>>" + saveFileName);
+            File uploadDir = new File(dir);
+            if (!uploadDir.exists()){
+                uploadDir.mkdirs();
+            }
 
-            Files saveFile = new Files();
-            saveFile.setFilename(file.getOriginalFilename());
-            saveFile.setFileOriName(saveFileName);
-            saveFile.setContentType(file.getContentType());
-            saveFile.setSize(file.getResource().contentLength());
-            saveFile.setFilePath(rootLocation.toString().replace(File.separatorChar, '/') + '/' + saveFileName);
-            filesRepository.save(saveFile);
-            member.setFiles(saveFile);
-            return saveFile;
+            UUID uuid = UUID.randomUUID();
+            String saveFileName = uuid.toString()+".jpg";
+
+            File saveFile = new File(dir, saveFileName);
+
+            FileCopyUtils.copy(file.getBytes(), saveFile);
+
+            member.setUserProfile(saveFileName);
+
 
         }catch (IOException e){
             throw new Exception("Failed to store file" + file.getOriginalFilename(), e);

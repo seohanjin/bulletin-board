@@ -31,12 +31,12 @@
                         <form id="uploadForm" method="post" enctype="multipart/form-data" th:action="@{/file/profile}" >
                             <div>
                                 <a class="basic_profile">
-                                    <img class="basic_profile" th:src="@{/image/1}" style="width:80px">
+                                    <img class="basic_profile" th:if="${memberForm.userProfile == null}" th:src="@{/img/basic_profile.png}"  style="width:80px">
+                                    <img class="basic_profile" th:if="${memberForm.userProfile != null}" th:src="@{/profile/{id} (id=${memberForm.id})} " style="width:80px" >
                                 </a>
                             </div>
                             <input type="file" name="file" />
                             <input id="btnSubmit" class="btn btn-primary btn-sm" type="submit" value="업로드" />
-                            <button id="downloadImage">이미지불러오기</button>
                         </form>
                         <br><br>
                         <form th:action="@{/members/update_profile}" th:object="${form}" method="post">
@@ -60,29 +60,6 @@
         </div>
     </div>
 
-    <script th:ineline="javascript">
-
-
-        /*<![CDATA[*/
-        var memberForm = "[[*{memberForm.id}]]";
-        /*]]*/
-        $("#downloadImage").click(function () {
-            var form = $('#uploadForm')[0];
-            var formData = new FormData(form);
-
-            $.ajax({
-                url: '/image/'+memberForm,
-                type: 'GET',
-                data: formData,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function (resource){
-                    alert(resource);
-                }
-            })
-        })
-    </script>
 
 </body>
 
