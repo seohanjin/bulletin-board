@@ -1,5 +1,6 @@
 package eclipse.demo.service;
 
+import eclipse.demo.domain.Member;
 import eclipse.demo.domain.Notification;
 import eclipse.demo.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
 
-    public List<Notification> findNoty(){
+    public List<Notification> findNotification(Member member){
         return notificationRepository.findAllByOrderByIdDesc();
     }
 

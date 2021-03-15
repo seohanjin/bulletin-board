@@ -1,6 +1,7 @@
 package eclipse.demo.service;
 
 
+import eclipse.demo.domain.Member;
 import eclipse.demo.domain.Notification;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
@@ -8,6 +9,7 @@ import eclipse.demo.repository.NotificationRepository;
 import eclipse.demo.repository.BoardRepository;
 import eclipse.demo.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +21,22 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final NotificationRepository notificationRepository;
+    private final MemberService memberService;
 
 
     // 첫번째 댓글
     @Transactional
-    public void save(Board board, String content) {
+    public void save(Member member, Board board, String content) {
+
+        Member findMember = memberService.findOne(member.getId());
+
         Integer commentGroup = commentRepository.findCommentGroup().orElse(0);
 
-        Comment comment = new Comment(board, content);
+        Comment comment = new Comment(findMember,board, content);
         comment.changeGroup(commentGroup);
 
 
-        Notification notification = new Notification(board, comment);
+        Notification notification = new Notification(member,board, comment);
         notification.changeBoardTitle(board.getTitle());
 
 
@@ -41,11 +47,11 @@ public class CommentService {
 
     // 대댓글 이상
     @Transactional
-    public void reSave(Board board, String content, Comment parent) {
+    public void reSave(Member member, Board board, String content, Comment parent) {
 
-        Comment comment = new Comment(board, parent, content);
+        Comment comment = new Comment(member, board, parent, content);
 
-        Notification notification = new Notification(board, comment);
+        Notification notification = new Notification(member, board, comment);
         notification.changeBoardTitle(board.getTitle());
 
         commentRepository.save(comment);

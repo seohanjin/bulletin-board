@@ -13,9 +13,10 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends BaseTime{
+public class Comment extends BaseTime {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
@@ -38,39 +39,34 @@ public class Comment extends BaseTime{
     @OneToMany(mappedBy = "comment")
     private List<Notification> notifications = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
 
     // 댓글
-    public Comment(Board board, String content) {
-         this.board = board;
+    public Comment(Member member, Board board, String content) {
+        this.member = member;
+        this.board = board;
         this.content = content;
         this.setCreatedAt(LocalDateTime.now());
 
     }
 
     // 댓글 commentGroup 증가
-    public void changeGroup(int commentGroup){
+    public void changeGroup(int commentGroup) {
         this.commentGroup = commentGroup + 1;
     }
 
-    public Comment(Board board, Comment parent, String content){
+    public Comment(Member member,Board board, Comment parent, String content) {
         this.board = board;
         this.commentGroup = parent.getCommentGroup();
-        this.commentSequence = parent.getCommentSequence()+1;
-        this.level = parent.getLevel()+1;
+        this.commentSequence = parent.getCommentSequence() + 1;
+        this.level = parent.getLevel() + 1;
         this.content = content;
 
     }
 
-    public Comment(Member member, Board board, String content){
-        this.member = member;
-        this.board = board;
-        this.content = content;
-        this.setCreatedAt(LocalDateTime.now());
-    }
 
 
 }

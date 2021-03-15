@@ -3,6 +3,13 @@ spring:
   prefix: classpath:/templates/
   suffix: .html
 
+
+  security:
+    user:
+      username: user
+      password: 1111
+
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/demo
     username: sa

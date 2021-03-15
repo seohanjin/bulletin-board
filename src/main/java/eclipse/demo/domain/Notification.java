@@ -34,9 +34,13 @@ public class Notification extends BaseTime{
     @Enumerated(EnumType.STRING)
     private NotificationType status;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
 
     // 댓글 알림
-    public Notification(Board board, Comment comment) {
+    public Notification(Member member,Board board, Comment comment) {
         this.board = board;
         this.comment = comment;
         this.setCreatedAt(LocalDateTime.now());
