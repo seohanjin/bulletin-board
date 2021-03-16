@@ -17,16 +17,16 @@ public class NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
 
-    public List<Notification> findNotification(Member member){
-        return notificationRepository.findAllByOrderByIdDesc();
+    public List<Notification> findNotification(Long memberId){
+        return notificationRepository.findAllByMemberIdOrderByIdDesc(memberId);
     }
 
     public Notification findOne(Long id){
         return notificationRepository.findById(id).orElse(null);
     }
 
-    public int unreadMessage(){
-        return notificationRepository.unreadMessage();
+    public List<Notification> unreadMessage(Long memberId){
+        return notificationRepository.unreadMessage(memberId);
     }
 
     // Confirm

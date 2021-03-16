@@ -1,12 +1,16 @@
 package eclipse.demo.api;
 
+import eclipse.demo.domain.Member;
 import eclipse.demo.domain.Notification;
+import eclipse.demo.service.MemberService;
 import eclipse.demo.service.NotificationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -15,22 +19,21 @@ import java.util.stream.Collectors;
 
 @RestController
 public class CommentApiController {
-
-
     @Autowired
     NotificationService notificationService;
 
-    @GetMapping("/alarm")
-    public List<AlarmDto> getComment(){
-//        List<Comment> allComment = commentService.findAllComment();
-//
-//        List<CommentDto> collect = allComment.stream().map(c -> new CommentDto(c)).collect(Collectors.toList());
+//    @Autowired
+//    MemberService memberService;
+//    @GetMapping("/alarm")
+//    public List<AlarmDto> getComment({
 
-        List<Notification> allNotification = notificationService.findNoty();
-        List<AlarmDto> collect = allNotification.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
+//        Member findMember = memberService.findOne(member.getId());
 
-        return collect;
-    }
+//        List<Notification> notification = notificationService.findNotification(findMember);
+//        List<AlarmDto> collect = notification.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
+
+//        return collect;/
+//    }
 
 
     @Data

@@ -41,6 +41,7 @@ public class Notification extends BaseTime{
 
     // 댓글 알림
     public Notification(Member member,Board board, Comment comment) {
+        this.member = member;
         this.board = board;
         this.comment = comment;
         this.setCreatedAt(LocalDateTime.now());
