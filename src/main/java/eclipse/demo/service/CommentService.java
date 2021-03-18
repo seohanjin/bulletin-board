@@ -36,12 +36,12 @@ public class CommentService {
         comment.changeGroup(commentGroup);
 
 
-        Notification notification = new Notification(member,board, comment);
-        notification.changeBoardTitle(board.getTitle());
+//        Notification notification = new Notification(member,board, comment);
+//        notification.changeBoardTitle(board.getTitle());
 
 
         commentRepository.save(comment);
-        notificationRepository.save(notification);
+//        notificationRepository.save(notification);
 
     }
 

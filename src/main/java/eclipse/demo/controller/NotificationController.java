@@ -27,12 +27,12 @@ public class NotificationController {
         Member findMember = memberService.findOne(member.getId());
 
         List<Notification> notifications = notificationService.findNotification(findMember.getId());
-        List<Notification> unreadCnt = notificationService.unreadMessage(findMember.getId());
-        System.out.println(">>countQuery>>" + unreadCnt.size());
+        Long aLong = notificationService.unreadMessage(findMember.getId());
+//        System.out.println(">>countQuery>>" + unreadCnt.size());
 
 
         model.addAttribute("notice", notifications);
-        model.addAttribute("unreadCnt", unreadCnt.size());
+        model.addAttribute("unreadCnt", aLong);
         return "/notification";
     }
 

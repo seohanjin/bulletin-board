@@ -7,10 +7,7 @@ import eclipse.demo.domain.Member;
 import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.CommentRepository;
-import eclipse.demo.service.BoardLikeService;
-import eclipse.demo.service.BoardService;
-import eclipse.demo.service.CommentService;
-import eclipse.demo.service.MemberService;
+import eclipse.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +28,7 @@ public class CommentController {
     private final BoardLikeService boardLikeService;
     private final CommentRepository commentRepository;
     private final MemberService memberService;
+    private final NotificationService notificationService;
 
     @GetMapping("/board/{boardId}/{commentId}")
     public String reComment(@PathVariable("boardId") Long boardId,
@@ -47,6 +45,7 @@ public class CommentController {
                                 @ModelAttribute("form") CommentDto commentDto) {
         Member findMember = memberService.findOne(member.getId());
         Board findBoard = boardService.findOne(boardId);
+        notificationService.save(findMember, findBoard, commentDto.getContent());
 
         commentService.save(findMember, findBoard, commentDto.getContent());
         return "redirect:/board/" + boardId + "/detail";

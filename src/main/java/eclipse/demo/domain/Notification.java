@@ -38,6 +38,9 @@ public class Notification extends BaseTime{
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private Long receive_member;
+
+
 
     // 댓글 알림
     public Notification(Member member,Board board, Comment comment) {
@@ -48,6 +51,28 @@ public class Notification extends BaseTime{
         this.status = NotificationType.COMMENT;
         this.confirmation = ReadNotification.YET;
         this.link = "/board/" + board.getId()+ "/detail";
+    }
+
+    // 댓글 알림
+    public Notification(Member member,Board board, String content) {
+        this.member = member;
+        this.board = board;
+        this.content = content;
+        this.setCreatedAt(LocalDateTime.now());
+        this.status = NotificationType.COMMENT;
+        this.confirmation = ReadNotification.YET;
+        this.link = "/board/" + board.getId()+ "/detail";
+    }
+
+    // 댓글 알림
+    public Notification(Board board, String content, Long receive_member) {
+        this.board = board;
+        this.content = content;
+        this.setCreatedAt(LocalDateTime.now());
+        this.status = NotificationType.COMMENT;
+        this.confirmation = ReadNotification.YET;
+        this.link = "/board/" + board.getId()+ "/detail";
+        this.receive_member = receive_member;
     }
 
 
