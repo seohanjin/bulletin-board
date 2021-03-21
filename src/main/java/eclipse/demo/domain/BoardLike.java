@@ -20,9 +20,9 @@ public class BoardLike {
 
     private int status;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -33,7 +33,8 @@ public class BoardLike {
 //        this.stats = 1;
 //    }
 
-    public BoardLike(int status, Board board){
+    public BoardLike(Member member, Board board,  int status){
+        this.member = member;
         this.status = status;
         this.board = board;
     }

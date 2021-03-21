@@ -134,7 +134,7 @@
         /*]]*/
 
 
-        $('.empty-heart').click(function () {
+        $('.empty-heart, .full-heart').click(function () {
             $.ajax({
                 url: '/like',
                 method: 'POST',
@@ -145,30 +145,37 @@
                     boardId: boardEx
 
                 }),
-                success: function (a) {
-                    $('.full-heart').css("display", "block", "background-color", "red");
-                    $('.empty-heart').css("display", "none");
+                success: function (response) {
+                    alert(response);
+                    if (response == "full") {
+                        $('.full-heart').css("display", "block", "background-color", "red");
+                        $('.empty-heart').css("display", "none");
+                    } else if (response == "empty") {
+                        $('.full-heart').css("display", "none", "background-color", "red");
+                        $('.empty-heart').css("display", "block");
+                    }
+
                 }
             });
         });
 
-        $('.full-heart').click(function () {
-            $.ajax({
-                url: '/like',
-                method: 'PUT',
-                dataType: 'json',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    status: 1,
-                    boardId: boardEx
+        // $('.full-heart').click(function () {
+        //     $.ajax({
+        //         url: '/like',
+        //         method: 'PUT',
+        //         dataType: 'json',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             status: 1,
+        //             boardId: boardEx
 
-                }),
-                success: function () {
-                    $('.full-heart').css("display", "none", "background-color", "red");
-                    $('.empty-heart').css("display", "block");
-                }
-            });
-        });
+        //         }),
+        //         success: function () {
+        // $('.full-heart').css("display", "none", "background-color", "red");
+        // $('.empty-heart').css("display", "block");
+        //         }
+        //     });
+        // });
 
 
         $.ajax({

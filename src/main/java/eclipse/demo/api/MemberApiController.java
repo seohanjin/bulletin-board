@@ -10,6 +10,8 @@ import eclipse.demo.service.MemberService;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -133,30 +135,31 @@ public class MemberApiController {
 
 //-------------------------------------------------------------------------------------
     @PostMapping("/like")
-    public CreateMemberResponse saveLIke(@RequestBody RequestLike requestLike) {
+    public String saveLIke(@AuthenticationPrincipal Member member, @RequestBody RequestLike requestLike) {
         Board board = boardService.findOne(requestLike.getBoardId());
-        BoardLike boardLike = boardLikeService.findAllById(board.getId());
-        // null 이다. --> 처음 하트를 누른 것이다.
-        if (boardLike == null) {
-            BoardLike saveBoardLike = new BoardLike(requestLike.getStatus(), board);
-            Long save = boardLikeService.save(saveBoardLike);
-            return new CreateMemberResponse(save);
+        Member findMember = memberService.findOne(member.getId());
+        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
+
+        // null --> 처음 하트를 누른 것이다.
+        if (boardLike == null || boardLike.getStatus() == 0) {
+            Long save = boardLikeService.save(findMember, board, 1);
+            return "full";
         }
-        // null이 아니다. --> 하트를 다시 누른 것으로 update실행
+        // 하트 on -> off
         else {
-            boardLike.setStatus(1);
-            Long save = boardLikeService.save(boardLike);
-            return new CreateMemberResponse(save);
+            Long save = boardLikeService.save(findMember, board, 0);
+            return "empty";
         }
 
     }
 
     @PutMapping("/like")
-    public UpdateLikeResponse updateBoardLike(@RequestBody RequestLike requestLike) {
+    public UpdateLikeResponse updateBoardLike(@AuthenticationPrincipal Member member, @RequestBody RequestLike requestLike) {
+        Member findMember = memberService.findOne(member.getId());
         Board board = boardService.findOne(requestLike.getBoardId());
-        BoardLike boardLike = boardLikeService.findAllById(board.getId());
+        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
         boardLike.setStatus(0);
-        boardLikeService.save(boardLike);
+        boardLikeService.update(boardLike);
 
         return new UpdateLikeResponse("ok");
     }
@@ -188,4 +191,12 @@ public class MemberApiController {
     }
 
 
+    @Data
+    private class ResponseLike {
+        String status;
+
+        public ResponseLike(String status){
+            this.status = status;
+        }
+    }
 }

@@ -12,6 +12,7 @@ import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
+import eclipse.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,7 @@ public class BoardController {
     private final BoardLikeService boardLikeService;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("/board/new")
     public String createForm(Model model) {
@@ -69,12 +71,13 @@ public class BoardController {
     }
 
     @GetMapping("/board/{boardId}/detail")
-    public String boardDetail(@PathVariable("boardId") Long boardId, Model model) {
+    public String boardDetail(@AuthenticationPrincipal Member member, @PathVariable("boardId") Long boardId, Model model) {
+        Member findMember = memberService.findOne(member.getId());
         Board board = boardService.findOne(boardId);
 
         List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
 
-        BoardLike boardLike = boardLikeService.findAllById(board.getId());
+        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
         if (boardLike == null || boardLike.getStatus() == 0) {
             System.out.println("boardliek..." + boardLike);
             model.addAttribute("boardLike", 0);

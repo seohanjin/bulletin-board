@@ -40,8 +40,8 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<BoardLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<BoardLike> likes = new ArrayList<>();
 
 //    @OneToOne
 //    @JoinColumn(name = "file_id")
