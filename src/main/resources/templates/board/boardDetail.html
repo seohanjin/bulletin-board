@@ -29,16 +29,16 @@
             <div>
                 <label style="height: 28%" th:utext="${boardDto.content}"></label>
             </div>
-            <div>
-                <a class="empty-heart" style="width:30px">
+            <div class="empty-heart" style="width:30px; white-space:nowrap;">
                     <img th:src="@{/img/empty-heart.png}" style="width:30px">
-                </a>
+                    <a>(<a th:text=*{likeCount}></a>)</a>
             </div>
-            <div>
-                <a class="full-heart" style="display:none">
-                    <img class="full-heart" th:src="@{/img/full-heart.png}" style="width:30px">
-                </a>
+            <div class="full-heart" style="display:none; white-space:nowrap;">
+                    <img th:src="@{/img/full-heart.png}" style="width:30px">
+                    <a>(<a th:text=*{likeCount}></a>)</a>
             </div>
+
+            <!-- <span>읽지 않은 알림<span th:text="*{unreadCnt}"></span></span> -->
             <br><br>
             <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
             <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
@@ -146,11 +146,11 @@
 
                 }),
                 success: function (response) {
-                    alert(response);
-                    if (response == "full") {
+                    alert(response.status);
+                    if (response.status == "full") {
                         $('.full-heart').css("display", "block", "background-color", "red");
                         $('.empty-heart').css("display", "none");
-                    } else if (response == "empty") {
+                    } else if (response.status == "empty") {
                         $('.full-heart').css("display", "none", "background-color", "red");
                         $('.empty-heart').css("display", "block");
                     }

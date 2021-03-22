@@ -32,11 +32,16 @@ public class BoardLikeService {
         return likeByBoardIdAndMemberId;
     }
 
-    @Transactional
-    public Long update(BoardLike boardLike){
-        BoardLike save = boardLikeRepository.save(boardLike);
+    public Long boardCount(Long boardId){
+        Long boardLike = boardLikeRepository.countByBoardId(boardId);
+        return boardLike;
+    }
 
-        return save.getId();
+    @Transactional
+    public void update(BoardLike boardLike, int status){
+        boardLike.setStatus(status);
+        boardLikeRepository.save(boardLike);
+
     }
 
 

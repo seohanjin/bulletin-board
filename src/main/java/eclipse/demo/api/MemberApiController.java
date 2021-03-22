@@ -135,34 +135,27 @@ public class MemberApiController {
 
 //-------------------------------------------------------------------------------------
     @PostMapping("/like")
-    public String saveLIke(@AuthenticationPrincipal Member member, @RequestBody RequestLike requestLike) {
+    public ResponseLike saveLIke(@AuthenticationPrincipal Member member, @RequestBody RequestLike requestLike) {
         Board board = boardService.findOne(requestLike.getBoardId());
         Member findMember = memberService.findOne(member.getId());
         BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
 
         // null --> 처음 하트를 누른 것이다.
-        if (boardLike == null || boardLike.getStatus() == 0) {
+        if (boardLike == null) {
             Long save = boardLikeService.save(findMember, board, 1);
-            return "full";
+            return new ResponseLike("full");
         }
         // 하트 on -> off
-        else {
-            Long save = boardLikeService.save(findMember, board, 0);
-            return "empty";
+        else if(boardLike.getStatus() == 0){
+            boardLikeService.update(boardLike, 1);
+            return new ResponseLike("full");
+        }else{
+            boardLikeService.update(boardLike, 0);
+            return new ResponseLike("empty");
         }
 
     }
 
-    @PutMapping("/like")
-    public UpdateLikeResponse updateBoardLike(@AuthenticationPrincipal Member member, @RequestBody RequestLike requestLike) {
-        Member findMember = memberService.findOne(member.getId());
-        Board board = boardService.findOne(requestLike.getBoardId());
-        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
-        boardLike.setStatus(0);
-        boardLikeService.update(boardLike);
-
-        return new UpdateLikeResponse("ok");
-    }
 
 
     @Data

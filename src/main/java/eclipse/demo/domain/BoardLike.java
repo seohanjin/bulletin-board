@@ -39,5 +39,9 @@ public class BoardLike {
         this.board = board;
     }
 
+    public void changeStatus(int status){
+        this.status = status;
+    }
+
     
 }

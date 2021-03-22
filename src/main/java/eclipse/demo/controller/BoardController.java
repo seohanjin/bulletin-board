@@ -78,6 +78,8 @@ public class BoardController {
         List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
 
         BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
+        Long likeCount = boardLikeService.boardCount(boardId);
+
         if (boardLike == null || boardLike.getStatus() == 0) {
             System.out.println("boardliek..." + boardLike);
             model.addAttribute("boardLike", 0);
@@ -90,6 +92,7 @@ public class BoardController {
 
         BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
 
+        model.addAttribute("likeCount", likeCount);
         model.addAttribute("sortComment", commentAll);
         model.addAttribute("form", new CommentDto());
         model.addAttribute("boardDto", boardDto);
