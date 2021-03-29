@@ -31,26 +31,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--                    <tr th:each="boardLists : ${boardList}">-->
-
-                    <!--                        <td th:text="${boardLists.id}"></td>-->
-                    <!--                        <td>ㅇㅇ</td>-->
-                    <!--                        <td class="text-left">-->
-                    <!--                            <a style="text-decoration:none; color:black;"-->
-                    <!--                                th:href="@{/board/{id}/detail (id=${boardLists.id})}" th:text="${boardLists.title}"></a>-->
-                    <!--                        </td>-->
-                    <!--                        <td th:if="${boardLists.updatedAt == null}"-->
-                    <!--                            th:text="${#temporals.format(boardLists.createdAt, 'MM.dd HH:mm')}">ㅇ</td>-->
-                    <!--                        <td th:if="${boardLists.updatedAt != null}"-->
-                    <!--                            th:text="${#temporals.format(boardLists.updatedAt, 'MM.dd HH:mm')}"></td>-->
-                    <!--                        <td th:text="${boardLists.viewCnt}">ㅇ</td>-->
-
-                    <!--                    </tr>-->
                     <tr th:each="lists : ${list}">
 
                         <td th:text="${lists.id}"></td>
                         <td th:text="${lists.member.nickname}">ㅇㅇ</td>
-                        <!-- <td>작성자..</td> -->
                         <td class="text-left">
                             <a style="text-decoration:none; color:black;"
                                 th:href="@{/board/{id}/detail (id=${lists.id})}" th:text="${lists.title}"></a>
@@ -68,38 +52,19 @@
         </div>
     </main>
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center" th:with="start=${T(Math).floor(list.number/10)*10 + 1},
-        last=(${start + 9 < list.totalPages ? start + 9 : list.totalPages})">
-            <li class="page-item">
-                <a class="page-link" th:href="@{/board/list(page=1)}" aria-label="First">
-                    <span aria-hidden="true">First</span>
-                </a>
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${startPage == list.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
             </li>
-            <li th:class="${list.first} ? 'disabled'">
-                <a class="page-link" th:href="${list.first} ? '#' :@{/board/list(page=${list.number})}"
-                    aria-label="Previous">
-                    <span aria-hidden="true">&lt;</span>
-                </a>
-            </li>
+            <li class="page-item" th:classappend="${num == list.pageable.pageNumber + 1} ? 'active'" th:each="num : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link" th:href="@{/board/list(page=${num-1})}" th:text="${num}">1</a></li>
 
-            <li th:each="page: ${#numbers.sequence(start, last)}"
-                th:class="${page == list.number + 1} ? 'page-item active'">
-                <a class="page-link" th:text="${page}" th:href="@{/board/list(page=${page})}"></a>
-            </li>
-
-            <li th:class="${list.last} ? 'disabled'">
-                <a class="page-link" th:href="${list.last} ? '#' : @{/board/list(page=${list.number + 2})}"
-                    aria-label="Next">
-                    <span aria-hidden="true">&gt;</span>
-                </a>
-            </li>
-            <li>
-                <a class="page-link" th:href="@{/board/list(page=${list.totalPages})}" aria-label="Last">
-                    <span aria-hidden="true">Last</span>
-                </a>
+            <li class="page-item" th:classappend="${endPage == list.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber + 1})}">Next</a>
             </li>
         </ul>
     </nav>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
