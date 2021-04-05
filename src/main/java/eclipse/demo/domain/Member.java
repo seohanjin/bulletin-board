@@ -1,6 +1,7 @@
 package eclipse.demo.domain;
 
 import eclipse.demo.domain.Authority.UserRole;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -43,18 +44,14 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member")
     private List<BoardLike> likes = new ArrayList<>();
 
-//    @OneToOne
-//    @JoinColumn(name = "file_id")
-//    private Files files;
+
 
     private boolean enabled;
 
     public void setUserProfile(String userProfile) {
         this.userProfile = userProfile;
     }
-//    public void setFiles(Files files) {
-//        this.files = files;
-//    }
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
@@ -67,11 +64,6 @@ public class Member extends BaseTime{
         this.enabled = enabled;
     }
 
-    public void addUserRole(UserRole userRole){
-        userRole.setMember(this);
-        userRoles.add(userRole);
-
-    }
 
 
     public Member(String username, String password, String nickname, boolean enabled) {
