@@ -2,6 +2,7 @@ package eclipse.demo.controller;
 
 import eclipse.demo.domain.SoupKitchen;
 import eclipse.demo.repository.SoupKitchenRepository;
+import eclipse.demo.service.SoupKitchenService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -10,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -17,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,6 +26,9 @@ public class SoupKitchenController {
 
     @Autowired
     SoupKitchenRepository soupKitchenRepository;
+
+    @Autowired
+    SoupKitchenService soupKitchenService;
 
     @PostMapping("/excel/read")
     public String readSoupKitchen(@RequestPart MultipartFile file) throws IOException {
@@ -76,12 +80,14 @@ public class SoupKitchenController {
 
     @PostMapping("/selectLocation")
     public String selectLocation(@RequestParam(name = "sido1", required = false) String sido,
-                               @RequestParam(name = "gugun1", required = false) String gungu){
+                                 @RequestParam(name = "gugun1", required = false) String gungu,
+                                 Model model){
 
-        System.out.println("시/도>>" + sido);
-        System.out.println("군/구>>" + gungu);
+        List<SoupKitchen> soupKitchen = soupKitchenService.findSoupKitchen(sido, gungu);
 
-        return "redirect:/";
+        model.addAttribute("sk", soupKitchen);
+
+        return "/board/editor";
     }
 
 

@@ -19,9 +19,9 @@ public class SoupKitchen {
 
     private String oldAddress;
 
-    private String SiDo;
+    private String siDo;
 
-    private String GunGu;
+    private String gunGu;
 
     private String operatingName;
 
@@ -42,6 +42,7 @@ public class SoupKitchen {
     private String Latitude;
 
     private String longitude;
+
 
 
 
