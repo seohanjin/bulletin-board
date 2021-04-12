@@ -39,7 +39,7 @@ public class SoupKitchen {
 
     private String endOperation;
 
-    private String Latitude;
+    private String latitude;
 
     private String longitude;
 

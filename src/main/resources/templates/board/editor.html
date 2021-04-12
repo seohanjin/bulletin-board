@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
@@ -23,37 +23,78 @@
     <title>Hello, world!</title>
 
 </head>
+
 <body>
 
-<div class="container" style="margin:100 auto; width: 1000;">
-    <br><br><br>
-    <h2 class="font-weight-bold">무료급식소</h2>
-    <br>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th style="width:20%" class="text-center">시설명</th>
-            <th style="width:25%" class="text-center">도로명주소</th>
-            <th style="width:10%">전화번호</th>
-            <th style="width:10%">급식대상</th>
-            <th style="width:10%">급식시간</th>
-            <th style="width:10%">급식요일</th>
-            <th style="width:10%">운영종료일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sk : ${sk}">
-            <td th:text="${sk.name}"></td>
-            <td th:text="${sk.newAddress}">ㅇㅇ</td>
-            <td th:text="${sk.phoneNumber}">ㅇ</td>
-            <td th:text="${sk.target}"></td>
-            <td th:text="${sk.time}">ㅇ</td>
-            <td th:text="${sk.DoW}">ㅇ</td>
-            <td th:text="${sk.endOperation}">ㅇ</td>
+    <div class="container" style="margin:100 auto; width: 1000;">
+        <br><br><br>
+        <h2 class="font-weight-bold">무료급식소</h2>
+        <br>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width:20%" class="text-center">시설명</th>
+                    <th style="width:25%" class="text-center">도로명주소</th>
+                    <th style="width:10%">전화번호</th>
+                    <th style="width:10%">급식대상</th>
+                    <th style="width:10%">급식시간</th>
+                    <th style="width:10%">급식요일</th>
+                    <th style="width:10%">운영종료일</th>
+                    <th style="width:10%">위치보기</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sk : ${sk}">
+                    <td th:text="${sk.name}"></td>
+                    <td th:text="${sk.newAddress}">ㅇㅇ</td>
+                    <td th:text="${sk.phoneNumber}">ㅇ</td>
+                    <td th:text="${sk.target}"></td>
+                    <td th:text="${sk.time}">ㅇ</td>
+                    <td th:text="${sk.DoW}">ㅇ</td>
+                    <td th:text="${sk.endOperation}">ㅇ</td>
+                    <td>
+                        <!--                <form th:action="@{/soupKitchen/map}" method="get">-->
+                        <!--                    <button class="btn btn-primary">지도</button>-->
+                        <!--                </form>-->
+                        <div id="map" style="width:300px;height:200px;"></div>
+                    </td>
+                    <script type="text/javascript"
+                        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e895d25e5ea4c59f4be111d92be75811"></script>
 
-        </tr>
-        </tbody>
-    </table>
-</div>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:inline="javascript">
+         // /*<![CDATA[*/
+        // var latitude = "[[*{sk.latitude}]]";
+        // var longitude = "[[*{sk.longitude}]]";
+        // /*]]*/
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(33, 126), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 마커가 표시될 위치입니다
+        var markerPosition = new kakao.maps.LatLng(33, 126);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+
+
+
+    </script>
+    
 </body>
+
 </html>
