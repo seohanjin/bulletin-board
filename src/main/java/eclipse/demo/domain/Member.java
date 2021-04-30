@@ -1,7 +1,6 @@
 package eclipse.demo.domain;
 
 import eclipse.demo.domain.Authority.UserRole;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

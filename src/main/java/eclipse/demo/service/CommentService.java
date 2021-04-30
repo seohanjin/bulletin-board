@@ -1,15 +1,14 @@
 package eclipse.demo.service;
 
 
-import eclipse.demo.domain.Member;
-import eclipse.demo.domain.Notification;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Comment;
-import eclipse.demo.repository.NotificationRepository;
+import eclipse.demo.domain.Member;
+import eclipse.demo.domain.Notification;
 import eclipse.demo.repository.BoardRepository;
 import eclipse.demo.repository.CommentRepository;
+import eclipse.demo.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,20 +27,15 @@ public class CommentService {
     @Transactional
     public void save(Member member, Board board, String content) {
 
-        Member findMember = memberService.findOne(member.getId());
-
         Integer commentGroup = commentRepository.findCommentGroup().orElse(0);
-
-        Comment comment = new Comment(findMember,board, content);
+        Comment comment = Comment.builder()
+                .member(member)
+                .board(board)
+                .content(content)
+                .build();
         comment.changeGroup(commentGroup);
-
-
-//        Notification notification = new Notification(member,board, comment);
-//        notification.changeBoardTitle(board.getTitle());
-
-
         commentRepository.save(comment);
-//        notificationRepository.save(notification);
+
 
     }
 
@@ -49,12 +43,18 @@ public class CommentService {
     @Transactional
     public void reSave(Member member, Board board, String content, Comment parent) {
 
-        Comment comment = new Comment(member, board, parent, content);
+        Comment re_comment = Comment.builder()
+                .member(member)
+                .board(board)
+                .commentGroup(parent.getCommentGroup())
+                .commentSequence(parent.getCommentSequence() + 1)
+                .level(parent.getLevel() + 1)
+                .content(content)
+                .build();
 
-        Notification notification = new Notification(member, board, comment);
+        Notification notification = new Notification(member, board, re_comment);
         notification.changeBoardTitle(board.getTitle());
-
-        commentRepository.save(comment);
+        commentRepository.save(re_comment);
         notificationRepository.save(notification);
     }
 

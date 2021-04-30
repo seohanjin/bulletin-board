@@ -28,10 +28,6 @@ public class BoardLike {
     @JoinColumn(name = "board_id")
     private Board board;
 
-//    public BoardLike(Board board){
-//        this.board = board;
-//        this.stats = 1;
-//    }
 
     public BoardLike(Member member, Board board,  int status){
         this.member = member;
