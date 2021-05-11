@@ -1,6 +1,7 @@
 package eclipse.demo.domain;
 
 import eclipse.demo.domain.Authority.UserRole;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,11 +19,8 @@ public class Member extends BaseTime{
     @Column(name="member_id")
     private Long id;
 
-    @OneToMany(mappedBy = "member")
-    private List<Board> boards = new ArrayList<>();
-
     // 실제이름
-    private String username;
+    private String email;
 
     // 패스워드
     private String password;
@@ -34,6 +32,25 @@ public class Member extends BaseTime{
 
     private String role;
 
+    private boolean enabled;
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
+
+    @Builder
+    public Member(String email, String password, String nickname, boolean enabled) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.enabled = enabled;
+        this.role = "USER_ROLE";
+    }
+
+    public void changeMember(String email, String nickname){
+        this.email = email;
+        this.nickname = nickname;
+    }
+
     @OneToMany(mappedBy = "member")
     private List<Notification> notifications = new ArrayList<>();
 
@@ -43,39 +60,12 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member")
     private List<BoardLike> likes = new ArrayList<>();
 
-
-
-    private boolean enabled;
-
     public void setUserProfile(String userProfile) {
         this.userProfile = userProfile;
     }
 
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
 
-
-    public Member(String username, String password, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.enabled = enabled;
-    }
-
-
-
-    public Member(String username, String password, String nickname, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.enabled = enabled;
-        this.role = "USER_ROLE";
-    }
-
-    public void changeMember(String username, String nickname){
-        this.username = username;
-        this.nickname = nickname;
-    }
 
 }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+    <title>회원가입 | 가화만사성</title>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav__logo">
+            <i class="fas fa-mug-hot"></i>
+            <a th:href="@{/}">가화만사성</a>
+        </div>
+        <ul class="nav__menu">
+            <li><a href="">공지사항</a></li>
+            <li><a href="">게시판</a></li>
+            <li><a href="">마켓</a></li>
+            <li><a href="">급식소 찾기</a></li>
+        </ul>
+        <ul class="nav__account">
+            <li><a href="">계정만들기</a></li>
+            <li><a href="">로그인</a></li>
+        </ul>
+        <a href="#" class="nav__toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </nav>
+    <!-- SignUp -->
+    <div class="signup">
+        <div class="input__section">
+            <a class="signup__title">가입하기</a>
+        </div>
+        <div class="input__section">
+            <div class="signup__exist_account">
+                <a class="exist__account">이미 사용 중인 계정이 있습니까?</a>
+                <a href="" class="login__link">가화만사성 계정으로 로그인하기</a>
+            </div>
+        </div>
+        <div class="input__section">
+            <div class="signup__social_login">
+                <form action="" class="login_button_to">
+                    <button class="social_login_to_Google">
+                        <i class="fab fa-google"></i>
+                        <a href="" class="social_login_btn_text">Google으로 계속하기</a>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="input__section">
+            <div class="signup__with_email">
+                <form action="/members/new" method="post" class="signup__form" th:object="${memberForm}">
+                    <div class="input__section">
+                        <label th:for="email">이메일</label>
+                        <input type="text" class="input__email" th:field="*{email}" placeholder="이메일" required>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
+                    <div class="input__section">
+                        <label th:for="password">비밀번호(소문자와 숫자 포함 최소 6자)</label>
+                        <input type="text" class="input__password" th:field="*{password}" placeholder="비밀번호" required>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
+                    <div class="input__section">
+                        <label th:for="password_confirm">비밀번호 확인</label>
+                        <input type="text" class="input__password_confirm" th:field="*{password_confirm}" placeholder="비밀번호 확인" required>
+                        <p th:if="${#fields.hasErrors('password_confirm')}" th:errors="*{password_confirm}"></p>
+                    </div>
+                    <div class="input__section">
+                        <label th:for="nickname" class="nickname">닉네임</label>
+                        <input type="text" class="input__nickname" th:field="*{nickname}" placeholder="닉네임" required>
+                        <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
+                    </div>
+                    <div class="input__section">
+                        <button class="signup__btn" type="submit">
+                            <a class="signup__text">계정 만들기</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="/js/main.js"></script>
+
+</html>

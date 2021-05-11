@@ -1,0 +1,385 @@
+@font-face {
+    font-family: 'twayair';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0%;
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-family: twayair;
+}
+
+ul {
+    list-style: none;
+}
+
+.fieldError {
+    border-color: #bd2130;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #263343;
+    padding: 8px 12px;
+}
+
+.nav__logo {
+    font-size: 24px;
+}
+
+.nav__logo i {
+    color: #d49466
+}
+
+.nav__menu {
+    display: flex;
+    list-style: none;
+    padding-left: 0%;
+}
+
+.nav__menu li {
+    padding: 8px 12px;
+}
+
+.nav__account {
+    display: flex;
+    list-style: none;
+}
+
+.nav__account li {
+    padding: 8px 12px;
+}
+
+.nav__toggleBtn {
+    display: none;
+    position: absolute;
+    right: 32px;
+    top: 13px;
+    color: #d49466;
+    font-size: 24px;
+}
+
+.nav__menu > li:hover {
+    background-color: #d49466;
+    border-radius: 5%;
+}
+
+
+table {
+    width:100%;
+    border-top: 4px solid  #cccccc;
+    border-collapse: collapse;
+}
+th, td {
+    border-bottom: 1px, solid #444444;
+    padding: 10px;
+}
+
+
+.boards {
+    display: flex;
+    justify-content: space-around;
+    padding: 150px 50px;
+}
+.board_info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+}
+
+.plus {
+    border: white;
+}
+
+.bulletin__name,
+.notice__name{
+    color: black;
+    font-size: 24px;
+}
+
+.board__bulletin, .board__notice {
+    width: 600px;
+}
+
+.signup {
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+}
+
+.input__section {
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup__title {
+    color:black;
+    font-size: 36px;
+}
+
+.exist__account {
+    color:black;
+}
+.login__link {
+    color: #87ace8;
+    text-decoration: underline;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.social_login_to_Google {
+    background-color: red;
+    border: black;
+    height: 40px;
+    width: 300px;
+    border-radius:  5px;
+    position: relative;
+}
+.social_login_to_Google > i {
+    font-size: 20px;
+    position: absolute;
+    color:white;
+    top: 10.5px;
+    left: 12px;
+}
+
+.social_login_btn_text {
+    font-size: 16px;
+    margin: 35px;
+}
+
+.signup__form{
+    display: flex;
+    flex-direction: column;
+}
+
+.input__section > label {
+    font-family: twayair;
+    padding-bottom: 8px;
+}
+
+.input__section > input {
+    border: #c4c4c4 1px solid;
+    height: 27px;
+    width: 300px;
+}
+
+.signup__btn {
+    border: none;
+    border-radius: 5px;
+    background-color: skyblue;
+    height: 40px;
+    align-items: center;
+}
+
+.signup__btn:hover{
+    background-color: #3255d1;
+}
+
+.signup__text {
+    font-size: 18px;
+}
+
+.board_list {
+    padding: 100px 300px;
+}
+
+.board_list__headerAndSearch {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 60px;
+}
+
+.board_list__header {
+    font-size: 40px;
+    color:black;
+}
+
+.board_search {
+    font-size: 24px;
+}
+
+.board_search .board_list__search {
+    width: 250px;
+    height: 20px;
+}
+
+.board_search .search_btn,
+.board_search > i {
+    color:black;
+    font-size: 20px;
+
+}
+
+.li__thumbnail > img{
+    width: 60px;
+    height: 50px;
+    padding-right: 15px;
+}
+
+.board_list_li {
+    display: flex;
+}
+
+.board_list_li .li__heart {
+    display: flex;
+    flex-direction: column;
+    padding-right: 15px;
+    margin-top: 10px;
+}
+
+.li__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info__titleAndcomment_cnt .info__title,
+.info__titleAndcomment_cnt .info__comment_cnt {
+    font-size: 18px;
+    color: black;
+    font-family: twayair;
+    text-decoration: underline;
+}
+
+.info__dateAndnickname .__date, .__nickname{
+    color: black;
+    font-family: "돋움";
+    font-size: 13px;
+    
+}
+
+.board_form {
+    padding: 100px 300px;
+}
+
+.board_form__header {
+    color: black;
+    font-size: 32px;
+}
+
+.board_form_title {
+    padding-top: 60px;
+}
+
+.title__text {
+    color: black;
+    font-size: 25px;
+    padding-right: 20px;
+}
+
+.board_form_title .__title {
+    height: 30px;
+    width: 400px;
+    border-radius: 5%;
+    border: #b3b3b3 1px solid;
+}
+
+.board_form_content {
+    padding-top: 30px;
+}
+
+.board_form_content .content__text {
+    color:black;
+    font-size: 25px;
+}
+
+
+
+
+@media screen and (max-width: 768px){
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav__menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav__menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav__account {
+        display: none;
+        padding-left: 0%;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav__toggleBtn {
+        display: block;
+    }
+
+    .nav__menu.active,
+    .nav__account.active {
+        display: flex;
+    }
+
+    .boards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .board__bulletin, .board__notice {
+        width: 470px;
+        font-size: 12px;
+        padding-bottom: 50px;
+    }
+
+    .signup__exist_account {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .board_list__headerAndSearch {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board_list {
+        padding: 100px 100px;
+    }
+
+    .board_list__headerAndSearch .board_list__header {
+        padding-bottom: 20px;
+    }
+
+    .board_search > i {
+        padding-left: 10px;
+    }
+    
+    .board_list__headerAndSearch .board_search {
+        display: flex
+    }
+
+    .board_search .board_list__search {
+        width: 200px;
+        height: 20px;
+    }
+
+    .board_form {
+        padding: 100px 100px;
+    }
+
+    .board_form_title .__title {
+        height: 30px;
+        width: 200px;
+        border-radius: 5%;
+        border: #b3b3b3 1px solid;
+    }
+}

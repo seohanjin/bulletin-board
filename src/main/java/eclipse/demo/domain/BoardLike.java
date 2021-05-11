@@ -15,7 +15,7 @@ public class BoardLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "boardLike_id")
+    @Column(name = "board_like_id")
     private Long id;
 
     private int status;

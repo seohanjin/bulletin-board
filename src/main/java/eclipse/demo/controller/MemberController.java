@@ -1,6 +1,5 @@
 package eclipse.demo.controller;
 
-import eclipse.demo.domain.Files;
 import eclipse.demo.domain.Member;
 import eclipse.demo.dto.MemberDto;
 import eclipse.demo.service.FilesService;
@@ -13,41 +12,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import javax.validation.Valid;
 
 
 @Controller
+@RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private FilesService filesService;
+    private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
+    private final FilesService filesService;
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberDto());
-        return "members/createMemberForm";
+        return "members/signUpMember";
     }
 
 
     @PostMapping("/members/new")
-    public String create(@Valid MemberDto form, BindingResult result) {
+    public String create(@Valid @ModelAttribute("memberForm") MemberDto form, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "members/createMemberForm";
+            return "members/signUpMember";
         }
-            memberService.join(new Member(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getNickname(), true));
+            memberService.join(new Member(form.getEmail(), passwordEncoder.encode(form.getPassword()), form.getNickname(), true));
 
-        return "redirect:/";
+        return "redirect:/members";
     }
 
     @GetMapping("/members")
@@ -74,7 +68,7 @@ public class MemberController {
     @PostMapping("/members/update_profile")
     public String update_profile(@AuthenticationPrincipal Member member, MemberDto form) throws Exception {
 
-        memberService.update(member.getId(),form.getUsername(),form.getNickname());
+        memberService.update(member.getId(),form.getEmail(),form.getNickname());
 
         return "redirect:/";
     }

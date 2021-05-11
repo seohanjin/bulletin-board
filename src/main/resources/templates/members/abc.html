@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<style>
+ .fieldError {
+ border-color: #bd2130;
+ }
+ .btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,0.2);
+}
+.btn-google{
+    color: #fff;
+    background-color: #DD4B39;
+    border-color: rgba(0,0,0,0.2);
+}
+
+</style>
+
+
+<body>
+<main>
+    <div class="card bg-light" style="margin:15 auto; width: 700;">
+        <article class="card-body mx-auto" style="width: auto;">
+            <h3 style="line-height: 50px; font-weight: 700;"
+                class="card-title mt-3 text-center font-weight-bold text-body">회원가입</h3>
+            <p>
+                <a href="#" class="btn btn-block btn btn-google "> <i class="fab fa-google"></i> Google으로 계속하기</a>
+                <a href="#" class="btn btn-block btn-facebook "> <i class="fab fa-facebook-f"></i> Facebook으로
+                    계속하기</a>
+            </p>
+            <p class="text-center">
+                <br>
+                <span class="text-secondary font-weight-bold"
+                      style="font-size:3mm;">______________ 또는______________</span>
+                <br>
+                <br>
+            </p>
+            <form role="form" name="form1" style="width: 350;" th:action="@{/members/new}" th:object="${memberForm}" method="post">
+                <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">아이디</label>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="username" style="width: 200px;" placeholder="아이디" type="text"
+                           th:field="*{username}"
+                           th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+                    <!--                    <input type="button" class="myButton" id="temp" value="중복체크">-->
+                </div> <!-- form-group// -->
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('username')}"
+                   th:errors="*{username}">Incorrect date</p>
+                <!-- <span class="id_input_re_1">사용 가능한 아이디 입니다.</span>
+                <span class="id_input_re_2">아이디가 이미 존재합니다.</span> -->
+                <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">비밀번호</label>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input id="password1" name="password" placeholder="비밀번호" type="password"
+                           th:field="*{password}"
+                           th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+                </div> <!-- form-group// -->
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}">Incorrect date</p>
+                <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">비밀번호 확인</label>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input id="password2" class="form-control" placeholder="비밀번호 확인" type="password">
+                </div> <!-- form-group// -->
+                <!-- <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p> -->
+                <label style="font-size: 14px; line-height: 20px; font-weight: 400; margin-bottom: 2;">닉네임</label>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-user-circle"></i></span>
+                    </div>
+                    <input name="" placeholder="닉네임" type="text" th:field="*{nickname}"
+                           th:class="${#fields.hasErrors('nickname')}? 'form-control fieldError' : 'form-control'">
+                </div> <!-- form-group// -->
+                <p style="color: #bd2130; font-size: small;" th:if="${#fields.hasErrors('nickname')}"
+                   th:errors="*{nickname}">Incorrect date</p>
+                <!--                <div class="form-group input-group">-->
+                <!--                    <div class="input-group-prepend">-->
+                <!--                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>-->
+                <!--                    </div>-->
+                <!--                    <input name="" class="form-control" placeholder="이메일" type="email" th:field="*{email}">-->
+                <!--                </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+                <!--                <div class="form-group input-group">-->
+                <!--                    <div class="input-group-prepend">-->
+                <!--                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>-->
+                <!--                    </div>-->
+                <!--                    <input name="" class="form-control" placeholder="휴대전화 (' - ' 없이)" type="tel" th:field="*{phoneNumber}" >-->
+
+                <!--                </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+                <!--                <div class="form-group input-group">-->
+                <!--                    <div class="input-group-prepend">-->
+                <!--                        <span class="input-group-text"> <i class="fas fa-birthday-cake"></i> </span>-->
+                <!--                    </div>-->
+                <!--                    <input class="form-control" placeholder="생년월일 (8자)" th:field="*{birthday}">-->
+                <!--                </div>-->
+                <!--&lt;!&ndash;                <div class="form-group input-group">&ndash;&gt;-->
+                <!--                    <div class="input-group-prepend">-->
+                <!--                        <span class="input-group-text"> <i class="fas fa-check"></i> </span>-->
+                <!--                    </div>-->
+                <!--                    <select  class="custom-select" style="max-width: 120px;">-->
+                <!--                        <option>남자</option>-->
+                <!--                        <option>여자</option>-->
+                <!--                        <option>선택안함</option>-->
+                <!--                    </select>-->
+                <!--                </div>-->
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" onclick="callByAjax()"> Create Account
+                    </button>
+                </div> <!-- form-group// -->
+                <p style="font-size: 14px; line-height: 20px; font-weight: 400;" class="text-center text-secondary">이미
+                    계정이 있으신가요? <a href="#" class="font-weight-bold">로그인하기></a></p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+</main>
+
+</div>
+</div>
+
+<script>
+
+
+</script>
+</body>
+
+</html>

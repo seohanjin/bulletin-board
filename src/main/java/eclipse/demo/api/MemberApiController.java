@@ -68,18 +68,10 @@ public class MemberApiController {
 
         public MemberDto(Member member) {
             this.id = member.getId();
-            this.username = member.getUsername();
+            this.username = member.getEmail();
             this.password = member.getPassword();
             this.nickname = member.getNickname();
         }
-    }
-
-
-    @PostMapping("/api/members")
-    public CreateMemberResponse saveMember(@RequestBody @Valid CreateMemberRequest request) {
-        Member member = new Member(request.getUsername(), request.getPassword(), request.getNickname());
-        Long id = memberService.join(member);
-        return new CreateMemberResponse(id);
     }
 
     @PutMapping("/api/members/{id}")
@@ -111,7 +103,7 @@ public class MemberApiController {
 
         public UpdateMemberResponse(Member member) {
             this.id = member.getId();
-            this.username = member.getUsername();
+            this.username = member.getEmail();
             this.password = member.getPassword();
             this.nickname = member.getNickname();
         }

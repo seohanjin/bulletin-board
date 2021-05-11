@@ -1,6 +1,7 @@
 package eclipse.demo.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,22 +40,20 @@ public class Board extends BaseTime {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-
-
-
+    @Builder
     public Board(Member member, String title, String content) {
         this.member = member;
         this.title = title;
         this.content = content;
         this.setCreatedAt(LocalDateTime.now());
+        member.getBoards().add(this);
     }
 
-    // 생성자 메서드
-    public Board(String title, String content) {
-        this.title = title;
-        this.content = content;
-        this.setCreatedAt(LocalDateTime.now());
-    }
+//    public Board(String title, String content) {
+//        this.title = title;
+//        this.content = content;
+//        this.setCreatedAt(LocalDateTime.now());
+//    }
 
     public void changeBoard(String title, String content) {
         this.title = title;

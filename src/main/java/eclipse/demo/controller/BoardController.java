@@ -14,11 +14,8 @@ import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import eclipse.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -51,17 +45,13 @@ public class BoardController {
     }
 
     @PostMapping("/board/new")
-    public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto, HttpServletRequest request) throws IOException {
-        String username = member.getUsername();
+    public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto){
 
-        Member findMember = memberRepository.findByUsername(username);
-
-        Board board = new Board(boardDto.getTitle(), boardDto.getContent());
-
+        String username = member.getEmail();
+        Member findMember = memberRepository.findByEmail(username);
         Board board1 = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
-
-
         boardService.saveBoard(board1);
+
         return "redirect:/";
     }
 

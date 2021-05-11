@@ -3,10 +3,9 @@ package eclipse.demo.service;
 
 import eclipse.demo.domain.Member;
 import eclipse.demo.repository.MemberRepository;
-import eclipse.demo.repository.UserRepository;
 import eclipse.demo.repository.RoleRepository;
+import eclipse.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private MemberRepository memberRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final MemberRepository memberRepository;
 
     // 회원가입
     @Transactional
@@ -35,14 +31,14 @@ public class MemberService {
 
     // 중복회원 검사
     private void validateDuplicateMember(Member member){
-        List<Member> findMembers = userRepository.findByName(member.getUsername());
+        List<Member> findMembers = userRepository.findByName(member.getEmail());
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
 
     public Member findByName(String name){
-        Member byUsername = memberRepository.findByUsername(name);
+        Member byUsername = memberRepository.findByEmail(name);
 
         return byUsername;
     }
