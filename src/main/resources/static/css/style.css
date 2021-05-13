@@ -18,9 +18,15 @@ ul {
     list-style: none;
 }
 
-.fieldError {
-    border-color: #bd2130;
+
+.input__fieldError{
+    color: #dc3545;
+    margin: 0px;
+    margin-top: 4px;
+    font-size: 12.8px;
+    width: 320px;
 }
+
 
 .navbar {
     display: flex;
@@ -168,10 +174,35 @@ th, td {
     padding-bottom: 8px;
 }
 
-.input__section > input {
-    border: #c4c4c4 1px solid;
-    height: 27px;
-    width: 300px;
+.signup__input {
+    border: #c4c4c4 2px solid;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: twayair;
+
+}
+
+.signup__input:hover {
+    border: #007bff 2px solid;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: twayair;
+
+}
+
+.signup__input:focus {
+    outline-color: #007bff;
+    border: 2px;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: twayair;
+
 }
 
 .signup__btn {

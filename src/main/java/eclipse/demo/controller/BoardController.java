@@ -47,8 +47,8 @@ public class BoardController {
     @PostMapping("/board/new")
     public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto){
 
-        String username = member.getEmail();
-        Member findMember = memberRepository.findByEmail(username);
+        String username = member.getUsername();
+        Member findMember = memberRepository.findByUsername(username);
         Board board1 = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
         boardService.saveBoard(board1);
 

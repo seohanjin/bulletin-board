@@ -68,7 +68,7 @@ public class MemberApiController {
 
         public MemberDto(Member member) {
             this.id = member.getId();
-            this.username = member.getEmail();
+            this.username = member.getUsername();
             this.password = member.getPassword();
             this.nickname = member.getNickname();
         }
@@ -103,7 +103,7 @@ public class MemberApiController {
 
         public UpdateMemberResponse(Member member) {
             this.id = member.getId();
-            this.username = member.getEmail();
+            this.username = member.getUsername();
             this.password = member.getPassword();
             this.nickname = member.getNickname();
         }

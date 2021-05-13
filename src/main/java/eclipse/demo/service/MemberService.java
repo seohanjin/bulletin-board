@@ -2,6 +2,7 @@ package eclipse.demo.service;
 
 
 import eclipse.demo.domain.Member;
+import eclipse.demo.exception.CustomExceptionHandler;
 import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.repository.RoleRepository;
 import eclipse.demo.repository.UserRepository;
@@ -23,22 +24,25 @@ public class MemberService {
 
     // 회원가입
     @Transactional
-    public Long join(Member member){
+    public Long join(Member member) {
+
         validateDuplicateMember(member);
         userRepository.save(member);
+
         return member.getId();
     }
 
     // 중복회원 검사
     private void validateDuplicateMember(Member member){
-        List<Member> findMembers = userRepository.findByName(member.getEmail());
+        List<Member> findMembers = userRepository.findByName(member.getUsername());
         if(!findMembers.isEmpty()){
+//            throw new CustomExceptionHandler("이미 존재하는 회원입니다.");
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
 
     public Member findByName(String name){
-        Member byUsername = memberRepository.findByEmail(name);
+        Member byUsername = memberRepository.findByUsername(name);
 
         return byUsername;
     }

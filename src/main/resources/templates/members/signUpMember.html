@@ -57,24 +57,24 @@
             <div class="signup__with_email">
                 <form action="/members/new" method="post" class="signup__form" th:object="${memberForm}">
                     <div class="input__section">
-                        <label th:for="email">이메일</label>
-                        <input type="text" class="input__email" th:field="*{email}" placeholder="이메일" required>
-                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                        <label th:for="username">이메일</label>
+                        <input type="text" class="signup__input" th:field="*{username}" placeholder="이메일" required>
+                        <p class="input__fieldError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                     </div>
                     <div class="input__section">
                         <label th:for="password">비밀번호(소문자와 숫자 포함 최소 6자)</label>
-                        <input type="text" class="input__password" th:field="*{password}" placeholder="비밀번호" required>
-                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                        <input type="text" class="signup__input" th:field="*{password}" placeholder="비밀번호" required>
+                        <p class="input__fieldError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
                     <div class="input__section">
                         <label th:for="password_confirm">비밀번호 확인</label>
-                        <input type="text" class="input__password_confirm" th:field="*{password_confirm}" placeholder="비밀번호 확인" required>
-                        <p th:if="${#fields.hasErrors('password_confirm')}" th:errors="*{password_confirm}"></p>
+                        <input type="text" class="signup__input" th:field="*{password_confirm}" placeholder="비밀번호 확인" required>
+                        <p class="input__fieldError" th:if="${#fields.hasErrors('password_confirm')}" th:errors="*{password_confirm}"></p>
                     </div>
                     <div class="input__section">
                         <label th:for="nickname" class="nickname">닉네임</label>
-                        <input type="text" class="input__nickname" th:field="*{nickname}" placeholder="닉네임" required>
-                        <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
+                        <input type="text" class="signup__input" th:field="*{nickname}" placeholder="닉네임" required>
+                        <p class="input__fieldError" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
                     </div>
                     <div class="input__section">
                         <button class="signup__btn" type="submit">

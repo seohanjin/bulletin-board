@@ -2,10 +2,11 @@ package eclipse.demo.controller;
 
 import eclipse.demo.domain.Member;
 import eclipse.demo.dto.MemberDto;
+import eclipse.demo.exception.ControllerException;
+import eclipse.demo.exception.CustomExceptionHandler;
 import eclipse.demo.service.FilesService;
 import eclipse.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,12 +35,17 @@ public class MemberController {
 
 
     @PostMapping("/members/new")
-    public String create(@Valid @ModelAttribute("memberForm") MemberDto form, BindingResult result) {
+    public String create(@Valid @ModelAttribute("memberForm") MemberDto form, BindingResult result) throws ControllerException {
 
         if (result.hasErrors()) {
             return "members/signUpMember";
         }
-            memberService.join(new Member(form.getEmail(), passwordEncoder.encode(form.getPassword()), form.getNickname(), true));
+
+        if (form.getPassword() == form.getPassword_confirm()){
+            throw new ControllerException("비밀번호가 중복입니다.");
+        }
+
+        memberService.join(new Member(form.getUsername(), passwordEncoder.encode(form.getPassword()), form.getNickname(), true));
 
         return "redirect:/members";
     }
@@ -68,7 +74,7 @@ public class MemberController {
     @PostMapping("/members/update_profile")
     public String update_profile(@AuthenticationPrincipal Member member, MemberDto form) throws Exception {
 
-        memberService.update(member.getId(),form.getEmail(),form.getNickname());
+        memberService.update(member.getId(),form.getUsername(),form.getNickname());
 
         return "redirect:/";
     }

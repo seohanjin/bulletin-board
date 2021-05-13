@@ -20,7 +20,7 @@ public class Member extends BaseTime{
     private Long id;
 
     // 실제이름
-    private String email;
+    private String username;
 
     // 패스워드
     private String password;
@@ -39,7 +39,7 @@ public class Member extends BaseTime{
 
     @Builder
     public Member(String email, String password, String nickname, boolean enabled) {
-        this.email = email;
+        this.username = email;
         this.password = password;
         this.nickname = nickname;
         this.enabled = enabled;
@@ -47,7 +47,7 @@ public class Member extends BaseTime{
     }
 
     public void changeMember(String email, String nickname){
-        this.email = email;
+        this.username = email;
         this.nickname = nickname;
     }
 
