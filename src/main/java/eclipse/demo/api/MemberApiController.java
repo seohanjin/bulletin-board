@@ -3,14 +3,10 @@ package eclipse.demo.api;
 import eclipse.demo.domain.Board;
 import eclipse.demo.domain.BoardLike;
 import eclipse.demo.domain.Member;
-import eclipse.demo.repository.UserRepository;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.MemberService;
-import lombok.Data;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,24 +15,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberApiController {
 
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BoardLikeService boardLikeService;
-    @Autowired
-    private BoardService boardService;
+    private final MemberService memberService;
+    private final BoardLikeService boardLikeService;
+    private final BoardService boardService;
 
+    @PostMapping("/member/duplicate")
+    public ValidDuplicateResponse  validDuplicate(@RequestBody ValidDuplicateRequest validDuplicateRequest) {
 
-    //        List<MemberDto> memberDtos = new ArrayList<>();
-//
-//        for (Member findMember : findMembers) {
-//            memberDtos.add(new MemberDto(findMember));
-//        }
-//        return new Result(memberDtos.size(), memberDtos);
+        List<Member> findMembers = memberService.findAllByUsername(validDuplicateRequest.getEmail());
+
+        if (!findMembers.isEmpty()){
+            return new ValidDuplicateResponse("duplicate");
+        }else {
+            return new ValidDuplicateResponse("approval");
+        }
+    }
+
+    @Data
+    static class ValidDuplicateRequest {
+        private String email;
+    }
+
+    @Data
+    static class ValidDuplicateResponse {
+        private String status;
+
+        public ValidDuplicateResponse(String status) {
+            this.status = status;
+        }
+    }
+
 
 
     @GetMapping("/api/members")

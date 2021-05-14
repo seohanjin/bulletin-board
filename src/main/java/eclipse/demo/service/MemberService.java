@@ -2,12 +2,10 @@ package eclipse.demo.service;
 
 
 import eclipse.demo.domain.Member;
-import eclipse.demo.exception.CustomExceptionHandler;
 import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.repository.RoleRepository;
 import eclipse.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,20 +24,16 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
 
-        validateDuplicateMember(member);
+//        validateDuplicateMember(member);
         userRepository.save(member);
 
         return member.getId();
     }
 
-    // 중복회원 검사
-    private void validateDuplicateMember(Member member){
-        List<Member> findMembers = userRepository.findByName(member.getUsername());
-        if(!findMembers.isEmpty()){
-//            throw new CustomExceptionHandler("이미 존재하는 회원입니다.");
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
+    public List<Member> findAllByUsername(String username){
+        return memberRepository.findAllByUsername(username);
     }
+
 
     public Member findByName(String name){
         Member byUsername = memberRepository.findByUsername(name);
