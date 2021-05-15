@@ -188,21 +188,6 @@ th, td {
     justify-content: center;
 }
 
-.valid_duplicate_1 {
-    color: green;
-    display: none;
-    margin: 0px;
-    padding-top: 5px;
-    font-size: 12px;
-}
-
-.valid_duplicate_2 {
-    color: #dc3545;
-    display: none;
-    margin: 0px;
-    padding-top: 5px;
-    font-size: 12px;
-}
 
 .signup__form{
     display: flex;
@@ -214,11 +199,6 @@ th, td {
     padding-bottom: 8px;
 }
 
-.input_email {
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
-}
 
 .input_email > input {
     border: #c4c4c4 2px solid;
@@ -238,34 +218,6 @@ th, td {
     font-family: "굴림";
 
 }
-
-.signup__input__email {
-    border: #c4c4c4 2px solid;
-    height: 40px;
-    width: 250px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-}
-
-.signup__input__email:hover {
-    border: #007bff 2px solid;
-    height: 40px;
-    width: 250px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-}
-
-.signup__input__email:focus {
-    outline-color: #007bff;
-    height: 40px;
-    width: 250px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-}
-
 
 .signup__input:hover {
     border: #007bff 2px solid;
@@ -293,11 +245,12 @@ th, td {
     border-radius: 5px;
     background-color: skyblue;
     height: 40px;
-    align-items: center;
 }
 
-.signup__btn:hover{
+.signup__btn:hover:enabled{
     background-color: #3255d1;
+    border: none;
+    border-radius: 5px;
 }
 
 .signup__text {

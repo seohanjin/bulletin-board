@@ -1,0 +1,36 @@
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        function validDuplicate() {
+            const email_input = document.querySelector('.signup__input__email').value;
+            const target = document.querySelector('.signup__btn');
+
+            var data = {
+                email: email_input
+            }
+            if (email_input == "") {
+                alert("이메일을 입력해주세요.");
+            } else {
+                $.ajax({
+                    url: "/member/duplicate",
+                    method: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        if (response.status == "approval") {
+                            document.querySelector('.valid_duplicate_1').style.display = 'block';
+                            document.querySelector('.valid_duplicate_2').style.display = 'none';
+                            target.disabled = false;
+                        } else {
+                            document.querySelector('.valid_duplicate_2').style.display = 'block';
+                            document.querySelector('.valid_duplicate_1').style.display = 'none';
+                            target.disabled = true;
+                        }
+                    }
+                });
+            }
+        }
+    </script>

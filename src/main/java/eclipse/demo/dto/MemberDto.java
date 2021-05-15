@@ -1,7 +1,9 @@
 package eclipse.demo.dto;
 
+import eclipse.demo.validation.ContractNumberConstraint;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -10,6 +12,7 @@ import javax.validation.constraints.Pattern;
 public class MemberDto {
 
     @Email(message = "이메일 형식을 맞춰주세요.")
+    @ContractNumberConstraint(message = "중복된 회원입니다.")
     private String username;
 
     @Pattern(regexp = "[a-zA-Z1-9]{6,12}",

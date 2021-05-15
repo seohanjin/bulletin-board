@@ -58,14 +58,9 @@
                 <form action="/members/new" method="post" class="signup__form" th:object="${memberForm}">
                     <div class="input__section">
                         <label th:for="username">이메일</label>
-                        <div class="input_email">
-                            <input type="email" class="signup__input__email" th:field="*{username}" placeholder="이메일" required>
-                            <div class="valid_duplicate"><a href="#" onclick="validDuplicate()" class="valid_duplicate_button">중복체크</a></div>
-                        </div>
+                        <input type="email" class="signup__input" th:field="*{username}" placeholder="이메일" required>
                         <p class="input__fieldError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
                         </p>
-                        <p class="valid_duplicate_1">중복되지 않은 이메일 입니다.</p>
-                        <p class="valid_duplicate_2">중복되는 이메일 입니다.</p>
                     </div>
                     <div class="input__section">
                         <label th:for="password">비밀번호(소문자와 숫자 포함 최소 6자)</label>
@@ -86,7 +81,7 @@
                         </p>
                     </div>
                     <div class="input__section">
-                        <button class="signup__btn" type="submit">
+                        <button class="signup__btn" type="submit" disabled>
                             <a class="signup__text">계정 만들기</a>
                         </button>
                     </div>
@@ -95,37 +90,6 @@
         </div>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script type="text/javascript">
-
-
-        function validDuplicate() {
-            const email_input = document.querySelector('.signup__input__email').value;
-            var data = {
-                email: email_input
-            }
-            if (email_input == "") {
-                alert("이메일을 입력해주세요.");
-            } else {
-                $.ajax({
-                    url: "/member/duplicate",
-                    method: 'POST',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (response) {
-                        if (response.status == "approval") {
-                            document.querySelector('.valid_duplicate_1').style.display = 'block';
-                        } else {
-                            document.querySelector('.valid_duplicate_2').style.display = 'block';
-                        }
-                    }
-                });
-            }
-        }
-    </script>
 </body>
 <script type="text/javascript" src="/js/main.js"></script>
 

@@ -30,12 +30,13 @@ public class MemberController {
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
+
         model.addAttribute("memberForm", new MemberDto());
         return "members/signUpMember";
     }
 
     @PostMapping("/members/new")
-    public String create(@Valid @ModelAttribute("memberForm") MemberDto form, BindingResult result, IllegalStateException e) {
+    public String create(@Valid @ModelAttribute("memberForm") MemberDto form, BindingResult result) {
 
         if (result.hasErrors()) {
             return "members/signUpMember";
