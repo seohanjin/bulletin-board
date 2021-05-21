@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{../css/style.css}">
+    <link rel="stylesheet" th:href="@{../css/style_board.css}">
     <title>가화만사성</title>
 </head>
 
@@ -16,24 +17,53 @@
     <nav class="navbar">
         <div class="nav__logo">
             <i class="fas fa-mug-hot"></i>
-            <a th:href="@{/}">가화만사성</a>
+            <a href="/">가화만사성</a>
         </div>
         <ul class="nav__menu">
             <li><a href="">공지사항</a></li>
-            <li><a href="">게시판</a></li>
+            <li><a href="/board/list">게시판</a></li>
             <li><a href="">마켓</a></li>
             <li><a href="">급식소 찾기</a></li>
         </ul>
         <ul class="nav__account">
-            <li><a th:href="@{/members/new}">계정만들기</a></li>
-            <li><a href="">로그인</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+            <!-- nav_notification_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </li>
+            <!-- nav_account_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <div class="dropdown_group">
+                        <a href="/members/profile">계정 관리</a>
+                    </div>
+                    <div class="dropdown_divider"></div>
+                    <div class="dropdown_group">
+                        <a href="/logout">로그아웃
+                            <i class="fad fa-sign-out"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
         </ul>
-
         <a href="#" class="nav__toggleBtn">
             <i class="fas fa-bars"></i>
         </a>
     </nav>
-
 
     <!-- BulletinBoard & NoticeBoard -->
     <section class="boards">

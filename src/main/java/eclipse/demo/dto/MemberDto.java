@@ -1,6 +1,7 @@
 package eclipse.demo.dto;
 
-import eclipse.demo.validation.ContractNumberConstraint;
+import eclipse.demo.exception.AccountException;
+import eclipse.demo.exception.NicknameException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.Pattern;
 public class MemberDto {
 
     @Email(message = "이메일 형식을 맞춰주세요.")
-    @ContractNumberConstraint(message = "중복된 회원입니다.")
+    @AccountException(message = "중복된 회원입니다.")
     private String username;
 
     @Pattern(regexp = "[a-zA-Z1-9]{6,12}",
@@ -26,6 +27,7 @@ public class MemberDto {
     private String password_confirm;
 
     @NotBlank(message = "닉네임을 입력해주세요")
+    @NicknameException(message = "중복된 닉네임입니다.")
     private String nickname;
 
 }

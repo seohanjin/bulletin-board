@@ -1,9 +1,8 @@
 package eclipse.demo.initDB;
 
-import eclipse.demo.domain.Board;
-import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +26,20 @@ class initDb {
     @Transactional
     @RequiredArgsConstructor
     static class InitService{
+
         private final EntityManager em;
+        private final PasswordEncoder passwordEncoder;
 
         public void dbInit1(){
 
-//            Member member1 = new Member("서한진", "1234", "나무늘보");
+            Member member = Member.builder()
+                    .email("1631043@ut.ac.kr")
+                    .password(passwordEncoder.encode("gjspark513"))
+                    .nickname("홍길동")
+                    .build();
+
+            em.persist(member);
+
 //            Member member2 = new Member("박수진", "1234", "뿡뿡이");
 //            Member member3 = new Member("용시훈", "1234", "머리에 개기름");
 //            Member member4 = new Member("김지환", "1234", "호주토박이");

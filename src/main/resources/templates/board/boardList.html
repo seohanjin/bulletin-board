@@ -1,87 +1,73 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+        
+        <link rel="stylesheet" th:href="@{../css/style.css}">
+        <link rel="stylesheet" th:href="@{../css/style_board.css}">
+    <title>게시판 | 가화만사성</title>
 </head>
 
-<body style="position: relative; width: 100%; height: 100%;">
-    <main>
-
-        <div class="container" style="margin:100 auto; width: 1000;">
-            <br><br><br>
-            <h2 class="font-weight-bold">게시판</h2>
-            <br>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th style="width:5%">#</th>
-                        <th style="width:10%">작성자</th>
-                        <th style="width:60%" class="text-center">제목</th>
-                        <th style="width:10%">작성일</th>
-                        <th style="width:10%">조회수</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="lists : ${list}">
-
-                        <td th:text="${lists.id}"></td>
-                        <td th:text="${lists.member.nickname}">ㅇㅇ</td>
-                        <td class="text-left">
-                            <a style="text-decoration:none; color:black;"
-                                th:href="@{/board/{id}/detail (id=${lists.id})}" th:text="${lists.title}"></a>
-                        </td>
-                        <td th:if="${lists.updatedAt == null}"
-                            th:text="${#temporals.format(lists.createdAt, 'MM.dd HH:mm')}">ㅇ
-                        </td>
-                        <td th:if="${lists.updatedAt != null}"
-                            th:text="${#temporals.format(lists.updatedAt, 'MM.dd HH:mm')}"></td>
-                        <td th:text="${lists.viewCnt}">ㅇ</td>
-
-                    </tr>
-                </tbody>
-            </table>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav__logo">
+            <i class="fas fa-mug-hot"></i>
+            <a href="/">가화만사성</a>
         </div>
-    </main>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${startPage == list.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item" th:classappend="${num == list.pageable.pageNumber + 1} ? 'active'" th:each="num : ${#numbers.sequence(startPage, endPage)}">
-                <a class="page-link" th:href="@{/board/list(page=${num-1})}" th:text="${num}">1</a></li>
-
-            <li class="page-item" th:classappend="${endPage == list.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber + 1})}">Next</a>
-            </li>
+        <ul class="nav__menu">
+            <li><a href="">공지사항</a></li>
+            <li><a href="">게시판</a></li>
+            <li><a href="">마켓</a></li>
+            <li><a href="">급식소 찾기</a></li>
         </ul>
+        <ul class="nav__account">
+            <li><a href="">계정만들기</a></li>
+            <li><a href="">로그인</a></li>
+        </ul>
+
+        <a href="#" class="nav__toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
     </nav>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <!-- Board List -->
+    <div class="board_list">
+        <section class="board_list__headerAndSearch">
+            <a href="" class="board_list__header">게시판</a>
+            <div class="board_search">
+                <input type="text" class="board_list__search">
+                <i class="fas fa-search"><a href="" class="search_btn">검색</a></i>
+            </div>
+        </section>
+        <section class="board_list__content">
+            <ul>
+                <li class="board_list_li">
+                    <div class="li__heart">
+                        <i class="fas fa-heart"></i>
+                        <span class="board_heart">34</span>
+                    </div>
+                    <div class="li__thumbnail">
+                        <img src="../img/thumbnail.jpg" alt="">
+                    </div>
+                    <div class="li__info">
+                        <span class="info__titleAndcomment_cnt">
+                            <a href="" class="info__title">게시글 제목입니다. 하나둘셋</a> [<a class="info__comment_cnt">24</a>]</span>
+                        <span class="info__dateAndnickname"><a href="" class="__date">20:31</a> / <a href=""
+                                class="__nickname">할렐루야</a></span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <a href="/board/new" style="color: black;">게시글작성</a>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script>
-
-    </script>
 </body>
+<script type="text/javascript" src="/js/main.js"></script>
 
 </html>

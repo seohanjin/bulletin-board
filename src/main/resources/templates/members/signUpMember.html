@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{../css/style.css}">
+    <link rel="stylesheet" th:href="@{../css/style_account.css}">
     <title>회원가입 | 가화만사성</title>
 </head>
 
@@ -16,17 +17,48 @@
     <nav class="navbar">
         <div class="nav__logo">
             <i class="fas fa-mug-hot"></i>
-            <a th:href="@{/}">가화만사성</a>
+            <a href="/">가화만사성</a>
         </div>
         <ul class="nav__menu">
             <li><a href="">공지사항</a></li>
-            <li><a href="">게시판</a></li>
+            <li><a href="/board/list">게시판</a></li>
             <li><a href="">마켓</a></li>
             <li><a href="">급식소 찾기</a></li>
         </ul>
         <ul class="nav__account">
-            <li><a href="">계정만들기</a></li>
-            <li><a href="">로그인</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+            <!-- nav_notification_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </li>
+            <!-- nav_account_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <div class="dropdown_group">
+                        <a href="/members/profile">계정 관리</a>
+                    </div>
+                    <div class="dropdown_divider"></div>
+                    <div class="dropdown_group">
+                        <a href="/logout">로그아웃
+                            <i class="fad fa-sign-out"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
         </ul>
         <a href="#" class="nav__toggleBtn">
             <i class="fas fa-bars"></i>
@@ -64,13 +96,13 @@
                     </div>
                     <div class="input__section">
                         <label th:for="password">비밀번호(소문자와 숫자 포함 최소 6자)</label>
-                        <input type="text" class="signup__input" th:field="*{password}" placeholder="비밀번호" required>
+                        <input type="password" class="signup__input" th:field="*{password}" placeholder="비밀번호" required>
                         <p class="input__fieldError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
                         </p>
                     </div>
                     <div class="input__section">
                         <label th:for="password_confirm">비밀번호 확인</label>
-                        <input type="text" class="signup__input" th:field="*{password_confirm}" placeholder="비밀번호 확인"
+                        <input type="password" class="signup__input" th:field="*{password_confirm}" placeholder="비밀번호 확인"
                             required>
                         <p class="password_equalerror"> 비밀번호가 일치하지 않습니다.</p>
                     </div>

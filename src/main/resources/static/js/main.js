@@ -6,7 +6,6 @@ const account = document.querySelector('.nav__account');
 toggleBtn.addEventListener('click', () => {
     menu.classList.toggle('active');
     account.classList.toggle('active');
-
 })
 
 // ---------- Same Password Inspection ---------------

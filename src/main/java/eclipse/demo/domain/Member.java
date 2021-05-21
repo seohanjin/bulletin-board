@@ -32,17 +32,15 @@ public class Member extends BaseTime{
 
     private String role;
 
-    private boolean enabled;
 
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 
     @Builder
-    public Member(String email, String password, String nickname, boolean enabled) {
+    public Member(String email, String password, String nickname) {
         this.username = email;
         this.password = password;
         this.nickname = nickname;
-        this.enabled = enabled;
         this.role = "USER_ROLE";
     }
 

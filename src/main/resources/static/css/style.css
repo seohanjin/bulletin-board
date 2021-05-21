@@ -18,24 +18,6 @@ ul {
     list-style: none;
 }
 
-
-.input__fieldError{
-    color: #dc3545;
-    margin: 0px;
-    margin-top: 4px;
-    font-size: 12.8px;
-    width: 320px;
-}
-
-.password_equalerror{
-    color: #dc3545;
-    margin: 0px;
-    margin-top: 4px;
-    font-size: 12.8px;
-    width: 320px;
-    display: none;
-}
-
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -95,270 +77,59 @@ th, td {
     border-bottom: 1px, solid #444444;
     padding: 10px;
 }
-
-
-.boards {
-    display: flex;
-    justify-content: space-around;
-    padding: 150px 50px;
-}
-.board_info {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 5px;
-}
-
-.plus {
-    border: white;
-}
-
-.bulletin__name,
-.notice__name{
-    color: black;
-    font-size: 24px;
-}
-
-.board__bulletin, .board__notice {
-    width: 600px;
-}
-
-.signup {
-    width: 100%;
-    display: flex;
-    justify-content:center;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px;
-}
-
-.input__section {
-    padding: 12px 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.signup__title {
-    color:black;
-    font-size: 36px;
-}
-
-.exist__account {
-    color:black;
-}
-.login__link {
-    color: #87ace8;
-    text-decoration: underline;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-.social_login_to_Google {
-    background-color: #DD4B39;
-    border: black;
-    height: 40px;
-    width: 300px;
-    border-radius:  5px;
+/* navbar dropdown */
+.nav__dropdown{
     position: relative;
+    display: inline-block;
 }
-.social_login_to_Google > i {
-    font-size: 20px;
+.nav__dropbtn {
+    font-size: 18px;
+}
+  .nav__dropdown_content {
+    display: none;
     position: absolute;
-    color:white;
-    top: 10.5px;
-    left: 12px;
-}
-
-.social_login_btn_text {
+    background-color: #f9f9f9;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    right: 0;
+    left: auto;
+  }
+  
+  .nav__dropdown_content a {
     font-size: 16px;
-    margin: 35px;
-}
+    color: #263747;
+    padding: 13px 30px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav__dropdown_content a:hover {
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
 
-.valid_duplicate_button {
-    color: black;
-    font-size: 15px;
+  .nav__dropdown:hover .nav__dropdown_content {
+    display: block;
+    margin-left: auto;
+  }
 
-}
-
-.valid_duplicate {
-    width: 60px;
-    height: 30px;
-    background-color: #c4c4c4;
-    border: rgb(88, 88, 88) 2px solid;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.signup__form{
-    display: flex;
-    flex-direction: column;
-}
-
-.input__section > label {
-    font-family: twayair;
-    padding-bottom: 8px;
-}
-
-
-.input_email > input {
-    border: #c4c4c4 2px solid;
-    height: 40px;
-    width: 250px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-}
-
-.signup__input {
-    border: #c4c4c4 2px solid;
-    height: 40px;
-    width: 320px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-
-}
-
-.signup__input:hover {
-    border: #007bff 2px solid;
-    height: 40px;
-    width: 320px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-
-}
-
-.signup__input:focus {
-    outline-color: #007bff;
-    border: 2px;
-    height: 40px;
-    width: 320px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-family: "굴림";
-
-}
-
-.signup__btn {
-    border: none;
-    border-radius: 5px;
-    background-color: skyblue;
-    height: 40px;
-}
-
-.signup__btn:hover:enabled{
-    background-color: #3255d1;
-    border: none;
-    border-radius: 5px;
-}
-
-.signup__text {
-    font-size: 18px;
-}
-
-.board_list {
-    padding: 100px 300px;
-}
-
-.board_list__headerAndSearch {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 60px;
-}
-
-.board_list__header {
-    font-size: 40px;
-    color:black;
-}
-
-.board_search {
-    font-size: 24px;
-}
-
-.board_search .board_list__search {
-    width: 250px;
-    height: 20px;
-}
-
-.board_search .search_btn,
-.board_search > i {
-    color:black;
-    font-size: 20px;
-
-}
-
-.li__thumbnail > img{
-    width: 60px;
-    height: 50px;
-    padding-right: 15px;
-}
-
-.board_list_li {
-    display: flex;
-}
-
-.board_list_li .li__heart {
-    display: flex;
-    flex-direction: column;
-    padding-right: 15px;
-    margin-top: 10px;
-}
-
-.li__info {
-    display: flex;
-    flex-direction: column;
-}
-
-.info__titleAndcomment_cnt .info__title,
-.info__titleAndcomment_cnt .info__comment_cnt {
-    font-size: 18px;
-    color: black;
-    font-family: twayair;
-    text-decoration: underline;
-}
-
-.info__dateAndnickname .__date, .__nickname{
-    color: black;
-    font-family: "돋움";
-    font-size: 13px;
-
-}
-
-.board_form {
-    padding: 100px 300px;
-}
-
-.board_form__header {
-    color: black;
-    font-size: 32px;
-}
-
-.board_form_title {
-    padding-top: 60px;
-}
-
-.title__text {
-    color: black;
-    font-size: 25px;
-    padding-right: 20px;
-}
-
-.board_form_title .__title {
-    height: 30px;
-    width: 400px;
+  .nav__account > li:hover {
+    background-color: #d49466;
     border-radius: 5%;
-    border: #b3b3b3 1px solid;
 }
 
-.board_form_content {
-    padding-top: 30px;
+.dropdown_divider {
+    border-top: 1px solid #e9ecef;
 }
 
-.board_form_content .content__text {
-    color:black;
-    font-size: 25px;
+.nav__media {
+    display: none;
 }
+
+  /*  */
 
 
 
@@ -397,56 +168,4 @@ th, td {
         display: flex;
     }
 
-    .boards {
-        flex-direction: column;
-        align-items: center;
-    }
-    .board__bulletin, .board__notice {
-        width: 470px;
-        font-size: 12px;
-        padding-bottom: 50px;
-    }
-
-    .signup__exist_account {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .board_list__headerAndSearch {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .board_list {
-        padding: 100px 100px;
-    }
-
-    .board_list__headerAndSearch .board_list__header {
-        padding-bottom: 20px;
-    }
-
-    .board_search > i {
-        padding-left: 10px;
-    }
-
-    .board_list__headerAndSearch .board_search {
-        display: flex
-    }
-
-    .board_search .board_list__search {
-        width: 200px;
-        height: 20px;
-    }
-
-    .board_form {
-        padding: 100px 100px;
-    }
-
-    .board_form_title .__title {
-        height: 30px;
-        width: 200px;
-        border-radius: 5%;
-        border: #b3b3b3 1px solid;
-    }
 }

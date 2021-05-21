@@ -29,16 +29,13 @@ public class MemberService {
 
         return member.getId();
     }
-//
-//    private void validateDuplicateMember(Member member) {
-//        List<Member> findMembers = memberRepository.findAllByUsername(member.getUsername());
-//        if (!findMembers.isEmpty()){
-//            throw new IllegalStateException();
-//        }
-//    }
 
     public List<Member> findAllByUsername(String username){
         return memberRepository.findAllByUsername(username);
+    }
+
+    public List<Member> findAllByNickname(String nickname){
+        return memberRepository.findAllByNickname(nickname);
     }
 
 

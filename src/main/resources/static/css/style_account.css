@@ -1,0 +1,164 @@
+.signup {
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+}
+
+.input__section {
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.input__fieldError{
+    color: #dc3545;
+    margin: 0px;
+    margin-top: 4px;
+    font-size: 12.8px;
+    width: 320px;
+}
+
+.password_equalerror{
+    color: #dc3545;
+    margin: 0px;
+    margin-top: 4px;
+    font-size: 12.8px;
+    width: 320px;
+    display: none;
+}
+
+.signup__title {
+    color:black;
+    font-size: 36px;
+}
+
+.exist__account {
+    color:black;
+}
+.login__link {
+    color: #87ace8;
+    text-decoration: underline;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.social_login_to_Google {
+    background-color: #DD4B39;
+    border: black;
+    height: 40px;
+    width: 300px;
+    border-radius:  5px;
+    position: relative;
+}
+.social_login_to_Google > i {
+    font-size: 20px;
+    position: absolute;
+    color:white;
+    top: 10.5px;
+    left: 12px;
+}
+
+.social_login_btn_text {
+    font-size: 16px;
+    margin: 35px;
+}
+
+.valid_duplicate_button {
+    color: black;
+    font-size: 15px;
+
+}
+
+.valid_duplicate {
+    width: 60px;
+    height: 30px;
+    background-color: #c4c4c4;
+    border: rgb(88, 88, 88) 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.signup__form{
+    display: flex;
+    flex-direction: column;
+}
+
+.input__section > label {
+    font-family: twayair;
+    padding-bottom: 8px;
+}
+
+
+.input_email > input {
+    border: #c4c4c4 2px solid;
+    height: 40px;
+    width: 250px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: "굴림";
+}
+
+.signup__input {
+    border: #c4c4c4 2px solid;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: "굴림";
+}
+.login__input {
+    border: #c4c4c4 2px solid;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: "굴림";
+}
+
+.signup__input:hover {
+    border: #007bff 2px solid;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+
+}
+
+.signup__input:focus {
+    outline-color: #007bff;
+    border: 2px;
+    height: 40px;
+    width: 320px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: "굴림";
+
+}
+
+.signup__btn {
+    border: none;
+    border-radius: 5px;
+    background-color: skyblue;
+    height: 40px;
+}
+
+.signup__btn:hover:enabled{
+    background-color: #3255d1;
+    border: none;
+    border-radius: 5px;
+}
+
+.signup__text {
+    font-size: 18px;
+}
+
+@media screen and (max-width: 768px){
+    .signup__exist_account {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

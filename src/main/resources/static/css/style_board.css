@@ -1,0 +1,178 @@
+.boards {
+    display: flex;
+    justify-content: space-around;
+    padding: 150px 50px;
+}
+.board_info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+}
+
+.plus {
+    border: white;
+}
+
+.bulletin__name,
+.notice__name{
+    color: black;
+    font-size: 24px;
+}
+
+.board__bulletin, .board__notice {
+    width: 600px;
+}
+
+.board_list {
+    padding: 100px 300px;
+}
+
+.board_list__headerAndSearch {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 60px;
+}
+
+.board_list__header {
+    font-size: 40px;
+    color:black;
+}
+
+.board_search {
+    font-size: 24px;
+}
+
+.board_search .board_list__search {
+    width: 250px;
+    height: 20px;
+}
+
+.board_search .search_btn,
+.board_search > i {
+    color:black;
+    font-size: 20px;
+
+}
+
+.li__thumbnail > img{
+    width: 60px;
+    height: 50px;
+    padding-right: 15px;
+}
+
+.board_list_li {
+    display: flex;
+}
+
+.board_list_li .li__heart {
+    display: flex;
+    flex-direction: column;
+    padding-right: 15px;
+    margin-top: 10px;
+}
+
+.li__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info__titleAndcomment_cnt .info__title,
+.info__titleAndcomment_cnt .info__comment_cnt {
+    font-size: 18px;
+    color: black;
+    font-family: twayair;
+    text-decoration: underline;
+}
+
+.info__dateAndnickname .__date, .__nickname{
+    color: black;
+    font-family: "돋움";
+    font-size: 13px;
+    
+}
+
+.board_form {
+    padding: 100px 300px;
+}
+
+.board_form__header {
+    color: black;
+    font-size: 32px;
+}
+
+.board_form_title {
+    padding-top: 60px;
+}
+
+.title__text {
+    color: black;
+    font-size: 25px;
+    padding-right: 20px;
+}
+
+.board_form_title .__title {
+    height: 30px;
+    width: 400px;
+    border-radius: 5px;
+    border: #b3b3b3 1px solid;
+}
+
+.board_form_content {
+    padding-top: 30px;
+}
+
+.board_form_content .content__text {
+    color:black;
+    font-size: 25px;
+}
+
+
+@media screen and (max-width: 768px){
+
+    .boards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .board__bulletin, .board__notice {
+        width: 470px;
+        font-size: 12px;
+        padding-bottom: 50px;
+    }
+
+    .board_list__headerAndSearch {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board_list {
+        padding: 100px 100px;
+    }
+
+    .board_list__headerAndSearch .board_list__header {
+        padding-bottom: 20px;
+    }
+
+    .board_search > i {
+        padding-left: 10px;
+    }
+    
+    .board_list__headerAndSearch .board_search {
+        display: flex
+    }
+
+    .board_search .board_list__search {
+        width: 200px;
+        height: 20px;
+    }
+
+    .board_form {
+        padding: 100px 100px;
+    }
+
+    .board_form_title .__title {
+        height: 30px;
+        width: 200px;
+        border-radius: 5%;
+        border: #b3b3b3 1px solid;
+    }
+}
