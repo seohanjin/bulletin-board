@@ -29,7 +29,6 @@ public class Board extends BaseTime {
     @Column(length = 10000000)
     private String content;
 
-    private int viewCnt;
 
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
     private List<BoardLike> likes = new ArrayList<>();
@@ -49,11 +48,6 @@ public class Board extends BaseTime {
         member.getBoards().add(this);
     }
 
-//    public Board(String title, String content) {
-//        this.title = title;
-//        this.content = content;
-//        this.setCreatedAt(LocalDateTime.now());
-//    }
 
     public void changeBoard(String title, String content) {
         this.title = title;
@@ -61,9 +55,6 @@ public class Board extends BaseTime {
         this.setUpdatedAt(LocalDateTime.now());
     }
 
-    public void upViewCnt(Board board) {
-        this.viewCnt = board.getViewCnt() + 1;
-    }
 
 
 }

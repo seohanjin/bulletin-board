@@ -90,7 +90,6 @@ public class FileController {
         try{
             Files uploadFile = filesService.store(file);
 
-            System.out.println("PostMapping완료>>");
             return ResponseEntity.ok().body("/image/" + uploadFile.getId());
         }catch (Exception e){
             e.printStackTrace();
@@ -100,11 +99,9 @@ public class FileController {
 
     @GetMapping("/image/{fileId}")
     public ResponseEntity<?> saveFile(@AuthenticationPrincipal Member member, @PathVariable Long fileId){
-        System.out.println("GetMapping>>>");
         try{
             Files uploadFile = filesService.load(fileId);
             Resource resource = resourceLoader.getResource("file:" + uploadFile.getFilePath());
-            System.out.println("resource>>" + resource);
             return ResponseEntity.ok().body(resource);
 
         }catch (Exception e){

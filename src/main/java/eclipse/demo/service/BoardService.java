@@ -54,14 +54,6 @@ public class BoardService {
     }
 
 
-    // 조회수 up
-    @Transactional
-    public void upView(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElse(null);
-        board.upViewCnt(board);
-    }
-
-
 
     public Page<Board> getBoardList(Pageable pageable) {
 

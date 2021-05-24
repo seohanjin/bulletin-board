@@ -14,6 +14,8 @@ import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
 import eclipse.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -48,9 +50,13 @@ public class BoardController {
     public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto){
 
         String username = member.getUsername();
+        //썸네일 이미지 추출
+        Element img = Jsoup.parse(boardDto.getContent()).select("img").first();
+        String src = img.attr("src");
+
         Member findMember = memberRepository.findByUsername(username);
-        Board board1 = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
-        boardService.saveBoard(board1);
+        Board board = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
+        boardService.saveBoard(board);
 
         return "redirect:/";
     }
@@ -86,10 +92,8 @@ public class BoardController {
             model.addAttribute("boardLike", 1);
         }
 
-        // 게시물 클릭시 조회수Up
-        boardService.upView(board.getId());
 
-        BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
+        BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent());
 
         model.addAttribute("likeCount", likeCount);
         model.addAttribute("sortComment", commentAll);
@@ -101,7 +105,7 @@ public class BoardController {
     @GetMapping("/board/{editId}/edit")
     public String boardEdit(@PathVariable("editId") Long editId, Model model) {
         Board board = boardService.findOne(editId);
-        BoardDto editForm = new BoardDto(board.getId(), board.getTitle(), board.getContent(), board.getViewCnt());
+        BoardDto editForm = new BoardDto(board.getId(), board.getTitle(), board.getContent());
 
         model.addAttribute("board", board);
         model.addAttribute("form", editForm);

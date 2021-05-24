@@ -20,9 +20,5 @@ public class Files {
     private String contentType;
     private String filePath;
     private long size;
-
-//    @OneToOne(mappedBy = "files")
-//    private Member member;
-
 }
 

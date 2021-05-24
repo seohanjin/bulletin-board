@@ -23,8 +23,12 @@ public class FilesService {
 
     @Autowired
     FilesRepository filesRepository;
-    @Autowired
-    private MemberService memberService;
+
+    private final Path rootLocation;
+
+    public FilesService(String uploadPath){
+        this.rootLocation = Paths.get(uploadPath);
+    }
 
     @Transactional
     public void save(Files files){
@@ -46,17 +50,10 @@ public class FilesService {
         return files;
     }
 
-    private final Path rootLocation;
-
-    public FilesService(String uploadPath){
-        this.rootLocation = Paths.get(uploadPath);
-        System.out.println("rootLocation>>" + rootLocation.toString());
-    }
 
     @Transactional
     public Files store(MultipartFile file) throws Exception{
 
-        System.out.println("rootLocation>>" + rootLocation);
         try{
             if (file.isEmpty()){
                 throw new Exception("Failed to store empty file" + file.getOriginalFilename());
@@ -64,12 +61,10 @@ public class FilesService {
 
             // 1. 절대 경로 2. file 을 넘겨준다.(fileName을 바꾸기 위해)
             String saveFileName = fileSave(rootLocation.toString(), file);
-            System.out.println("location.toString>>" + rootLocation.toString());
-            System.out.println("saveFileName>>" + saveFileName);
 
             Files saveFile = new Files();
-            saveFile.setFilename(file.getOriginalFilename());
-            saveFile.setFileOriName(saveFileName);
+            saveFile.setFilename(saveFileName);
+            saveFile.setFileOriName(file.getOriginalFilename());
             saveFile.setContentType(file.getContentType());
             saveFile.setSize(file.getResource().contentLength());
             saveFile.setFilePath(rootLocation.toString().replace(File.separatorChar, '/') + '/' + saveFileName);
@@ -85,27 +80,24 @@ public class FilesService {
         return filesRepository.findById(fileId).get();
     }
 
+
     @Transactional
     public String fileSave(String rootLocation, MultipartFile file) throws IOException{
 
+//      원하는 디렉토리에 파일이 존재하는지 확인하기 위하여 File 객체 생성
         File uploadDir = new File(rootLocation);
-        System.out.println("uploadDir>>" + uploadDir);
 
         if (!uploadDir.exists()){
             uploadDir.mkdirs();
         }
 
         UUID uuid = UUID.randomUUID();
-        System.out.println("uuid>>"+ uuid);
-        System.out.println("uuid.toStirng()>>" + uuid.toString());
-
         String saveFileName = uuid.toString() + file.getOriginalFilename();
-        System.out.println("file.getOriginalFilename>>" + file.getOriginalFilename());
-        System.out.println("uuid + file.getOriginameName>>" + saveFileName);
 
+//      rootLocation 폴더 경로의 saveFileName 이라는 파일에 대한 File 객체를 생성한다.
         File saveFile = new File(rootLocation, saveFileName);
-        System.out.println("saveFile>>" + saveFile);
 
+//      실제 경로에 파일을 복사(저장)한다.
         FileCopyUtils.copy(file.getBytes(), saveFile);
 
         return saveFileName;

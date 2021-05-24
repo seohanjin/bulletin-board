@@ -126,6 +126,34 @@
     font-size: 25px;
 }
 
+.submit_board {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: twayair;
+}
+
+.board_thumbnail {
+    border: rgb(197, 201, 202) solid 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.board_thumbnail > a{
+    color: black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+
 
 @media screen and (max-width: 768px){
 

@@ -14,13 +14,11 @@ public class BoardDto {
 
     private String content;
 
-    private int viewCnt;
 
-    public BoardDto(Long id, String title, String content, int viewCnt) {
+    public BoardDto(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.viewCnt = viewCnt;
     }
 
 

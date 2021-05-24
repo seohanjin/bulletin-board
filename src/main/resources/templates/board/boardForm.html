@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -25,25 +25,55 @@
 
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar" style="border-radius: 0px; padding: 19px; margin: 0px;">
+    <nav class="navbar" style="padding-bottom: 18px; padding-top: 17px;">
         <div class="nav__logo">
             <i class="fas fa-mug-hot"></i>
-            <a href="">가화만사성</a>
+            <a href="/">가화만사성</a>
         </div>
         <ul class="nav__menu" style="font-size: 16px;">
-            <li><a href="/">공지사항</a></li>
+            <li><a href="">공지사항</a></li>
             <li><a href="/board/list">게시판</a></li>
             <li><a href="">마켓</a></li>
             <li><a href="">급식소 찾기</a></li>
         </ul>
-        <ul class="nav__account" style="font-size: 16px;">
-            <li><a href="">계정만들기</a></li>
-            <li><a href="">로그인</a></li>
+        <ul class="nav__account">
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+            <!-- nav_notification_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </li>
+            <!-- nav_account_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <div class="dropdown_group">
+                        <a href="/members/profile">계정 관리</a>
+                    </div>
+                    <div class="dropdown_divider"></div>
+                    <div class="dropdown_group">
+                        <a href="/logout">로그아웃
+                            <i class="fad fa-sign-out"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
         </ul>
         <a href="#" class="nav__toggleBtn">
             <i class="fas fa-bars"></i>
         </a>
-        </div>
     </nav>
 
     <!-- Board Form -->
@@ -59,6 +89,11 @@
                 <textarea class="__content" id="summernote" name="content" th:field="*{content}" placeholder="content"
                     maxlength="140" rows="7" ></textarea>
             </div>
+            <div class="board_thumbnail">
+                <a>썸네일 선택</a>
+            </div>
+            <button type="submit" class="submit_board">등록</button>
+
         </form>
     </div>
 
