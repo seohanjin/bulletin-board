@@ -1,5 +1,6 @@
 package eclipse.demo.initDB;
 
+import eclipse.demo.domain.Board;
 import eclipse.demo.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,24 +39,29 @@ class initDb {
                     .nickname("홍길동")
                     .build();
 
-            em.persist(member);
 
-//            Member member2 = new Member("박수진", "1234", "뿡뿡이");
-//            Member member3 = new Member("용시훈", "1234", "머리에 개기름");
-//            Member member4 = new Member("김지환", "1234", "호주토박이");
-//            Member member5 = new Member("배이안", "1234", "경찰");
-//
-//
-//            Board board1 = new Board(member1, "게시글1", "내용1");
-//            Board board2 = new Board(member1,"게시글2", "내용2");
-//            Board board3 = new Board(member2,"게시글3", "내용3");
-//            Board board4 = new Board(member3,"게시글4", "내용4");
-//            Board board5 = new Board(member4,"게시글5", "내용5");
-//            Board board6 = new Board(member5,"게시글6", "내용6");
-//            Board board7 = new Board(member4,"게시글7", "내용7");
-//            Board board8 = new Board(member3,"게시글8", "내용8");
-//            Board board9 = new Board(member1,"게시글9", "내용9");
-//            Board board10 = new Board(member5,"게시글10", "내용10");
+            Member member2 = new Member("박수진", "1234", "뿡뿡이");
+            Member member3 = new Member("용시훈", "1234", "머리에 개기름");
+            Member member4 = new Member("김지환", "1234", "호주토박이");
+            Member member5 = new Member("배이안", "1234", "경찰");
+
+            em.persist(member);
+            em.persist(member2);
+            em.persist(member3);
+            em.persist(member4);
+            em.persist(member5);
+
+
+            Board board1 = new Board(member, "게시글1", "내용1", "no image");
+            Board board2 = new Board(member2,"게시글2", "내용2", "no image");
+            Board board3 = new Board(member3,"게시글3", "내용3","no image");
+            Board board4 = new Board(member4,"게시글4", "내용4","no image");
+            Board board5 = new Board(member5,"게시글5", "내용5","no image");
+            Board board6 = new Board(member,"게시글6", "내용6","no image");
+            Board board7 = new Board(member2,"게시글7", "내용7","no image");
+            Board board8 = new Board(member3,"게시글8", "내용8","no image");
+            Board board9 = new Board(member4,"게시글9", "내용9","no image");
+            Board board10 = new Board(member5,"게시글10", "내용10","no image");
 //
 //            Comment comment1 = new Comment(member1, board1, "게시글1 댓글1");
 //            Comment comment2 = new Comment(member2, board1, "게시글1 댓글2");
@@ -67,16 +73,16 @@ class initDb {
 //
 //
 //
-//            em.persist(board1);
-//            em.persist(board2);
-//            em.persist(board3);
-//            em.persist(board4);
-//            em.persist(board5);
-//            em.persist(board6);
-//            em.persist(board7);
-//            em.persist(board8);
-//            em.persist(board9);
-//            em.persist(board10);
+            em.persist(board1);
+            em.persist(board2);
+            em.persist(board3);
+            em.persist(board4);
+            em.persist(board5);
+            em.persist(board6);
+            em.persist(board7);
+            em.persist(board8);
+            em.persist(board9);
+            em.persist(board10);
 //
 //            em.persist(comment1);
 //            em.persist(comment2);

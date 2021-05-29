@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Comment extends BaseTime {
+public class Comment{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +29,15 @@ public class Comment extends BaseTime {
     @ColumnDefault("0")
     private int commentSequence;
 
+//    @ColumnDefault("0")
+//    private int parentGroup;
+
     @ColumnDefault("0")
     private int level;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -38,14 +46,14 @@ public class Comment extends BaseTime {
     @OneToMany(mappedBy = "comment")
     private List<Notification> notifications = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
 
     // 댓글 commentGroup 증가
     public void changeGroup(int commentGroup) {
         this.commentGroup = commentGroup + 1;
     }
-
 
 }

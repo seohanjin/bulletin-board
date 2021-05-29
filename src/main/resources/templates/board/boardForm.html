@@ -25,12 +25,12 @@
 
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar" style="padding-bottom: 18px; padding-top: 17px;">
+    <nav class="navbar">
         <div class="nav__logo">
             <i class="fas fa-mug-hot"></i>
             <a href="/">가화만사성</a>
         </div>
-        <ul class="nav__menu" style="font-size: 16px;">
+        <ul class="nav__menu">
             <li><a href="">공지사항</a></li>
             <li><a href="/board/list">게시판</a></li>
             <li><a href="">마켓</a></li>
@@ -82,15 +82,12 @@
         <form action="/board/new" method="post" th:object="${boardForm}">
             <div class="board_form_title">
                 <a class="title__text">제목</a>
-                <input placeholder="제목" type="text" class="__title" th:field="*{title}">
+                <input placeholder="제목" type="text" class="__title" th:field="*{title}" maxlength="30">
             </div>
             <div class="board_form_content">
                 <a class="content__text">내용</a>
                 <textarea class="__content" id="summernote" name="content" th:field="*{content}" placeholder="content"
                     maxlength="140" rows="7" ></textarea>
-            </div>
-            <div class="board_thumbnail">
-                <a>썸네일 선택</a>
             </div>
             <button type="submit" class="submit_board">등록</button>
 

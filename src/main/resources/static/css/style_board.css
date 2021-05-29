@@ -9,6 +9,7 @@
     padding-bottom: 5px;
 }
 
+
 .plus {
     border: white;
 }
@@ -59,9 +60,11 @@
     height: 50px;
     padding-right: 15px;
 }
-
+    
 .board_list_li {
     display: flex;
+    border-top: rgb(211, 211, 211) 1px solid;
+    padding: 15px;
 }
 
 .board_list_li .li__heart {
@@ -69,6 +72,11 @@
     flex-direction: column;
     padding-right: 15px;
     margin-top: 10px;
+    color: rgb(196, 196, 196);
+}
+
+.li__heart .board_heart {
+    padding-left:3px;
 }
 
 .li__info {
@@ -81,6 +89,9 @@
     font-size: 18px;
     color: black;
     font-family: twayair;
+}
+
+.info__title:hover {
     text-decoration: underline;
 }
 
@@ -153,7 +164,328 @@
     flex-direction: column;
 }
 
+.createBoardBtn {
+    color: black;
+    background-color: lightgreen;
+    border-radius: 5px;
+    
+}
 
+.pagination {
+    padding-bottom: 50px;
+}
+
+.page_ul {
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.page_li {
+    padding: 0px 30px;
+}
+
+.page_link {
+    color:black;
+}
+
+.active {
+    background-color: lightgreen;
+}
+
+.disabled {
+    display: none;
+}
+
+/* Board Detail */
+.boardDetail {
+    padding: 100px 300px;
+}
+
+.detail_title_date {
+    display: flex;
+    justify-content: space-between;
+    font-size: 26px;
+    background-color: rgb(243, 243, 243);
+    border-top: darkgrey 1px solid;
+    border-bottom: darkgrey 1px solid;
+    padding: 13px 15px;
+    align-items: center;
+}
+
+.detail_date {
+    font-size: 16px;
+}
+
+.detail_title_date > a {
+    color: black;
+}
+
+.detail_nickname_etc {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 15px;
+    border-bottom: rgb(224, 224, 224) 1px solid;
+}
+
+
+.thumbnail_nickname {
+    display: flex;
+    align-items: center;
+}
+
+.thumbnail_nickname > a {
+    color: black;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+.thumbnail_nickname > img {
+    width: 30px;
+    height: 30px;
+}
+
+.detail_content {
+    padding-top: 30px;
+}
+
+.like_comment {
+    color: black;
+}
+
+.like_comment > span {
+    font-size: 14px;
+    padding: 0 2px;
+}
+
+.board_like {
+    display: flex;
+    justify-content: center;
+    font-size: 36px;
+    padding: 30px 0px;
+}
+
+
+.board_like > a {
+    color: #dc3545;
+}
+
+.board_like > a:hover {
+    cursor: pointer;
+}
+
+.board_edit_delete {
+    display: flex;
+    justify-content: center;
+}
+
+.board_edit_delete > span {
+    color: black;
+    padding: 15px;
+}
+
+.boardDetail_edit {
+    background-color: #da6571;
+    color: black;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.boardDetail_delete {
+    background-color: cornflowerblue;
+    color: black;
+    border-radius: 5px;
+    padding: 2px;
+}
+.like_cnt {
+    color: black;
+    font-size: 12px;
+}
+
+/* Comment */
+.board_comment {
+    padding: 30px 80px;
+}
+.comment_info {
+    border-radius: 5px;
+    background-color: rgb(243, 243, 243);
+    border: rgb(206, 206, 206) 1px solid;
+    padding: 10px;
+}
+.comment_info > a{
+    color: black;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.comment_header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+.comment_header_left {
+    display: flex;
+    align-items: center;
+}
+.comment_header_left > img {
+    width: 30px;
+    height: 30px;
+}
+.comment_header_left > a {
+    color: black;
+    font-size: 15px;
+    padding-left: 5px;
+}
+.comment_header > a{
+    color: black;
+}
+.header_left_time {
+    font-family: '돋움';
+}
+
+.comment_header_right > a {
+    color: black;
+    font-size: 13px;
+    padding-right: 15px;
+}
+.comment_header_right > i {
+    font-size: 13px;
+}
+
+.comment_content {
+    color: black;
+    font-family: '돋움';
+}
+.comment_ul {
+    padding: 0px 30px;
+}
+.comment_li {
+    border-bottom: rgb(248, 248, 248) 1px solid;
+    padding-bottom: 10px;
+}
+
+.write_comment {
+    border-radius: 5px;
+    background-color: rgb(245, 245, 245);
+    flex-direction: column;
+    border: rgb(218, 218, 218) 1px solid;
+}
+
+.write_comment_wrap {
+    padding: 10px 25px;
+}
+.write_comment_header > a {
+    color: black;
+}
+.write_comment_content {
+    padding-top: 10px;
+    display: flex;
+    width: 100%;
+}
+
+.write_comment_content > form {
+    padding-right: 10px;
+}
+.write_comment_content > button {
+    width: 50px;
+    height: 50px;
+}
+.write_comment_form {
+    width: 100%;
+}
+.write_comment_form > textarea {
+    width: 100%;
+    overflow: visible;
+}
+.header_right_comment {
+    cursor: pointer;
+}
+/*  */
+
+/* ReComment */
+.write_ReComment {
+    border-radius: 5px;
+    flex-direction: column;
+    display: none;
+}
+.write_comment_right {
+    display: flex;
+    padding-right: 10px;
+}
+
+.write_comment_right > a {
+    color: black;
+}
+.reComment_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding-bottom: 5px;
+}
+
+.write_ReComment_content {
+    width: 100%;
+}
+.write_comment_right > a {
+    padding-left: 5px;
+}
+.write_Recomment_header > a {
+    font-size: 13px;
+    color: black;
+}
+.write_Recomment_header > i {
+    font-size: 13px;
+}
+
+.write_Recomment_right {
+     display: none;
+}
+.write_Recomment_right > a {
+    font-size: 13px;
+    color: black;
+}
+.write_Recomment_right > i {
+    font-size: 13px;
+}
+#comment_submit {
+    font-family: twayair;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+}
+#button_border {
+    border: none;
+    width: 60px;
+    background-color: rgb(245, 245, 245);
+}
+.re_comment_submit { 
+    color: black;
+}
+.submit_button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#comment_span {
+    background-color: rgb(150, 209, 155);
+    padding: 2px;
+    border-radius: 5px;
+}
+
+#re_comment_span {
+    width: 60px;
+    padding-left: 20px;
+}
+#re_comment_submit {
+    font-family: twayair;
+    font-size: 16px;
+    background-color: rgb(112, 158, 255);
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 2px;
+}
 
 @media screen and (max-width: 768px){
 
@@ -173,7 +505,7 @@
     }
 
     .board_list {
-        padding: 100px 100px;
+        padding: 100px 50px;
     }
 
     .board_list__headerAndSearch .board_list__header {
@@ -202,5 +534,20 @@
         width: 200px;
         border-radius: 5%;
         border: #b3b3b3 1px solid;
+    }
+
+    /* Board Detail */
+    .boardDetail {
+        padding: 100px 50px;
+    }
+
+    /* Board Detail */
+    .boardDetail {
+        padding: 100px 50px;
+    }
+
+    /* Comment */
+    .board_comment {
+        padding: 30px 50px;
     }
 }

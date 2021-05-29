@@ -18,7 +18,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,19 +55,25 @@ public class BoardController {
     public String createBoard(@AuthenticationPrincipal Member member, BoardDto boardDto){
 
         String username = member.getUsername();
+
         //썸네일 이미지 추출
+        String src = "";
         Element img = Jsoup.parse(boardDto.getContent()).select("img").first();
-        String src = img.attr("src");
+        if (img == null){
+            src = "no image";
+        }else{
+            src = img.attr("src");
+        }
 
         Member findMember = memberRepository.findByUsername(username);
-        Board board = new Board(findMember, boardDto.getTitle(), boardDto.getContent());
+        Board board = new Board(findMember, boardDto.getTitle(), boardDto.getContent(), src);
         boardService.saveBoard(board);
 
         return "redirect:/";
     }
 
     @GetMapping("/board/list")
-    public String boardList(Pageable pageable, Model model) {
+    public String boardList(@PageableDefault(size = 10) Pageable pageable, Model model) {
         Page<Board> boards = boardService.getBoardList(pageable);
 
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
@@ -76,29 +87,36 @@ public class BoardController {
     }
 
     @GetMapping("/board/{boardId}/detail")
-    public String boardDetail(@AuthenticationPrincipal Member member, @PathVariable("boardId") Long boardId, Model model) {
-        Member findMember = memberService.findOne(member.getId());
-        Board board = boardService.findOne(boardId);
+    public String boardDetail(@PathVariable("boardId") Long boardId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        String username = ((UserDetails) authentication).getUsername();
+        System.out.println("username::::" + username);
+
+        Member findMember = memberService.findByName(username);
+
+//        Member findMember = memberService.findOne(member.getId());
+        Board board = boardService.findOne(boardId);
+        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
         List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
 
-        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
-        Long likeCount = boardLikeService.boardCount(boardId);
-
-        if (boardLike == null || boardLike.getStatus() == 0) {
-            System.out.println("boardliek..." + boardLike);
+        // 접속한 유저와 게시글의 좋아요를 누른 여부에 따라 빈하트와 꽉찬하트로 구분한다.
+        if (boardLike == null) {
             model.addAttribute("boardLike", 0);
         } else {
             model.addAttribute("boardLike", 1);
         }
 
+        // 작성자와 접속한 유저가 같다면 수정, 삭제 버튼을 보여주게 한다.
+        if (board.getMember().getUsername() == findMember.getUsername()) {
+            model.addAttribute("authorize", 1);
+        }else {
+            model.addAttribute("authorize", 0);
+        }
 
-        BoardDto boardDto = new BoardDto(board.getId(), board.getTitle(), board.getContent());
-
-        model.addAttribute("likeCount", likeCount);
-        model.addAttribute("sortComment", commentAll);
-        model.addAttribute("form", new CommentDto());
-        model.addAttribute("boardDto", boardDto);
+        model.addAttribute("commentList", commentAll);
+        model.addAttribute("comment", new CommentDto());
+        model.addAttribute("board", board);
         return "board/boardDetail";
     }
 

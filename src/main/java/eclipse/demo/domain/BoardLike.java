@@ -1,9 +1,6 @@
 package eclipse.demo.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,7 +15,6 @@ public class BoardLike {
     @Column(name = "board_like_id")
     private Long id;
 
-    private int status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -28,16 +24,13 @@ public class BoardLike {
     @JoinColumn(name = "board_id")
     private Board board;
 
-
-    public BoardLike(Member member, Board board,  int status){
+    @Builder
+    public BoardLike(Member member, Board board){
         this.member = member;
-        this.status = status;
         this.board = board;
+        board.getLikes().add(this);
     }
 
-    public void changeStatus(int status){
-        this.status = status;
-    }
 
     
 }

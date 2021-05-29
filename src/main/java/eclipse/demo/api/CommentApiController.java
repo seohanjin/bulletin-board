@@ -1,82 +1,46 @@
 package eclipse.demo.api;
 
+import eclipse.demo.domain.Board;
+import eclipse.demo.domain.Comment;
 import eclipse.demo.domain.Member;
-import eclipse.demo.domain.Notification;
+import eclipse.demo.repository.CommentRepository;
+import eclipse.demo.service.BoardService;
+import eclipse.demo.service.CommentService;
 import eclipse.demo.service.MemberService;
-import eclipse.demo.service.NotificationService;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
+@RequiredArgsConstructor
 public class CommentApiController {
-    @Autowired
-    NotificationService notificationService;
 
-//    @Autowired
-//    MemberService memberService;
-//    @GetMapping("/alarm")
-//    public List<AlarmDto> getComment({
+    private final CommentService commentService;
+    private final BoardService boardService;
+    private final MemberService memberService;
 
-//        Member findMember = memberService.findOne(member.getId());
+    // 대댓글 이상일때
+    @PostMapping("/board/reComment")
+    public String createReComment(@AuthenticationPrincipal Member member, @RequestBody ReCommentRequest request) {
 
-//        List<Notification> notification = notificationService.findNotification(findMember);
-//        List<AlarmDto> collect = notification.stream().map(alarm -> new AlarmDto(alarm)).collect(Collectors.toList());
+        Member findMember = memberService.findOne(member.getId());
+        Board board = boardService.findOne(request.getBoardId());
+        Comment comment = commentService.findOne(request.getCommentId());
 
-//        return collect;/
-//    }
+        commentService.sequenceUpdate(comment.getCommentGroup(), comment.getCommentSequence());
 
+        commentService.reSave(findMember, board, request.getContent(), comment);
+        return "ok";
+    }
 
     @Data
-    @AllArgsConstructor
-    static class Result<T>{
-        private T data;
+    static class ReCommentRequest{
+        private Long commentId;
+        private Long boardId;
+        private String content;
     }
-
-//    @Getter
-//    static class CommentDto{
-//        private Long id;
-//        private int level;
-//        private String content;
-//        private String board;
-//
-//        public CommentDto(Comment comment){
-//            id = comment.getId();
-//            level = comment.getLevel();
-//            content = comment.getContent();
-//            board = comment.getBoard().getTitle();
-//        }
-//    }
-
-    @Getter
-    static class AlarmDto{
-        private Long AlarmId;
-        private Long BoardId;
-        private String BoardTitle;
-        private String CommentContent;
-        private LocalDateTime alarmData;
-        private String href;
-
-
-        public AlarmDto(Notification notification) {
-            this.AlarmId = notification.getId();
-            this.BoardId = notification.getBoard().getId();
-            this.BoardTitle = notification.getBoard().getTitle();
-            this.CommentContent = notification.getComment().getContent();
-            this.alarmData = notification.getCreatedAt();
-            this.href = "/board/"+ BoardId + "/detail";
-        }
-    }
-
-
-
 }

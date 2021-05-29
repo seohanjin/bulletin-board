@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- FontAwsome CDN -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-        
-        <link rel="stylesheet" th:href="@{../css/style.css}">
-        <link rel="stylesheet" th:href="@{../css/style_board.css}">
+
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+    <link rel="stylesheet" th:href="@{../css/style_board.css}">
     <title>게시판 | 가화만사성</title>
 </head>
 
@@ -22,15 +24,45 @@
         </div>
         <ul class="nav__menu">
             <li><a href="">공지사항</a></li>
-            <li><a href="">게시판</a></li>
+            <li><a href="/board/list">게시판</a></li>
             <li><a href="">마켓</a></li>
             <li><a href="">급식소 찾기</a></li>
         </ul>
         <ul class="nav__account">
-            <li><a href="">계정만들기</a></li>
-            <li><a href="">로그인</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+            <!-- nav_notification_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </li>
+            <!-- nav_account_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <div class="dropdown_group">
+                        <a href="/members/profile">계정 관리</a>
+                    </div>
+                    <div class="dropdown_divider"></div>
+                    <div class="dropdown_group">
+                        <a href="/logout">로그아웃
+                            <i class="fad fa-sign-out"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
         </ul>
-
         <a href="#" class="nav__toggleBtn">
             <i class="fas fa-bars"></i>
         </a>
@@ -39,35 +71,56 @@
     <!-- Board List -->
     <div class="board_list">
         <section class="board_list__headerAndSearch">
-            <a href="" class="board_list__header">게시판</a>
+            <a class="board_list__header">게시판</a>
             <div class="board_search">
                 <input type="text" class="board_list__search">
                 <i class="fas fa-search"><a href="" class="search_btn">검색</a></i>
             </div>
         </section>
         <section class="board_list__content">
-            <ul>
+            <a class="createBoardBtn" href="/board/new">게시글작성</a>
+            <ul th:each="lists: ${list}">
                 <li class="board_list_li">
                     <div class="li__heart">
                         <i class="fas fa-heart"></i>
-                        <span class="board_heart">34</span>
+                        <span class="board_heart" th:text="${lists.likes.size()}"></span>
                     </div>
                     <div class="li__thumbnail">
-                        <img src="../img/thumbnail.jpg" alt="">
+                        <img th:if="${lists.thumbnail == 'no image'}" th:src="@{/img/noimage.PNG}" alt="">
+                        <img th:if="${lists.thumbnail != 'no image'}" th:src="@{{board_thumbnail} (board_thumbnail=${lists.thumbnail})}" alt="">
                     </div>
                     <div class="li__info">
-                        <span class="info__titleAndcomment_cnt">
-                            <a href="" class="info__title">게시글 제목입니다. 하나둘셋</a> [<a class="info__comment_cnt">24</a>]</span>
-                        <span class="info__dateAndnickname"><a href="" class="__date">20:31</a> / <a href=""
-                                class="__nickname">할렐루야</a></span>
+                        <span class="info__titleAndcomment_cnt" >
+                            <a th:href="@{/board/{id}/detail (id=${lists.id})}" th:text="${lists.title}" class="info__title"></a>
+                            [<a class="info__comment_cnt" th:text="${lists.comments.size()}"></a>]
+                        </span>
+                        <span class="info__dateAndnickname"><a th:text="${#temporals.format(lists.createdAt, 'MM월dd일 HH:mm')}" class="__date"></a> / <a th:text="${lists.member.nickname}"
+                                class="__nickname"></a></span>
                     </div>
                 </li>
             </ul>
         </section>
-        <a href="/board/new" style="color: black;">게시글작성</a>
     </div>
 
+
+    <nav class="pagination">
+        <ul class="page_ul">
+            <li class="page_li" th:classappend="${startPage == list.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page_link" th:href="@{/board/list(page=${list.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
+            </li>
+            <li class="page_li" th:classappend="${num == list.pageable.pageNumber + 1} ? 'active'" th:each="num : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page_link" th:href="@{/board/list(page=${num-1})}" th:text="${num}">1</a></li>
+
+            <li class="page_li" th:classappend="${endPage == list.pageable.pageNumber + 1} ? 'disabled'">
+                <a class="page_link" th:href="@{/board/list(page=${list.pageable.pageNumber + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
 </body>
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script type="text/javascript" src="/js/main.js"></script>
 
 </html>

@@ -1,207 +1,255 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- FontAwsome CDN -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
-    <title>Hello, world!</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style_board.css}">
+
+    <title>게시판 | 가화만사성</title>
 </head>
 
-<body style="position: relative; width: 100%; height: 100%;">
-    <main class="container_main">
-        <div class="container">
-            <input type="hidden" th:field="*{boardDto.id}" />
-            <br><br><br><br>
-            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 60; width: max-content;">
-                <h1 class="font-weight-bold" th:text=*{boardDto.title}></h1>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="nav__logo">
+        <i class="fas fa-mug-hot"></i>
+        <a href="/">가화만사성</a>
+    </div>
+    <ul class="nav__menu">
+        <li><a href="">공지사항</a></li>
+        <li><a href="/board/list">게시판</a></li>
+        <li><a href="">마켓</a></li>
+        <li><a href="">급식소 찾기</a></li>
+    </ul>
+    <ul class="nav__account">
+        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+        <!-- nav_notification_dropdown -->
+        <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+            <a href="" class="nav__dropbtn">
+                <i class="fas fa-bell"></i>
+            </a>
+            <div class="nav__dropdown_content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
             </div>
-            <br><br><br>
-            <div style="border-bottom:1px solid rgb(192, 188, 188); height: 50; width: max-content;">
-                <!--            <h5 th:text="${memberDto.nickname}">작성자..</h5>-->
+        </li>
+        <!-- nav_account_dropdown -->
+        <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+            <a href="" class="nav__dropbtn">
+                <i class="fas fa-user"></i>
+            </a>
+            <div class="nav__dropdown_content">
+                <div class="dropdown_group">
+                    <a href="/members/profile">계정 관리</a>
+                </div>
+                <div class="dropdown_divider"></div>
+                <div class="dropdown_group">
+                    <a href="/logout">로그아웃
+                        <i class="fad fa-sign-out"></i>
+                    </a>
+                </div>
             </div>
-            <br><br><br>
-            <div>
-                <label style="height: 28%" th:utext="${boardDto.content}"></label>
-            </div>
-            <div class="empty-heart" style="width:30px; white-space:nowrap;">
-                    <img th:src="@{/img/empty-heart.png}" style="width:30px">
-                    <a>(<a th:text=*{likeCount}></a>)</a>
-            </div>
-            <div class="full-heart" style="display:none; white-space:nowrap;">
-                    <img th:src="@{/img/full-heart.png}" style="width:30px">
-                    <a>(<a th:text=*{likeCount}></a>)</a>
-            </div>
+        </li>
+    </ul>
+    <a href="#" class="nav__toggleBtn">
+        <i class="fas fa-bars"></i>
+    </a>
+</nav>
 
-            <!-- <span>읽지 않은 알림<span th:text="*{unreadCnt}"></span></span> -->
-            <br><br>
-            <a type="button" class="btn btn-primary" th:href="@{/board/{id}/edit (id=${boardDto.id})}">수정하기</a>
-            <a type="button" class="btn btn-danger" th:href="@{/board/{id}/delete (id=${boardDto.id})}">삭제하기</a>
+<div class="boardDetail">
+    <section class="board_detail_info">
+        <div class="detail_title_date">
+            <a class="detail_title" th:text="${board.title}">제목</a>
+            <a class="detail_date">2015.03.02</a>
         </div>
+        <div class="detail_nickname_etc">
+            <div class="thumbnail_nickname">
+                <img th:src="@{/img/noimage.PNG}" alt="">
+                <a class="detail_nickname" th:text="${board.member.nickname}">닉네임</a>
+            </div>
+            <div class="like_comment">
+                <span>추천수<b th:text="${board.likes.size()}">23</b></span>
+                <span>댓글<b th:text="${board.comments.size()}">8</b></span>
+            </div>
+            </span>
+        </div>
+    </section>
+    <section class="board_detail">
+        <div class="detail_content">
+            <label th:utext="${board.content}">내용1111</label>
+        </div>
+    </section>
+    <section>
+        <div class="board_like">
+            <a th:if="${boardLike == 0}" id="like_btn_empty" class="like_btn_empty"><i class="far fa-heart"></i><a
+                    class="like_cnt" th:text="${board.likes.size()}"></a></a>
+            <a th:if="${boardLike == 1}" id="like_btn_full" class="like_btn_full"><i class="fas fa-heart"></i> <a
+                    class="like_cnt" th:text="${board.likes.size()}"></a></a>
+        </div>
+    </section>
+    <section class="board_authentication" th:if="${authorize == 1}">
+        <div class="board_edit_delete">
+            <span class="board_edit"><a href="" class="boardDetail_edit">수정하기</a></span>
+            <span class="board_delete"><a href="" class="boardDetail_delete">삭제하기</a></span>
+        </div>
+    </section>
 
-        <br><br>
-        <div class="container" style="width: 50%;">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3>댓글</h3>
-                </div><!-- /col-sm-12 -->
-            </div><!-- /row -->
-            <br>
-            <table class="table">
-                <tbody>
-                    <tr th:each="comment: ${sortComment}">
-                        <th scope="row" style="width:15%">
-                            <th:block th:each="commentLevel : ${#numbers.sequence(1,comment.level)}">
-                                <div th:if="${comment.level} != 0">
-                                    <span style="float:left;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </th:block>
-                        </th>
-                        <td>
-                            <div style="display:inline">
-                                <a>아이콘</a>
-                                <a>작성자</a>
-                                <a>시간</a>
-                            </div>
-                            <div>
-                                <span class="card-text" th:text="${comment.content}" style="font:12px">댓글내용</span>
-                                <a type="button" class="btn btn-light btn-sm"
-                                    th:href="@{/board/{boardId}/{commentId} (boardId=${boardDto.id}, commentId=${comment.id})}">댓글달기</a>
-                            </div>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <form method="post" th:object="${form}" action="#">
-                <br><br>
-                <div>
-                    <div>
-                        <span><strong>Comments</strong></span>
+    <!-- Comment -->
+    <section class="board_comment">
+        <div class="comment_info">
+            <a href="" class="comment_cnt">댓글 <b th:text="${board.comments.size()}"></b></a>
+        </div>
+        <ul class="comment_ul">
+            <li class="comment_li" th:each="commentLists: ${commentList}">
+                <div class="comment_header">
+                    <div class="comment_header_left ">
+                            <span class="comment_wrapper" th:if="${commentLists.level > 0}"
+                                  th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
+                                &nbsp;&nbsp;
+                            </span>
+                        <span th:if="${commentLists.level > 0}"><i class="fas fa-share fa-flip-vertical"></i></span>
+                        <img class="header_left_profile" src="../img/thumbnail.jpg" alt="">
+                        <a href="" class="header_left_nickname" th:text="*{commentLists.member.nickname}">형광등</a>
+                        <a href="" class="header_left_time"
+                           th:text="*{#temporals.format(commentLists.createdAt, 'MM월dd일 HH:mm')}">12:30</a>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-10" style="inline-size: auto;">
-                            <table class="table">
-                                <tr>
-                                    <td>
-                                        <textarea th:field="*{content}" class="form-control" rows="3" cols="30"
-                                            placeholder="댓글을 입력하세요"></textarea><br>
-                                        <div>
-                                            <button type="submit" class="btn btn-success">작성</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                    <div class="comment_header_right">
+                        <i class="fas fa-comment"></i>
+                        <a class="header_right_comment" th:onclick="|comment('${commentLists.id}')|">댓글</a>
                     </div>
                 </div>
-            </form>
+                <div>
+                    <span class="comment_wrapper" th:if="${commentLists.level > 0}" th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
+                        &nbsp;&nbsp;
+                    </span>
+                    <a href="" class="comment_content" th:text="*{commentLists.content}">댓글 내용...</a>
+                </div>
+
+
+            </li>
+        </ul>
+        <div class="write_comment">
+            <div id="write_comment_wrap" class="write_comment_wrap">
+                <div class="reComment_wrap">
+                    <div class="write_comment_header">
+                        <a id="header_info" class="header_info">댓글 쓰기</a>
+                    </div>
+                    <div id="close_button" class="write_Recomment_right">
+                        <i class="fas fa-times"></i>
+                        <a onclick="re_comment_cancel()" class="header_info">닫기</a>
+                    </div>
+                </div>
+                <div class="write_comment_content">
+                    <form class="write_comment_form" th:object="${comment}" action="" method="post">
+                        <textarea th:field="*{content}" name="" rows="5" id="comment_content"></textarea>
+                        <div class="submit_button">
+                            <button id="button_border" type="submit"><span id="comment_span"><a
+                                    id="comment_submit">등록</a></span></button>
+                            <span style="display: none;" id="re_comment_span"><a id="re_comment_submit"
+                                                                                 class="re_comment_submit">등록</a></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </main>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-
-    <script th:ineline="javascript">
 
 
-        /*<![CDATA[*/
-        var boardEx = "[[*{boardDto.id}]]";
-        /*]]*/
-
-
-        $('.empty-heart, .full-heart').click(function () {
-            $.ajax({
-                url: '/like',
-                method: 'POST',
-                dataType: 'json',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    status: 1,
-                    boardId: boardEx
-
-                }),
-                success: function (response) {
-                    alert(response.status);
-                    if (response.status == "full") {
-                        $('.full-heart').css("display", "block", "background-color", "red");
-                        $('.empty-heart').css("display", "none");
-                    } else if (response.status == "empty") {
-                        $('.full-heart').css("display", "none", "background-color", "red");
-                        $('.empty-heart').css("display", "block");
-                    }
-
-                }
-            });
-        });
-
-        // $('.full-heart').click(function () {
-        //     $.ajax({
-        //         url: '/like',
-        //         method: 'PUT',
-        //         dataType: 'json',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             status: 1,
-        //             boardId: boardEx
-
-        //         }),
-        //         success: function () {
-        // $('.full-heart').css("display", "none", "background-color", "red");
-        // $('.empty-heart').css("display", "block");
-        //         }
-        //     });
-        // });
-
-
-        $.ajax({
-            url: '/board/' + boardEx + '/detail',
-            method: 'GET',
-            success: function () {
-                /*<![CDATA[*/
-                var boardLike = "[[*{boardLike}]]";
-                /*]]*/
-                if (boardLike == 0) {
-                    $('.empty-heart').css("display", "block");
-                    $('.full-heart').css("display", "none", "background-color", "red");
-                } else {
-                    $('.empty-heart').css("display", "none");
-                    $('.full-heart').css("display", "block", "background-color", "red");
-                }
-            }
-        });
-
-
-
-
-
-
-
-    </script>
+    </section>
+</div>
 </body>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+<script type="text/javascript" src="/js/board.js"></script>
+
+<script th:inline="javascript">
+
+    // 게시글 좋아요
+    const like_btn_empty = document.querySelector('.like_btn_empty');
+    const like_btn_full = document.querySelector('.like_btn_full');
+
+    /*<![CDATA[*/
+    var board_id = "[[*{board.id}]]";
+    var comment = function (param) {
+        re_comment.innerHTML = '대댓글 쓰기';
+        ch_back_co.style.backgroundColor = '#f5f8ff';
+        ch_back_co.scrollIntoView(true);
+        close_1.style.display = 'block';
+        comment_submit_btn.style.display = 'none';
+        re_comment_submit_btn.style.display = 'block';
+        comment_id = param;
+    }
+    /*]]*/
+
+    // 빈하트 눌렀을때
+    $('#like_btn_empty').click(function () {
+        $.ajax({
+            url: "/boardLike",
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                boardId: board_id,
+                status: "empty"
+            }),
+            success: function (response) {
+                location.reload();
+            }
+        })
+    })
+    // 꽉찬하트 눌렀을 떄
+    $('#like_btn_full').click(function () {
+        $.ajax({
+            url: "/boardLike",
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                boardId: board_id,
+                status: "full"
+            }),
+            success: function (response) {
+                location.reload();
+            }
+        })
+    })
+
+    //대댓글 전송
+    $('#re_comment_submit').click(function () {
+        const content = document.querySelector('#comment_content').value;
+        $.ajax({
+            url: "/board/reComment",
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                commentId: comment_id,
+                boardId: board_id,
+                content: content
+            }),
+            success: function (response) {
+                location.reload();
+            }
+        })
+    });
+
+
+
+
+</script>
 
 </html>

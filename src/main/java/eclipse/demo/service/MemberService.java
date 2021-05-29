@@ -24,7 +24,6 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
 
-//        validateDuplicateMember(member);
         userRepository.save(member);
 
         return member.getId();
@@ -41,7 +40,6 @@ public class MemberService {
 
     public Member findByName(String name){
         Member byUsername = memberRepository.findByUsername(name);
-
         return byUsername;
     }
 

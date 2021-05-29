@@ -41,31 +41,19 @@ public class CommentController {
 
     // 댓글
     @PostMapping("/board/{boardId}/detail")
-    public String createComment(@AuthenticationPrincipal Member member, @PathVariable Long boardId,
-                                @ModelAttribute("form") CommentDto commentDto) {
+    public String createComment(@AuthenticationPrincipal Member member,
+                                @PathVariable Long boardId,
+                                @ModelAttribute("comment") CommentDto commentDto) {
+
         Member findMember = memberService.findOne(member.getId());
         Board findBoard = boardService.findOne(boardId);
+
         notificationService.save(findMember, findBoard, commentDto.getContent());
 
         commentService.save(findMember, findBoard, commentDto.getContent());
         return "redirect:/board/" + boardId + "/detail";
     }
 
-    // 대댓글 이상일때
-    @PostMapping("/board/{boardId}/{commentId}")
-    public String createReComment(@AuthenticationPrincipal Member member,@PathVariable("boardId") Long boardId,
-                                @PathVariable("commentId") Long commentId,
-                                BoardDto boardDto) {
-        Member findMember = memberService.findOne(member.getId());
-        Board board = boardService.findOne(boardId);
-        Comment comment = commentService.findOne(commentId);
-
-
-        commentRepository.bulkUpdate(comment.getCommentGroup(), comment.getCommentSequence());
-
-        commentService.reSave(findMember, board, boardDto.getContent(), comment);
-        return "redirect:/board/" + boardId + "/detail";
-    }
 
 
 }

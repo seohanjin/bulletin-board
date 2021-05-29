@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
     <link rel="stylesheet" th:href="@{../css/style.css}">
     <link rel="stylesheet" th:href="@{../css/style_board.css}">
     <title>가화만사성</title>
@@ -81,10 +82,10 @@
                     <col style="width:80%">
                     <col style="width:10%">
                 </colgroup>
-                <tr>
-                    <td>1</td>
-                    <td>Test</td>
-                    <td>06:47</td>
+                <tr class="boards_tr" th:each="lists : ${list}">
+                    <td th:text="${lists.id}">1</td>
+                    <td th:text="${lists.title}">Test</td>
+                    <td th:text="${#temporals.format(lists.createdAt, 'HH:mm')}">06:47</td>
                 </tr>
             </table>
         </div>
