@@ -9,6 +9,8 @@ import eclipse.demo.dto.BoardDto;
 import eclipse.demo.dto.CommentDto;
 import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.repository.MemberRepository;
+import eclipse.demo.security.service.AccountContext;
+import eclipse.demo.security.service.CustomUserDetailService;
 import eclipse.demo.service.BoardLikeService;
 import eclipse.demo.service.BoardService;
 import eclipse.demo.service.CommentService;
@@ -19,9 +21,11 @@ import org.jsoup.nodes.Element;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,33 +94,50 @@ public class BoardController {
     public String boardDetail(@PathVariable("boardId") Long boardId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        String username = ((UserDetails) authentication).getUsername();
-        System.out.println("username::::" + username);
+        // 사용자가 익명사용자인지 익명사용자가 아닌지 확인한다.
+        if (authentication instanceof AnonymousAuthenticationToken){
+            Board board = boardService.findOne(boardId);
+            List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
 
-        Member findMember = memberService.findByName(username);
-
-//        Member findMember = memberService.findOne(member.getId());
-        Board board = boardService.findOne(boardId);
-        BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
-        List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
-
-        // 접속한 유저와 게시글의 좋아요를 누른 여부에 따라 빈하트와 꽉찬하트로 구분한다.
-        if (boardLike == null) {
             model.addAttribute("boardLike", 0);
-        } else {
-            model.addAttribute("boardLike", 1);
-        }
-
-        // 작성자와 접속한 유저가 같다면 수정, 삭제 버튼을 보여주게 한다.
-        if (board.getMember().getUsername() == findMember.getUsername()) {
-            model.addAttribute("authorize", 1);
-        }else {
             model.addAttribute("authorize", 0);
-        }
 
-        model.addAttribute("commentList", commentAll);
-        model.addAttribute("comment", new CommentDto());
-        model.addAttribute("board", board);
+            model.addAttribute("commentList", commentAll);
+            model.addAttribute("comment", new CommentDto());
+            model.addAttribute("board", board);
+        }else{
+//            Member authentication1 = (Member) SecurityContextHolder.getContext().getAuthentication();
+            Member principal = (Member) authentication.getPrincipal();
+            String username = principal.getUsername();
+
+//            String username = ((User) authentication).getUsername();
+//            Member member = ((AccountContext) authentication).getMember();
+            Member findMember = memberService.findByName(username);
+//            Member findMember = memberService.findOne(member.getId());
+
+
+            Board board = boardService.findOne(boardId);
+            BoardLike boardLike = boardLikeService.findLike(findMember.getId(), board.getId());
+            List<Comment> commentAll = commentRepository.findCommentAll(board.getId());
+
+            // 접속한 유저와 게시글의 좋아요를 누른 여부에 따라 빈하트와 꽉찬하트로 구분한다.
+            if (boardLike == null) {
+                model.addAttribute("boardLike", 0);
+            } else {
+                model.addAttribute("boardLike", 1);
+            }
+
+            // 작성자와 접속한 유저가 같다면 수정, 삭제 버튼을 보여주게 한다.
+            if (board.getMember().getUsername() == findMember.getUsername()) {
+                model.addAttribute("authorize", 1);
+            }else {
+                model.addAttribute("authorize", 0);
+            }
+            model.addAttribute("commentList", commentAll);
+            model.addAttribute("comment", new CommentDto());
+            model.addAttribute("board", board);
+
+        }
         return "board/boardDetail";
     }
 

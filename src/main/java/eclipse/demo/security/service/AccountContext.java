@@ -18,4 +18,5 @@ public class AccountContext extends User {
     public Member getMember() {
         return member;
     }
+
 }

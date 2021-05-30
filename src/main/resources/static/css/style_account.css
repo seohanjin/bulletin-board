@@ -155,10 +155,169 @@
     font-size: 18px;
 }
 
+/* Profile */
+.profile_wrap {
+    width: 100%;
+
+}
+.edit_profile {
+    padding: 50px;
+}
+.profile_sidebar_nav {
+    position: absolute;
+    left: 100px;
+}
+
+.sidebar_ul {
+    padding: 0px;
+}
+.sidebar_ul > li {
+    border: rgb(218, 218, 218) 1px solid;
+    border-radius: 5px;
+    padding: 10px 70px;
+}
+.sidebar_ul > li > a {
+    color: black;
+}
+.account_management {
+    position:relative;
+    left: 290px;
+    width: 60%;
+
+}
+.management_body {
+    border: rgb(218, 218, 218) 1px solid;
+    border-radius: 5px;
+}
+
+.management_body_content {
+    padding: 40px 30px;
+}
+.image_info {
+    padding-bottom: 10px;
+}
+.image_info > a {
+    color: black;
+}
+.management_info {
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.management_info > a {
+    color: black;
+    font-size: 32px;
+}
+#profile_btn_sp {
+    background-color: black;
+    opacity: 60%;
+    padding: 7px 38px;
+    border-radius: 2px;
+}
+
+#profile_btn {
+    color: white;
+}
+
+#profile_btn_sp {
+    background-color: black;
+    opacity: 60%;
+    padding: 7px 38px;
+    border-radius: 2px;
+}
+
+#profile_btn {
+    color: white;
+}
+.profile_content {
+    padding-top: 200px;
+}
+.profile_nickname_div {
+    display: flex;
+    flex-direction: column;
+}
+.profile_nickname_div > a {
+    color: black;
+    padding-bottom: 10px;
+}
+.profile_nickname_div > input {
+    border-radius: 5px;
+    padding: 10px;
+    border: #D7E2EB 1px solid;
+    background-color: #FBFBFD;
+    font-size: 16px;
+}
+
+.profile_nickname_div > input:hover{
+    border: #007aff 2px solid;
+}
+.profile_nickname_div > input:focus{
+    outline-color: #007aff;
+    border: 2px;
+}
+.profile_email_div {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+.profile_email_div > a {
+    color: black;
+    padding-bottom: 10px;
+}
+
+.profile_email_div > input {
+    border-radius: 5px;
+    padding: 10px;
+    border: #D7E2EB 1px solid;
+    background-color: #FBFBFD;
+    font-size: 16px;
+}
+
+.profile_email_div > input:hover{
+    border: #007aff 2px solid;
+}
+.profile_email_div > input:focus{
+    outline-color: #007aff;
+    border: 2px;
+}
+.profile_btn {
+    padding-top: 30px;
+}
+.save_form {
+    border: none;
+    background-color: #007aff;
+    padding: 3px;
+    border-radius: 5px;
+}
+.save_form > a{
+    color: white;
+    cursor: pointer;
+}
+.sidebar_ul > li .active {
+    background-color: khaki;
+}
 @media screen and (max-width: 768px){
     .signup__exist_account {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    /* Proflie */
+    .profile_wrap {
+        display: flex;
+        flex-direction: column;
+        padding: 0px;
+        justify-content: center;
+        /* align-items: center; */
+    }
+    .edit_profile {
+        padding: 0px;
+    }
+    .profile_sidebar_nav {
+        position: inherit;
+    }
+
+    .account_management{
+        position: relative;
+        left: 150px;
     }
 }

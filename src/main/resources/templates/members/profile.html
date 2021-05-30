@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <link rel="stylesheet" th:href="@{../css/style.css}">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_account.css">
     <title>가화만사성</title>
 </head>
 
@@ -63,38 +65,117 @@
             <i class="fas fa-bars"></i>
         </a>
     </nav>
-    <section class="edit_profile">
-        <div class="profile_sidebar_nav">
-            <div class="profile_sidebar">
-                <a href="" class="profile_sidebar_item">기본 정보</a>
-                <a href="" class="profile_sidebar_item">비밀번호</a>
-                <a href="" class="profile_sidebar_item">주문</a>
+
+    <div class="profile_wrap">
+        <div class="edit_profile">
+            <div class="profile_sidebar_nav">
+                <ul class="sidebar_ul">
+                    <li><a href="#" class="profile_sidebar_basic">기본 정보</a></li>
+                    <li><a href="#" class="profile_sidebar_password">비밀번호</a></li>
+                    <li><a href="#" class="profile_sidebar_order">주문</a></li>
+                </ul>
             </div>
-        </div>
-        <div class="account_management">
-            <div class="management_info">
-                <a href="">계정 관리</a>
-            </div>
-            <div class="management_body">
-                <div class="profile_image">
-                    <a href="" class="profile_image_text">프로필 이미지</a>
-
-                    <div class="filebox preview-image">
-                        <input class="upload-name" value="파일선택" disabled="disabled">
-
-                        <label for="ex_file">업로드</label>
-                        <input type="file" id="input-file" class="upload-hidden">
-
+            <div class="account_management">
+                <div class="management_info">
+                    <a href="">계정 관리</a>
+                </div>
+                <div class="management_body">
+                    <div class="management_body_content">
+                        <div class="body_content_wrap">
+                            <form th:action="@{/members/update_profile}" th:object="${updateForm}" method="post">
+                                <div class="profile_image">
+                                    <div class="image_info">
+                                        <a href="" class="profile_image_text">프로필 이미지</a>
+                                    </div>
+                                    <div>
+                                        <img class="basic_profile" th:if="${memberForm.files == null}" th:src="@{/img/basic_profile.png}"  style="width: 120px; height: 120px; position:absolute;">
+                                        <img class="basic_profile" th:if="${memberForm.files != null}" th:src="@{/profile/{id} (id=${memberForm.files.id})} " style="width: 120px; height: 120px; position:absolute;" >
+                                        <div style="position: relative; top: 92px; left: 0px;">
+                                            <input type="file" id="profile_upload" onchange="fileChange()"
+                                                style="display: none;">
+                                            <span id="profile_btn_sp"><a type="button" onclick="fileUpload()"
+                                                    id="profile_btn" style="cursor: pointer;" value="업로드">업로드</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile_content">
+                                    <div class="profile_nickname_div">
+                                        <a class="nickname_a" >닉네임</a>
+                                        <input type="text" class="nickname_input" th:value="${memberForm.nickname}" th:name="nickname">
+                                        <p class="input__fieldError" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></p>
+                                    </div>
+                                    <div class="profile_email_div">
+                                        <a class="email_a">이메일</a>
+                                        <input type="text" class="email_input" th:value="${memberForm.username}" th:name="username" disabled>
+                                    </div>
+                                    <div class="profile_btn">
+                                        <button type="submit" class="save_form"><a>변경 사항 저장</a></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </section>
-
-
+    </div>
 </body>
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
+
+<script>
+    function fileUpload() {
+        $("#profile_upload").click();
+    }
+
+    function fileChange() {
+        fileSave();
+    }
+
+    function fileSave() {
+        var form_data = new FormData();
+        var files = $("#profile_upload")[0].files[0];
+        form_data.append('file', files);
+
+        $.ajax({
+            url: "/profile/upload",
+            method: "POST",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            success: function (response) {
+                location.reload(true);
+            }
+
+        })
+    }
+
+    const basic = document.querySelector('.profile_sidebar_basic');
+    const password_btn = document.querySelector('.profile_sidebar_password');
+    const order = document.querySelector('.profile_sidebar_order');
+
+
+    basic.addEventListener('click', () => {
+        basic.classList.toggle('active');
+        password_btn.classList.remove('active');
+        order.classList.remove('active');
+    })
+
+    password_btn.addEventListener('click', () => {
+        password_btn.classList.toggle('active');
+        basic.classList.remove('active');
+        order.classList.remove('active');
+    })
+
+    order.addEventListener('click', () => {
+        order.classList.toggle('active');
+        password_btn.classList.remove('active');
+        basic.classList.remove('active');
+    })
+</script>
 
 </html>

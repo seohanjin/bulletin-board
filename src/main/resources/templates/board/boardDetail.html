@@ -8,7 +8,7 @@
 
     <!-- FontAwsome CDN -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/style_board.css}">
@@ -17,164 +17,170 @@
 </head>
 
 <body>
-<!-- Navigation Bar -->
-<nav class="navbar">
-    <div class="nav__logo">
-        <i class="fas fa-mug-hot"></i>
-        <a href="/">가화만사성</a>
-    </div>
-    <ul class="nav__menu">
-        <li><a href="">공지사항</a></li>
-        <li><a href="/board/list">게시판</a></li>
-        <li><a href="">마켓</a></li>
-        <li><a href="">급식소 찾기</a></li>
-    </ul>
-    <ul class="nav__account">
-        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
-        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
-        <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
-        <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
-        <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
-        <!-- nav_notification_dropdown -->
-        <li sec:authorize="isAuthenticated()" class="nav__dropdown">
-            <a href="" class="nav__dropbtn">
-                <i class="fas fa-bell"></i>
-            </a>
-            <div class="nav__dropdown_content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
-        </li>
-        <!-- nav_account_dropdown -->
-        <li sec:authorize="isAuthenticated()" class="nav__dropdown">
-            <a href="" class="nav__dropbtn">
-                <i class="fas fa-user"></i>
-            </a>
-            <div class="nav__dropdown_content">
-                <div class="dropdown_group">
-                    <a href="/members/profile">계정 관리</a>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav__logo">
+            <i class="fas fa-mug-hot"></i>
+            <a href="/">가화만사성</a>
+        </div>
+        <ul class="nav__menu">
+            <li><a href="">공지사항</a></li>
+            <li><a href="/board/list">게시판</a></li>
+            <li><a href="">마켓</a></li>
+            <li><a href="">급식소 찾기</a></li>
+        </ul>
+        <ul class="nav__account">
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/members/profile">계정 관리</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="/logout">로그아웃</a></li>
+            <li class="nav_media"><a sec:authorize="isAuthenticated()" href="#">알림</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members/new">계정만들기</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/members">로그인</a></li>
+            <!-- nav_notification_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
                 </div>
-                <div class="dropdown_divider"></div>
-                <div class="dropdown_group">
-                    <a href="/logout">로그아웃
-                        <i class="fad fa-sign-out"></i>
-                    </a>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <a href="#" class="nav__toggleBtn">
-        <i class="fas fa-bars"></i>
-    </a>
-</nav>
-
-<div class="boardDetail">
-    <section class="board_detail_info">
-        <div class="detail_title_date">
-            <a class="detail_title" th:text="${board.title}">제목</a>
-            <a class="detail_date">2015.03.02</a>
-        </div>
-        <div class="detail_nickname_etc">
-            <div class="thumbnail_nickname">
-                <img th:src="@{/img/noimage.PNG}" alt="">
-                <a class="detail_nickname" th:text="${board.member.nickname}">닉네임</a>
-            </div>
-            <div class="like_comment">
-                <span>추천수<b th:text="${board.likes.size()}">23</b></span>
-                <span>댓글<b th:text="${board.comments.size()}">8</b></span>
-            </div>
-            </span>
-        </div>
-    </section>
-    <section class="board_detail">
-        <div class="detail_content">
-            <label th:utext="${board.content}">내용1111</label>
-        </div>
-    </section>
-    <section>
-        <div class="board_like">
-            <a th:if="${boardLike == 0}" id="like_btn_empty" class="like_btn_empty"><i class="far fa-heart"></i><a
-                    class="like_cnt" th:text="${board.likes.size()}"></a></a>
-            <a th:if="${boardLike == 1}" id="like_btn_full" class="like_btn_full"><i class="fas fa-heart"></i> <a
-                    class="like_cnt" th:text="${board.likes.size()}"></a></a>
-        </div>
-    </section>
-    <section class="board_authentication" th:if="${authorize == 1}">
-        <div class="board_edit_delete">
-            <span class="board_edit"><a href="" class="boardDetail_edit">수정하기</a></span>
-            <span class="board_delete"><a href="" class="boardDetail_delete">삭제하기</a></span>
-        </div>
-    </section>
-
-
-    <!-- Comment -->
-    <section class="board_comment">
-        <div class="comment_info">
-            <a href="" class="comment_cnt">댓글 <b th:text="${board.comments.size()}"></b></a>
-        </div>
-        <ul class="comment_ul">
-            <li class="comment_li" th:each="commentLists: ${commentList}">
-                <div class="comment_header">
-                    <div class="comment_header_left ">
-                            <span class="comment_wrapper" th:if="${commentLists.level > 0}"
-                                  th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
-                                &nbsp;&nbsp;
-                            </span>
-                        <span th:if="${commentLists.level > 0}"><i class="fas fa-share fa-flip-vertical"></i></span>
-                        <img class="header_left_profile" src="../img/thumbnail.jpg" alt="">
-                        <a href="" class="header_left_nickname" th:text="*{commentLists.member.nickname}">형광등</a>
-                        <a href="" class="header_left_time"
-                           th:text="*{#temporals.format(commentLists.createdAt, 'MM월dd일 HH:mm')}">12:30</a>
+            </li>
+            <!-- nav_account_dropdown -->
+            <li sec:authorize="isAuthenticated()" class="nav__dropdown">
+                <a href="" class="nav__dropbtn">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div class="nav__dropdown_content">
+                    <div class="dropdown_group">
+                        <a href="/members/profile">계정 관리</a>
                     </div>
-                    <div class="comment_header_right">
-                        <i class="fas fa-comment"></i>
-                        <a class="header_right_comment" th:onclick="|comment('${commentLists.id}')|">댓글</a>
+                    <div class="dropdown_divider"></div>
+                    <div class="dropdown_group">
+                        <a href="/logout">로그아웃
+                            <i class="fad fa-sign-out"></i>
+                        </a>
                     </div>
                 </div>
-                <div>
-                    <span class="comment_wrapper" th:if="${commentLists.level > 0}" th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
-                        &nbsp;&nbsp;
-                    </span>
-                    <a href="" class="comment_content" th:text="*{commentLists.content}">댓글 내용...</a>
-                </div>
-
-
             </li>
         </ul>
-        <div class="write_comment">
-            <div id="write_comment_wrap" class="write_comment_wrap">
-                <div class="reComment_wrap">
-                    <div class="write_comment_header">
-                        <a id="header_info" class="header_info">댓글 쓰기</a>
-                    </div>
-                    <div id="close_button" class="write_Recomment_right">
-                        <i class="fas fa-times"></i>
-                        <a onclick="re_comment_cancel()" class="header_info">닫기</a>
-                    </div>
+        <a href="#" class="nav__toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </nav>
+
+    <div class="boardDetail">
+        <section class="board_detail_info">
+            <div class="detail_title_date">
+                <a class="detail_title" th:text="${board.title}">제목</a>
+                <a class="detail_date">2015.03.02</a>
+            </div>
+            <div class="detail_nickname_etc">
+                <div class="thumbnail_nickname">
+                    <img th:if="${board.member.files == null}" th:src="@{/img/basic_profile.png}">
+                    <img th:if="${board.member.files != null}" th:src="@{/profile/{id} (id=${board.member.files.id})} ">
+                    <a class="detail_nickname" th:text="${board.member.nickname}">닉네임</a>
                 </div>
-                <div class="write_comment_content">
-                    <form class="write_comment_form" th:object="${comment}" action="" method="post">
-                        <textarea th:field="*{content}" name="" rows="5" id="comment_content"></textarea>
-                        <div class="submit_button">
-                            <button id="button_border" type="submit"><span id="comment_span"><a
-                                    id="comment_submit">등록</a></span></button>
-                            <span style="display: none;" id="re_comment_span"><a id="re_comment_submit"
-                                                                                 class="re_comment_submit">등록</a></span>
+                <div class="like_comment">
+                    <span>추천수<b th:text="${board.likes.size()}">23</b></span>
+                    <span>댓글<b th:text="${board.comments.size()}">8</b></span>
+                </div>
+                </span>
+            </div>
+        </section>
+        <section class="board_detail">
+            <div class="detail_content">
+                <label th:utext="${board.content}">내용1111</label>
+            </div>
+        </section>
+        <section>
+            <div class="board_like">
+                <a th:if="${boardLike == 0}" id="like_btn_empty" class="like_btn_empty"><i class="far fa-heart"></i><a
+                        class="like_cnt" th:text="${board.likes.size()}"></a></a>
+                <a th:if="${boardLike == 1}" id="like_btn_full" class="like_btn_full"><i class="fas fa-heart"></i> <a
+                        class="like_cnt" th:text="${board.likes.size()}"></a></a>
+            </div>
+        </section>
+        <section class="board_authentication" th:if="${authorize == 1}">
+            <div class="board_edit_delete">
+                <span class="board_edit"><a href="" class="boardDetail_edit">수정하기</a></span>
+                <span class="board_delete"><a href="" class="boardDetail_delete">삭제하기</a></span>
+            </div>
+        </section>
+
+
+        <!-- Comment -->
+        <section class="board_comment">
+            <div class="comment_info">
+                <a href="" class="comment_cnt">댓글 <b th:text="${board.comments.size()}"></b></a>
+            </div>
+            <ul class="comment_ul">
+                <li class="comment_li" th:each="commentLists: ${commentList}">
+                    <div class="comment_header">
+                        <div class="comment_header_left ">
+                            <span class="comment_wrapper" th:if="${commentLists.level > 0}"
+                                th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
+                                &nbsp;&nbsp;
+                            </span>
+                            <span th:if="${commentLists.level > 0}"><i class="fas fa-share fa-flip-vertical"></i></span>
+
+                            <img class="header_left_profile" th:if="${commentLists.member.files == null}"
+                                th:src="@{/img/basic_profile.png}">
+                            <img class="header_left_profile" th:if="${commentLists.member.files != null}"
+                                th:src="@{/profile/{id} (id=${commentLists.member.files.id})} ">
+                            <a href="" class="header_left_nickname" th:text="*{commentLists.member.nickname}">형광등</a>
+                            <a href="" class="header_left_time"
+                                th:text="*{#temporals.format(commentLists.createdAt, 'MM월dd일 HH:mm')}">12:30</a>
                         </div>
-                    </form>
+                        <div class="comment_header_right">
+                            <i class="fas fa-comment"></i>
+                            <a class="header_right_comment" th:onclick="|comment('${commentLists.id}')|">댓글</a>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="comment_wrapper" th:if="${commentLists.level > 0}"
+                            th:each="commentLevel : ${#numbers.sequence(1,commentLists.level)}">
+                            &nbsp;&nbsp;
+                        </span>
+                        <a href="" class="comment_content" th:text="*{commentLists.content}">댓글 내용...</a>
+                    </div>
+
+
+                </li>
+            </ul>
+            <div class="write_comment">
+                <div id="write_comment_wrap" class="write_comment_wrap">
+                    <div class="reComment_wrap">
+                        <div class="write_comment_header">
+                            <a id="header_info" class="header_info">댓글 쓰기</a>
+                        </div>
+                        <div id="close_button" class="write_Recomment_right">
+                            <i class="fas fa-times"></i>
+                            <a onclick="re_comment_cancel()" class="header_info">닫기</a>
+                        </div>
+                    </div>
+                    <div class="write_comment_content">
+                        <form class="write_comment_form" th:object="${comment}" action="" method="post">
+                            <textarea th:field="*{content}" name="" rows="5" id="comment_content"></textarea>
+                            <div class="submit_button">
+                                <button id="button_border" type="submit"><span id="comment_span"><a
+                                            id="comment_submit">등록</a></span></button>
+                                <span style="display: none;" id="re_comment_span"><a id="re_comment_submit"
+                                        class="re_comment_submit">등록</a></span>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-    </section>
-</div>
+        </section>
+    </div>
 </body>
 
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-        crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="/js/main.js"></script>
 <script type="text/javascript" src="/js/board.js"></script>
@@ -209,7 +215,12 @@
                 status: "empty"
             }),
             success: function (response) {
-                location.reload();
+                if (response == "ok") {
+                    location.reload();
+                } else {
+                    var error_result = JSON.parse(JSON.stringify(response));
+                    alert(error_result.message);
+                }
             }
         })
     })
@@ -242,7 +253,12 @@
                 content: content
             }),
             success: function (response) {
-                location.reload();
+                if (response == "ok") {
+                    location.reload();
+                } else {
+                    var error_result = JSON.parse(JSON.stringify(response));
+                    alert(error_result.message);
+                }
             }
         })
     });

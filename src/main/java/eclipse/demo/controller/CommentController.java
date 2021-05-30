@@ -10,7 +10,10 @@ import eclipse.demo.repository.CommentRepository;
 import eclipse.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +44,24 @@ public class CommentController {
 
     // 댓글
     @PostMapping("/board/{boardId}/detail")
-    public String createComment(@AuthenticationPrincipal Member member,
-                                @PathVariable Long boardId,
+    public String createComment(@PathVariable Long boardId,
                                 @ModelAttribute("comment") CommentDto commentDto) {
 
-        Member findMember = memberService.findOne(member.getId());
-        Board findBoard = boardService.findOne(boardId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/members";
+        }else {
+            Member member = (Member) authentication.getPrincipal();
+            Member findMember = memberService.findOne(member.getId());
+            Board findBoard = boardService.findOne(boardId);
 
-        notificationService.save(findMember, findBoard, commentDto.getContent());
+            notificationService.save(findMember, findBoard, commentDto.getContent());
 
-        commentService.save(findMember, findBoard, commentDto.getContent());
-        return "redirect:/board/" + boardId + "/detail";
+            commentService.save(findMember, findBoard, commentDto.getContent());
+            return "redirect:/board/" + boardId + "/detail";
+        }
+
+
     }
 
 

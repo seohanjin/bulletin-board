@@ -28,8 +28,6 @@ public class Member extends BaseTime{
     // 닉네임
     private String nickname;
 
-    private String userProfile;
-
     private String role;
 
 
@@ -44,13 +42,10 @@ public class Member extends BaseTime{
         this.role = "USER_ROLE";
     }
 
-    public void changeMember(String email, String nickname){
-        this.username = email;
+    public void changeMember(String nickname){
         this.nickname = nickname;
     }
 
-    @OneToMany(mappedBy = "member")
-    private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
@@ -58,12 +53,17 @@ public class Member extends BaseTime{
     @OneToMany(mappedBy = "member")
     private List<BoardLike> likes = new ArrayList<>();
 
-    public void setUserProfile(String userProfile) {
-        this.userProfile = userProfile;
-    }
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private Files files;
+
+    @OneToMany(mappedBy = "member")
+    private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
 
-
+    public void setFiles(Files files) {
+        this.files = files;
+    }
 }

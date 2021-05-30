@@ -2,6 +2,7 @@ package eclipse.demo.service;
 
 
 import eclipse.demo.domain.Member;
+import eclipse.demo.dto.MemberDto;
 import eclipse.demo.repository.MemberRepository;
 import eclipse.demo.repository.RoleRepository;
 import eclipse.demo.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -17,7 +19,6 @@ import java.util.List;
 public class MemberService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final MemberRepository memberRepository;
 
     // 회원가입
@@ -50,9 +51,10 @@ public class MemberService {
 
     // 회원수정
     @Transactional
-    public void update(Long id, String username, String nickname) {
-        Member member = userRepository.findOne(id);
-        member.changeMember(username, nickname);
+    public void update(Long memberId, MemberDto memberDto) {
+        Member findMember = memberRepository.findById(memberId).get();
+        findMember.changeMember(memberDto.getNickname());
+        memberRepository.save(findMember);
     }
 
     public List<Member> findAll(){

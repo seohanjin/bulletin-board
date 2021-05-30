@@ -3,6 +3,7 @@ package eclipse.demo.service;
 import eclipse.demo.domain.Files;
 import eclipse.demo.domain.Member;
 import eclipse.demo.repository.FilesRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -21,33 +22,14 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class FilesService {
 
-    @Autowired
-    FilesRepository filesRepository;
 
+    private final FilesRepository filesRepository;
     private final Path rootLocation;
 
-    public FilesService(String uploadPath){
+
+    public FilesService(FilesRepository filesRepository, String uploadPath) {
+        this.filesRepository = filesRepository;
         this.rootLocation = Paths.get(uploadPath);
-    }
-
-    @Transactional
-    public void save(Files files){
-        Files f = new Files();
-        f.setFilename(files.getFilename());
-        f.setFileOriName(files.getFileOriName());
-        f.setFileUrl(files.getFileUrl());
-
-        filesRepository.save(f);
-    }
-
-    @Transactional
-    public void delete_files(Files files){
-        filesRepository.delete(files);
-    }
-
-    public Files findFile(Long id){
-        Files files = filesRepository.findById(id).orElse(null);
-        return files;
     }
 
 
@@ -59,15 +41,17 @@ public class FilesService {
                 throw new Exception("Failed to store empty file" + file.getOriginalFilename());
             }
 
-            // 1. 절대 경로 2. file 을 넘겨준다.(fileName을 바꾸기 위해)
+            // 1. 절대 경로 2. file 을 넘겨준다.(fileName 을 바꾸기 위해)
             String saveFileName = fileSave(rootLocation.toString(), file);
 
-            Files saveFile = new Files();
-            saveFile.setFilename(saveFileName);
-            saveFile.setFileOriName(file.getOriginalFilename());
-            saveFile.setContentType(file.getContentType());
-            saveFile.setSize(file.getResource().contentLength());
-            saveFile.setFilePath(rootLocation.toString().replace(File.separatorChar, '/') + '/' + saveFileName);
+            Files saveFile = Files.builder()
+                    .filename(saveFileName)
+                    .fileOriName(file.getOriginalFilename())
+                    .contentType(file.getContentType())
+                    .size(file.getSize())
+                    .filePath(rootLocation.toString().replace(File.separatorChar, '/') + '/' + saveFileName)
+                    .build();
+
             filesRepository.save(saveFile);
             return saveFile;
 
@@ -118,14 +102,22 @@ public class FilesService {
             }
 
             UUID uuid = UUID.randomUUID();
-            String saveFileName = uuid.toString()+".jpg";
+            String saveFileName = uuid.toString() + file.getOriginalFilename();
+            // rootLocation 폴더 경로의 saveFileName 이라는 파일에 대한 File 객체를 생성한다.
+            File uploadFile = new File(dir, saveFileName);
+            // 실제 경로에 파일을 복사(저장)한다.
+            FileCopyUtils.copy(file.getBytes(), uploadFile);
 
-            File saveFile = new File(dir, saveFileName);
+            Files saveFile = Files.builder()
+                    .filename(saveFileName)
+                    .fileOriName(file.getOriginalFilename())
+                    .contentType(file.getContentType())
+                    .size(file.getSize())
+                    .filePath(rootLocation.toString().replace(File.separatorChar, '/') + "/profile/" + saveFileName)
+                    .member(member)
+                    .build();
 
-            FileCopyUtils.copy(file.getBytes(), saveFile);
-
-            member.setUserProfile(saveFileName);
-
+            filesRepository.save(saveFile);
 
         }catch (IOException e){
             throw new Exception("Failed to store file" + file.getOriginalFilename(), e);

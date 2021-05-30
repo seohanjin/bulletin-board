@@ -60,7 +60,7 @@ public class MemberController {
     public String proFile(@AuthenticationPrincipal Member member, Model model){
         Member findMember = memberService.findOne(member.getId());
 
-        model.addAttribute("form", new MemberDto());
+        model.addAttribute("updateForm", new MemberDto());
         model.addAttribute("memberForm", findMember);
 
         return "members/profile";
@@ -72,9 +72,10 @@ public class MemberController {
     }
 
     @PostMapping("/members/update_profile")
-    public String update_profile(@AuthenticationPrincipal Member member, MemberDto form) throws Exception {
+    public String update_profile(@AuthenticationPrincipal Member member, MemberDto updateForm) throws Exception {
 
-        memberService.update(member.getId(),form.getUsername(),form.getNickname());
+
+        memberService.update(member.getId(), updateForm);
 
         return "redirect:/";
     }
