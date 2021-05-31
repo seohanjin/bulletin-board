@@ -5,14 +5,14 @@ spring:
 
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/demo
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://database-1.ckvoxrdychzo.ap-northeast-2.rds.amazonaws.com:3306/demo?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: gjspark513
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         # show_sql: true
