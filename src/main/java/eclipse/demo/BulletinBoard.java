@@ -19,7 +19,7 @@ public class BulletinBoard {
 
 	@Bean(name = "uploadPath")
 	public String uploadPath(){
-		return "d:/image/";
+		return "/home/image/";
 	}
 
 }

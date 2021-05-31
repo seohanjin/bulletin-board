@@ -100,9 +100,6 @@ eclipse/demo/repository/CommentRepository.java
  eclipse.demo.repository.CommentRepository
 eclipse/demo/controller/HomeController.java
  eclipse.demo.controller.HomeController
-eclipse/demo/initDB/initDB.java
- eclipse.demo.initDB.initDb
- eclipse.demo.initDB.initDb$InitService
 eclipse/demo/service/MemberService.java
  eclipse.demo.service.MemberService
 eclipse/demo/domain/SoupKitchen.java
