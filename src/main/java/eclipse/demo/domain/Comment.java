@@ -43,8 +43,8 @@ public class Comment{
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "comment")
-    private List<Notification> notifications = new ArrayList<>();
+//    @OneToMany(mappedBy = "comment")
+//    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

@@ -3,12 +3,11 @@ spring:
   prefix: classpath:/templates/
   suffix: .html
 
-
   datasource:
     url: jdbc:mysql://database-1.ckvoxrdychzo.ap-northeast-2.rds.amazonaws.com:3306/demo?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: gjspark513
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
